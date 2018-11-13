@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.BasicActivity"
+    >
+
+    <item
+        android:id="@+id/SignOut"
+        android:icon="@android:drawable/ic_delete"
+        android:orderInCategory="102"
+        android:title="Sign Out" />
+    <item
+        android:id="@+id/logIn"
+        android:icon="@android:drawable/ic_input_add"
+        android:orderInCategory="101"
+        android:title="Log In" />
+    <item
+        android:id="@+id/home"
+        android:icon="@android:drawable/btn_star_big_on"
+        android:orderInCategory="100"
+        android:title="home" />
+</menu>
