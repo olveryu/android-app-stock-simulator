@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+
 @IgnoreExtraProperties
 public class Portflio {
     public HashMap<String, Holding> holdings = new HashMap<>();

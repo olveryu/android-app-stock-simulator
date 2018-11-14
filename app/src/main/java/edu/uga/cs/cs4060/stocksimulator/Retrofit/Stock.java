@@ -1,14 +1,16 @@
-package edu.uga.cs.cs4060.stocksimulator;
+package edu.uga.cs.cs4060.stocksimulator.Retrofit;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import edu.uga.cs.cs4060.stocksimulator.Quote;
+
 
 @IgnoreExtraProperties
-class Stock {
+public class Stock {
     @SerializedName("quote")
     @Expose
-    Quote quote;
+    public Quote quote;
 
 }
 

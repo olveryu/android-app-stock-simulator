@@ -12,6 +12,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.ApiUtils;
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.Service;
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

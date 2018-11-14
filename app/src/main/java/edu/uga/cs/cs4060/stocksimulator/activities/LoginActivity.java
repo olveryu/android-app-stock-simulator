@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 
 import android.os.AsyncTask;
@@ -32,20 +31,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.*;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-
-import edu.uga.cs.cs4060.stocksimulator.ApiUtils;
-import edu.uga.cs.cs4060.stocksimulator.Price;
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.Service;
-import edu.uga.cs.cs4060.stocksimulator.UIFunctions.backgoundVideo;
 import edu.uga.cs.cs4060.stocksimulator.UserAccount;
-import retrofit2.*;
-
-import java.util.ArrayList;
 
 
 /**

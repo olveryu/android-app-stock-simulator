@@ -1,4 +1,4 @@
-package edu.uga.cs.cs4060.stocksimulator;
+package edu.uga.cs.cs4060.stocksimulator.Retrofit;
 import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 
