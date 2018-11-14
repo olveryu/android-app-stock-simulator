@@ -36,11 +36,8 @@ public class HomePageActivity extends BasicActivity {
 
         setContentView(R.layout.activity_home_page);
 
-        UserAccount.user = FirebaseAuth.getInstance().getCurrentUser();
-
-
         //User account made
-        account = UserAccount.getInstance();
+            account = UserAccount.getInstance();
         account.load(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {

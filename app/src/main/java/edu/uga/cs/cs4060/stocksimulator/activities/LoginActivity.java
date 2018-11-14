@@ -49,6 +49,7 @@ public class LoginActivity extends BasicActivity {
     private View mProgressView;
     private View mLoginFormView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,25 +216,20 @@ public class LoginActivity extends BasicActivity {
             // TODO: attempt authentication against a network service.
                     hideKeys();
                 // Simulate network access.
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-
-                auth.signOut();
-                UserAccount.signOut();
-
-
-                auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            UserAccount.getInstance();
+            UserAccount.auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         //WE LOGGED IN!
                         Toast.makeText(getApplicationContext(), "Login success",Toast.LENGTH_SHORT).show();
                         Intent home = new Intent(getApplicationContext(),UserActivity.class);
                         startActivity(home);
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //WE FAILED
+                        UserAccount.signOut();
                         Toast.makeText(getApplicationContext(), "Invalid login credentials",Toast.LENGTH_SHORT).show();
                     }
                 }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -256,14 +252,10 @@ public class LoginActivity extends BasicActivity {
     }
 
     public void saveLoginInfo(Context context, String username, String password){
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre=context.getSharedPreferences("config", context.MODE_PRIVATE);
-        //获取Editor对象
-        SharedPreferences.Editor editor=sharedPre.edit();
-        //设置参数
+        SharedPreferences sharedPre = context.getSharedPreferences("config", context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPre.edit();
         editor.putString("username", username);
         editor.putString("password", password);
-        //提交
         editor.commit();
     }
 }

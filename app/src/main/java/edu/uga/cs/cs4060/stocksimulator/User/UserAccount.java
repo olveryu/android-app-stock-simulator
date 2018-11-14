@@ -22,48 +22,50 @@ import retrofit2.Response;
 
 public class UserAccount {
 
+    public Portflio portflio;
+    public static FirebaseAuth auth;
+    public static FirebaseDatabase data;
+    public static FirebaseUser user;
     public static UserAccount account;
     public static Quote latestStockLoaded;
-    public static FirebaseUser user;
-    public Portflio portflio;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
     //Used for singleton constructor
     private UserAccount(){
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        data = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        user =  auth.getCurrentUser();
         portflio = new Portflio(); //Create new portflio
     }
 
     public static void signOut(){
+        auth = null;
+        data = null;
+        user = null;
         account = null;
         latestStockLoaded = null;
-        user = null;
     }
 
     public static boolean userIsLogin(){
         return user != null;
     }
 
-
     //Loads the user account and updates live prices
     public  void load(OnTaskCompleted listener){
         this.listener = listener;
-        loadPortflio();
+        loadPortfolio();
     }
 
     //Returns singleton instance
-    public  static UserAccount getInstance() {
+    public static UserAccount getInstance() {
         if(account == null){
             account = new UserAccount();
         }
         return account;
     }
 
-
-
-
-    //Add stock manullay, simulate old purchase
+    //Add stock manually, simulate old purchase
     //Takes a Holding and adds to firebase database
     //Also gets live stats osn the stock added
     public void addStockManually(Holding holding){
@@ -79,8 +81,6 @@ public class UserAccount {
         portflio.holdings.put(holding.symbol, holding);
         updateDatabase();
     }
-
-
 
     //Buy Stock
     public  void buyStock(String symbol, double shares, OnTaskCompleted list){
@@ -236,10 +236,10 @@ public class UserAccount {
     //Updates firebase database
     public  void updateDatabase(){
         //UID of current User
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String uid = user.getUid();
 
         //Locate user in database and update the portflio
-        FirebaseDatabase.getInstance().getReference().child("/users/" + uid + "/port/"  ).updateChildren(portflio.toMap());
+        data.getReference().child("/users/" + uid + "/port/"  ).updateChildren(portflio.toMap());
         listener.onTaskCompleted(); // Alert UI of success
     }
 
@@ -318,9 +318,8 @@ public class UserAccount {
     }
 
     //Load the inital firebase portflio for stock trading
-    private  void loadPortflio(){
+    private  void loadPortfolio(){
         //Get database
-        FirebaseDatabase data = FirebaseDatabase.getInstance();
 
         //Get location of user in database
         data.getReference().child("/users/" + user.getUid() + "/" ).addChildEventListener(new ChildEventListener() {
@@ -362,13 +361,13 @@ public class UserAccount {
 
 
         });
-    } // end of loadPortflio
+    } // end of loadPortfolio
 
 
     //Updates the entire portflio by loading live API prices and updating database.
     public void update(OnTaskCompleted list){
         this.listener = listener;
-        loadPortflio();
+        loadPortfolio();
         System.out.println("In update useraccount");
     }
 
