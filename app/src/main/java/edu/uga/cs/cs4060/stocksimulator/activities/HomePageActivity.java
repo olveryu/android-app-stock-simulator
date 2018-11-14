@@ -1,10 +1,7 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -14,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -23,7 +19,6 @@ import edu.uga.cs.cs4060.stocksimulator.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.Quote;
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.UserAccount;
-import edu.uga.cs.cs4060.stocksimulator.userSessions;
 
 public class HomePageActivity extends BasicActivity {
     private TextView welcome, value, cash, info;
@@ -41,7 +36,7 @@ public class HomePageActivity extends BasicActivity {
 
         setContentView(R.layout.activity_home_page);
 
-        userSessions.user = FirebaseAuth.getInstance().getCurrentUser();
+        UserAccount.user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         //User account made

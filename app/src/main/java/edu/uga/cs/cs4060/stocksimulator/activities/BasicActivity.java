@@ -3,16 +3,14 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 import java.lang.reflect.Method;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.userSessions;
+import edu.uga.cs.cs4060.stocksimulator.UserAccount;
 
 public class BasicActivity extends AppCompatActivity {
     private Intent intent;
@@ -27,7 +25,7 @@ public class BasicActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        if(userSessions.userIsLogin()){
+        if(UserAccount.userIsLogin()){
             MenuItem item = menu.findItem(R.id.logIn);
             item.setVisible(false);
         }
@@ -75,12 +73,12 @@ public class BasicActivity extends AppCompatActivity {
     }
 
     public void signOut(){
-        userSessions.signOut();
+        UserAccount.signOut();
         intent = new Intent(this, SplashActivity.class);
     }
 
     public void home(){
-        if(!userSessions.userIsLogin()){
+        if(!UserAccount.userIsLogin()){
             intent = new Intent(this, SplashActivity.class);
         }else{
             intent = new Intent(this, UserActivity.class);

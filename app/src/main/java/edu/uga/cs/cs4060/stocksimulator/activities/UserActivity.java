@@ -151,7 +151,7 @@ public class UserActivity extends BasicActivity {
 
         setContentView(R.layout.activity_user);
 
-        userSessions.user = FirebaseAuth.getInstance().getCurrentUser();
+        UserAccount.user = FirebaseAuth.getInstance().getCurrentUser();
 
         //User account made
         account = UserAccount.getInstance();

@@ -20,8 +20,8 @@ public class UserAccount {
 
     public static UserAccount account;
     public static Quote latestStockLoaded;
-    public  FirebaseUser user;
-    public  Portflio portflio;
+    public static FirebaseUser user;
+    public Portflio portflio;
 
     public  OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -32,10 +32,15 @@ public class UserAccount {
     }
 
     public static void signOut(){
-
         account = null;
         latestStockLoaded = null;
+        user = null;
     }
+
+    public static boolean userIsLogin(){
+        return user != null;
+    }
+
 
     //Loads the user account and updates live prices
     public  void load(OnTaskCompleted listener){
@@ -50,6 +55,8 @@ public class UserAccount {
         }
         return account;
     }
+
+
 
 
     //Add stock manullay, simulate old purchase
