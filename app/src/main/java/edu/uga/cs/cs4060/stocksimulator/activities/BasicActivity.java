@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import java.lang.reflect.Method;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.UserAccount;
+import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class BasicActivity extends AppCompatActivity {
     private Intent intent;

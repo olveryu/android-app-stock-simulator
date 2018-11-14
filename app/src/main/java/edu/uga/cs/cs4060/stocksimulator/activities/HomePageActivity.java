@@ -15,10 +15,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import edu.uga.cs.cs4060.stocksimulator.OnTaskCompleted;
-import edu.uga.cs.cs4060.stocksimulator.Quote;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.UserAccount;
+import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class HomePageActivity extends BasicActivity {
     private TextView welcome, value, cash, info;

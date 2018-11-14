@@ -3,7 +3,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import edu.uga.cs.cs4060.stocksimulator.Quote;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 
 
 @IgnoreExtraProperties

@@ -1,4 +1,4 @@
-package edu.uga.cs.cs4060.stocksimulator;
+package edu.uga.cs.cs4060.stocksimulator.User;
 
 public interface OnTaskCompleted {
 

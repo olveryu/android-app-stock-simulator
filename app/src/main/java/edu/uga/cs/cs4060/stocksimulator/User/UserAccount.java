@@ -1,4 +1,4 @@
-package edu.uga.cs.cs4060.stocksimulator;
+package edu.uga.cs.cs4060.stocksimulator.User;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.ApiUtils;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Service;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +27,7 @@ public class UserAccount {
     public static FirebaseUser user;
     public Portflio portflio;
 
-    public  OnTaskCompleted listener; //Used to alert UI of completed tasks
+    public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
     //Used for singleton constructor
     private UserAccount(){
@@ -294,9 +295,9 @@ public class UserAccount {
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
         //Call to get a single stock quote
-        service.getQuote(symbol).enqueue(new Callback< Quote >() {
+        service.getQuote(symbol).enqueue(new Callback<Quote>() {
             @Override
-            public void onResponse(Call< Quote > call, Response< Quote > response) {
+            public void onResponse(Call<Quote> call, Response<Quote> response) {
                 if(response.isSuccessful()){ // If API Call is success
                     Quote quote =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded = quote; // Load into static variable. //TODO Must find better way to pass back this variable
@@ -308,7 +309,7 @@ public class UserAccount {
 
             //Failed to call API
             @Override
-            public void onFailure(Call<Quote > call, Throwable t) {
+            public void onFailure(Call<Quote> call, Throwable t) {
                 list.onTaskFailed();
                 t.printStackTrace();
                 return;

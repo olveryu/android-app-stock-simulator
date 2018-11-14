@@ -1,5 +1,5 @@
 
-package edu.uga.cs.cs4060.stocksimulator;
+package edu.uga.cs.cs4060.stocksimulator.StocksInfomations;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

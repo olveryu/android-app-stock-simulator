@@ -2,7 +2,6 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import edu.uga.cs.cs4060.stocksimulator.*;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -11,28 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.UserAccount;
+import edu.uga.cs.cs4060.stocksimulator.User.Holding;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
+import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
+import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 class Data{
     String title;

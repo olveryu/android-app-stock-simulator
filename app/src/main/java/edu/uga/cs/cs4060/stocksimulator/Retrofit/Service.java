@@ -1,7 +1,7 @@
 package edu.uga.cs.cs4060.stocksimulator.Retrofit;
 import java.util.HashMap;
 
-import edu.uga.cs.cs4060.stocksimulator.Quote;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import retrofit2.http.*;
 import retrofit2.Call;
 

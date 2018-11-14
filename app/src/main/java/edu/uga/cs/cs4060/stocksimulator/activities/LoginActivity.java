@@ -33,7 +33,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.UserAccount;
+import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 
 /**
