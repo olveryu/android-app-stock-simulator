@@ -44,7 +44,6 @@ public class Portflio {
     @Exclude
     public void updateStock(String symbol, Stock stock){
         holdings.get(symbol).latestLivePrice = stock.quote.getLatestPrice();
-
         //calculate percent up!
         double costBasis = holdings.get(symbol).costBasis;
         double lastest = holdings.get(symbol).latestLivePrice;

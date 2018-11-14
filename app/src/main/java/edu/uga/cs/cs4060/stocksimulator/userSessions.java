@@ -7,16 +7,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class userSessions {
     public FirebaseAuth auth;
     public static FirebaseUser user;
-    public int area;
 
     public userSessions(){
         auth = null;
         user = null;
-    }
-
-    public void initialize(){
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
     }
 
     public static boolean userIsLogin(){
