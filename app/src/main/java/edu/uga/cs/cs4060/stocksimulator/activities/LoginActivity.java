@@ -3,6 +3,7 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +34,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
+import edu.uga.cs.cs4060.stocksimulator.UIFunctions.ShowPrograssingBar;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 
@@ -48,7 +51,9 @@ public class LoginActivity extends BasicActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private ShowPrograssingBar showPrograssingBar;
+    private Activity currentActivity;
+    private UserAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +61,16 @@ public class LoginActivity extends BasicActivity {
         setContentView(edu.uga.cs.cs4060.stocksimulator.R.layout.activity_login);
 
         mEmailView = (AutoCompleteTextView) findViewById(edu.uga.cs.cs4060.stocksimulator.R.id.email);
-        mLoginFormView = (ConstraintLayout)findViewById(edu.uga.cs.cs4060.stocksimulator.R.id.formLayout);
+        mLoginFormView = (ConstraintLayout) findViewById(edu.uga.cs.cs4060.stocksimulator.R.id.formLayout);
         mPasswordView = (EditText) findViewById(edu.uga.cs.cs4060.stocksimulator.R.id.password);
 
-        SharedPreferences sharedPre=getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences sharedPre = getSharedPreferences("config", MODE_PRIVATE);
         String username = sharedPre.getString("username", "");
         String password = sharedPre.getString("password", "");
         mEmailView.setText(username);
         mPasswordView.setText(password);
+        showPrograssingBar = new ShowPrograssingBar();
+        currentActivity = this;
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -86,8 +93,6 @@ public class LoginActivity extends BasicActivity {
 
         mProgressView = findViewById(edu.uga.cs.cs4060.stocksimulator.R.id.login_progress);
     }
-
-
 
 
     /**
@@ -136,8 +141,8 @@ public class LoginActivity extends BasicActivity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            saveLoginInfo(this,email,password);
+            showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, true);
+            saveLoginInfo(this, email, password);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -156,41 +161,9 @@ public class LoginActivity extends BasicActivity {
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
 
-    public void hideKeys(){
+    public void hideKeys() {
         InputMethodManager imm = (InputMethodManager) this.getApplicationContext().getSystemService(RegisterActivity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mEmailView.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
@@ -205,6 +178,7 @@ public class LoginActivity extends BasicActivity {
 
         private final String mEmail;
         private final String mPassword;
+        private Intent home;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -214,44 +188,65 @@ public class LoginActivity extends BasicActivity {
         @Override
         protected Void doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-                    hideKeys();
-                // Simulate network access.
-            UserAccount.getInstance();
+            hideKeys();
+            // Simulate network access.
+            account = UserAccount.getInstance();
             UserAccount.auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        //WE LOGGED IN!
-                        Toast.makeText(getApplicationContext(), "Login success",Toast.LENGTH_SHORT).show();
-                        Intent home = new Intent(getApplicationContext(),UserActivity.class);
-                        startActivity(home);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //WE FAILED
-                        UserAccount.signOut();
-                        Toast.makeText(getApplicationContext(), "Invalid login credentials",Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        mAuthTask = null;
-                        showProgress(false);
-                    }
-                });
+                @Override
+                public void onSuccess(AuthResult authResult) {
+                    //WE LOGGED IN!
+                    Toast.makeText(getApplicationContext(), "Login success", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    //WE FAILED
+                    UserAccount.signOut();
+                    Toast.makeText(getApplicationContext(), "Invalid login credentials", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    mAuthTask = null;
+                }
+            });
 
-              return null;
+            return null;
         }
 
 
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            showProgress(false);
+            showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            account.load(new OnTaskCompleted() {
+                @Override
+                public void onTaskCompleted() {
+                    System.out.println("loaded portfolio");
+                    UserActivity.loaded = true;
+                }
+
+                @Override
+                public void onTaskFailed() {
+                    System.out.println("fail to load portfolio");
+                    UserActivity.loaded = false;
+                }
+            });
+            System.out.println("wowwowow");
+            if(UserActivity.loaded) {
+                showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
+                home = new Intent(getApplicationContext(), UserActivity.class);
+                startActivity(home);
+            }
         }
     }
 
-    public void saveLoginInfo(Context context, String username, String password){
+    public void saveLoginInfo(Context context, String username, String password) {
         SharedPreferences sharedPre = context.getSharedPreferences("config", context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPre.edit();
         editor.putString("username", username);

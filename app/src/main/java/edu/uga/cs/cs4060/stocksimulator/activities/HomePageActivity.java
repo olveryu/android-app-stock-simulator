@@ -1,5 +1,6 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import edu.uga.cs.cs4060.stocksimulator.UIFunctions.ShowPrograssingBar;
 import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import edu.uga.cs.cs4060.stocksimulator.R;
@@ -22,9 +24,9 @@ import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class HomePageActivity extends BasicActivity {
     private TextView welcome, value, cash, info;
-    private Button checkStock, buyStock, sellStock, refresh, accountButton;
     private ListView stockList;
     private EditText symbolInput;
+    private Button checkStock, buyStock, sellStock, refresh, accountButton;
     private UserAccount account;
     boolean loaded = false;
 
@@ -33,11 +35,23 @@ public class HomePageActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home_page);
 
+        //Initalize and Declare views
+        welcome = findViewById(R.id.userwelcome);
+        value = findViewById(R.id.value);
+        cash = findViewById(R.id.funds);
+        checkStock = findViewById(R.id.loadStock);
+        stockList = findViewById(R.id.stockList);
+        info =findViewById(R.id.stockinfo);
+        symbolInput = findViewById(R.id.symbolInput);
+        buyStock = findViewById(R.id.buyButton);
+        sellStock = findViewById(R.id.sellButton);
+        refresh = findViewById(R.id.refresh);
+        accountButton = findViewById(R.id.account);
+
         //User account made
-            account = UserAccount.getInstance();
+        account = UserAccount.getInstance();
         account.load(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {
@@ -59,27 +73,11 @@ public class HomePageActivity extends BasicActivity {
         possibleSymbols.add("FB");
         double buyShares = 1.0;
 
-
-        //Initalize and Declare views
-        welcome = findViewById(R.id.userwelcome);
-        value = findViewById(R.id.value);
-        cash = findViewById(R.id.funds);
-        checkStock = findViewById(R.id.loadStock);
-        stockList = findViewById(R.id.stockList);
-        info =findViewById(R.id.stockinfo);
-        symbolInput = findViewById(R.id.symbolInput);
-        buyStock = findViewById(R.id.buyButton);
-        sellStock = findViewById(R.id.sellButton);
-        refresh = findViewById(R.id.refresh);
-        accountButton = findViewById(R.id.account);
-
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), UserActivity.class);
                 startActivity(intent);
-
-
             }
         });
 

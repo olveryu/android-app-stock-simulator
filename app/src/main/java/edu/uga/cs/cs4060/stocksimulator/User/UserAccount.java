@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class UserAccount {
 
-    public Portflio portflio;
+    public static Portflio portflio;
     public static FirebaseAuth auth;
     public static FirebaseDatabase data;
     public static FirebaseUser user;
@@ -36,7 +36,7 @@ public class UserAccount {
         data = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         user =  auth.getCurrentUser();
-        portflio = new Portflio(); //Create new portflio
+        portflio = Portflio.getInstance(); //Create new portflio
     }
 
     public static void signOut(){
@@ -53,8 +53,8 @@ public class UserAccount {
 
     //Loads the user account and updates live prices
     public  void load(OnTaskCompleted listener){
-        this.listener = listener;
         loadPortfolio();
+        this.listener = listener;
     }
 
     //Returns singleton instance
@@ -318,7 +318,7 @@ public class UserAccount {
     }
 
     //Load the inital firebase portflio for stock trading
-    private  void loadPortfolio(){
+    private void loadPortfolio(){
         //Get database
 
         //Get location of user in database

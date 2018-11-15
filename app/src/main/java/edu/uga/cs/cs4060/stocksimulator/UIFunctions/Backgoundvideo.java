@@ -6,10 +6,10 @@ import android.widget.VideoView;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 
-public class backgoundVideo {
+public class Backgoundvideo {
     VideoView mVideoView;
 
-    public backgoundVideo(){
+    public Backgoundvideo(){
         mVideoView = null;
     }
 

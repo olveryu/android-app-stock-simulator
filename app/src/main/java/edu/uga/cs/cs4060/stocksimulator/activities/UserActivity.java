@@ -27,6 +27,69 @@ import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
+public class UserActivity extends BasicActivity {
+
+    private TextView  totalValue, daySummary, totalGainLost, totalCostBasisView;
+    private NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    private DecimalFormat df = new DecimalFormat("%.##");
+    private UserAccount account;
+    private Portflio portflio;
+    private List<Holding> stocks;
+    private RecyclerView rv;
+    private LinearLayoutManager llm;
+    private RVAdapter adapter;
+    public static boolean loaded = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user);
+        account = UserAccount.getInstance();
+        initUI();
+        refresh();
+    }
+
+    //LOADED MUST BE TRUE
+    public void initUI(){
+        System.out.println("INIT UI");
+        totalValue = (TextView)findViewById(R.id.valueTextView);
+        daySummary = (TextView)findViewById(R.id.dailyTextView);
+        totalGainLost = (TextView)findViewById(R.id.totalPercentTextView);
+        totalCostBasisView = (TextView)findViewById(R.id.totalCostTextView);
+
+
+        portflio = UserAccount.getInstance().portflio;
+        stocks = UserAccount.getInstance().portflio.getArrayListHolding();
+
+        rv = findViewById(R.id.recView);
+        rv.setHasFixedSize(true);
+        llm = new LinearLayoutManager(this.getBaseContext());
+        rv.setLayoutManager(llm);
+
+        adapter = new RVAdapter(portflio, stocks);
+        rv.setAdapter(adapter);
+
+    }
+    public void refresh(){
+        System.out.println("REFRESH IF");
+
+        if(loaded) {
+            System.out.println("REFRESH");
+            if (portflio.getDayAmountChange() < 0.00) {
+                daySummary.setTextColor(Color.RED);
+            } else {
+                daySummary.setTextColor(Color.parseColor("#508c00"));
+            }
+            totalValue.setText(formatter.format(portflio.getValue()));
+            daySummary.setText(portflio.getDaySummary());
+            totalGainLost.setText("Total Gain/Lost: " + df.format(portflio.getTotalPercent()) + "%");
+            totalCostBasisView.setText("Total Cost Basis: " + portflio.getCostBasis());
+        }
+
+    }
+
+}
+
 class Data{
     String title;
     public Data(String t){
@@ -111,101 +174,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder>{
             graph.getViewport().setMinY(3);
             graph.getViewport().setMaxY(5);
             graph.getViewport().setXAxisBoundsManual(true);
-
-
-
             graph.getGridLabelRenderer().setHumanRounding(false);
-
-
-
-
         }
     }
-
-}
-
-public class UserActivity extends BasicActivity {
-
-    TextView  totalValue, daySummary, totalGainLost, totalCostBasisView;
-    NumberFormat formatter = NumberFormat.getCurrencyInstance();
-    DecimalFormat df = new DecimalFormat("%.##");
-    private UserAccount account;
-    Portflio portflio;
-    List<Holding> stocks;
-    boolean loaded = false;
-    RecyclerView rv;
-    LinearLayoutManager llm;
-    RVAdapter adapter;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_user);
-
-        UserAccount.user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //User account made
-        account = UserAccount.getInstance();
-        account.load(new OnTaskCompleted() {
-            @Override
-            public void onTaskCompleted() {
-                loaded = true;
-                initUI();
-                refresh();
-
-            }
-
-            @Override
-            public void onTaskFailed() {
-
-            }
-        });
-
-
-
-
-    }
-
-    //LOADED MUST BE TRUE
-    public void initUI(){
-        System.out.println("INIT UI");
-        totalValue = (TextView)findViewById(R.id.valueTextView);
-        daySummary = (TextView)findViewById(R.id.dailyTextView);
-        totalGainLost = (TextView)findViewById(R.id.totalPercentTextView);
-        totalCostBasisView = (TextView)findViewById(R.id.totalCostTextView);
-
-
-        portflio = UserAccount.getInstance().portflio;
-        stocks = UserAccount.getInstance().portflio.getArrayListHolding();
-
-        rv = findViewById(R.id.recView);
-        rv.setHasFixedSize(true);
-        llm = new LinearLayoutManager(this.getBaseContext());
-        rv.setLayoutManager(llm);
-
-        adapter = new RVAdapter(portflio, stocks);
-        rv.setAdapter(adapter);
-
-    }
-    public void refresh(){
-        System.out.println("REFRESH IF");
-
-        if(loaded) {
-            System.out.println("REFRESH");
-            if (portflio.getDayAmountChange() < 0.00) {
-                daySummary.setTextColor(Color.RED);
-            } else {
-                daySummary.setTextColor(Color.parseColor("#508c00"));
-            }
-            totalValue.setText(formatter.format(portflio.getValue()));
-            daySummary.setText(portflio.getDaySummary());
-            totalGainLost.setText("Total Gain/Lost: " + df.format(portflio.getTotalPercent()) + "%");
-            totalCostBasisView.setText("Total Cost Basis: " + portflio.getCostBasis());
-        }
-
-    }
-
-
 }

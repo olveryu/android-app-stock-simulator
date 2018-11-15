@@ -13,6 +13,7 @@ import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
 
 @IgnoreExtraProperties
 public class Portflio {
+    private static Portflio portflio;
     public HashMap<String, Holding> holdings = new HashMap<>();
     public String name;
     public Double cashToTrade;
@@ -28,6 +29,14 @@ public class Portflio {
         this.cashToTrade = cashToTrade;
         holdings = new HashMap<>();
     }
+
+    public static Portflio getInstance(){
+        if(portflio == null){
+            portflio = new Portflio();
+        }
+            return portflio;
+    }
+
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

@@ -1,20 +1,18 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.content.Intent;
-import android.widget.VideoView;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.UIFunctions.backgoundVideo;
+import edu.uga.cs.cs4060.stocksimulator.UIFunctions.Backgoundvideo;
 
 
 public class SplashActivity extends BasicActivity {
     private AlphaAnimation buttonClick;
-    private backgoundVideo video;
+    private Backgoundvideo video;
     private Button register;
     private Button login;
     @Override
@@ -29,7 +27,7 @@ public class SplashActivity extends BasicActivity {
         register = findViewById(R.id.register_button);
         login = findViewById(R.id.login_button);
         buttonClick = new AlphaAnimation(1F, 0.8F);
-        video = new backgoundVideo();
+        video = new Backgoundvideo();
 
         // set listener
         register.setOnClickListener(new ButtonClickListener());
