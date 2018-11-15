@@ -5,6 +5,11 @@
     >
 
     <item
+        android:id="@+id/search"
+        android:title="search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/SignOut"
         android:icon="@android:drawable/ic_delete"
         android:orderInCategory="102"
@@ -14,9 +19,11 @@
         android:icon="@android:drawable/ic_input_add"
         android:orderInCategory="101"
         android:title="Log In" />
+
     <item
         android:id="@+id/home"
         android:icon="@android:drawable/btn_star_big_on"
         android:orderInCategory="100"
         android:title="home" />
+
 </menu>

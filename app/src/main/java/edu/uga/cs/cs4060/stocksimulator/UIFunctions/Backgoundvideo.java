@@ -13,9 +13,9 @@ public class Backgoundvideo {
         mVideoView = null;
     }
 
-    public void playBackGroundVideo(Activity currentActivity, int videoViewId) {
+    public void playBackGroundVideo(Activity currentActivity, int videoViewId, int videoId) {
         mVideoView = currentActivity.findViewById(videoViewId);
-        Uri uri = Uri.parse("android.resource://"+currentActivity.getPackageName()+"/"+R.raw.download);
+        Uri uri = Uri.parse("android.resource://"+currentActivity.getPackageName()+"/"+ videoId);
         mVideoView.setVideoURI(uri);
         mVideoView.start();
         mVideoView.setOnPreparedListener(mediaPlayer -> {

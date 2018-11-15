@@ -16,4 +16,6 @@
     </string>
     <string name="title_activity_login2">Sign in</string>
     <string name="title_activity_home_page">HomePage</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

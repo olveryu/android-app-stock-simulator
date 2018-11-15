@@ -1,19 +1,13 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-
-import android.os.AsyncTask;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,7 +25,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.UIFunctions.ShowPrograssingBar;
@@ -195,7 +188,21 @@ public class LoginActivity extends BasicActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     //WE LOGGED IN!
-                    Toast.makeText(getApplicationContext(), "Login success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+
+                    account.load(new OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted() {
+                            Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
+                            home = new Intent(getApplicationContext(), UserActivity.class);
+                            startActivity(home);
+                        }
+
+                        @Override
+                        public void onTaskFailed() {
+                            Toast.makeText(getApplicationContext(), "portfolio load fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -219,29 +226,9 @@ public class LoginActivity extends BasicActivity {
         protected void onCancelled() {
             mAuthTask = null;
             showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
+            UserAccount.signOut();
         }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            account.load(new OnTaskCompleted() {
-                @Override
-                public void onTaskCompleted() {
-                    System.out.println("loaded portfolio");
-                    showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
-                    home = new Intent(getApplicationContext(), UserActivity.class);
-                    startActivity(home);
-                }
-
-                @Override
-                public void onTaskFailed() {
-                    System.out.println("fail to load portfolio");
-                }
-            });
-
-
-
-        }
     }
 
     public void saveLoginInfo(Context context, String username, String password) {

@@ -45,6 +45,7 @@ public class UserAccount {
         user = null;
         account = null;
         latestStockLoaded = null;
+        portflio = null;
     }
 
     public static boolean userIsLogin(){

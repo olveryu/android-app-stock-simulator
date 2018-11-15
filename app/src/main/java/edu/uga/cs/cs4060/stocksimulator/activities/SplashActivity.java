@@ -6,6 +6,10 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.content.Intent;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.Random;
+
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.UIFunctions.Backgoundvideo;
 
@@ -34,7 +38,17 @@ public class SplashActivity extends BasicActivity {
         login.setOnClickListener(new ButtonClickListener());
 
         //play video
-        video.playBackGroundVideo(this,R.id.videoView);
+        Field[] fields = R.raw.class.getFields();
+        Random rand = new Random();
+        System.out.println(fields.length);
+        int index =  rand.nextInt(fields.length);
+        int resourceID = 0;
+        try {
+            resourceID = fields[index].getInt(fields[index]);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        video.playBackGroundVideo(this,R.id.videoView, resourceID);
     }
 
 
