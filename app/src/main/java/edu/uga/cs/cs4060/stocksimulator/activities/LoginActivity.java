@@ -228,21 +228,19 @@ public class LoginActivity extends BasicActivity {
                 @Override
                 public void onTaskCompleted() {
                     System.out.println("loaded portfolio");
-                    UserActivity.loaded = true;
+                    showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
+                    home = new Intent(getApplicationContext(), UserActivity.class);
+                    startActivity(home);
                 }
 
                 @Override
                 public void onTaskFailed() {
                     System.out.println("fail to load portfolio");
-                    UserActivity.loaded = false;
                 }
             });
-            System.out.println("wowwowow");
-            if(UserActivity.loaded) {
-                showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
-                home = new Intent(getApplicationContext(), UserActivity.class);
-                startActivity(home);
-            }
+
+
+
         }
     }
 
