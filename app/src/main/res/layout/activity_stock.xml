@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.StockActivity">
+
+    <TextView
+        android:id="@+id/symbol_label"
+        android:layout_width="63dp"
+        android:layout_height="38dp"
+        android:text="AAPL"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/graph"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="25dp"
+        tools:layout_conversion_absoluteWidth="44dp" />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph"
+        android:layout_width="239dp"
+        android:layout_height="279dp"
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/symbol_label"
+        tools:layout_conversion_absoluteHeight="75dp"
+        tools:layout_conversion_absoluteWidth="166dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="383dp"
+        android:layout_height="159dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graph">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/total_percent_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Gain/Loss: %0.00"
+                tools:layout_conversion_absoluteHeight="1dp"
+                tools:layout_conversion_absoluteWidth="1dp"
+                tools:layout_editor_absoluteX="11dp"
+                tools:layout_editor_absoluteY="399dp" />
+
+            <TextView
+                android:id="@+id/shares_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shares Owned: 0.00"
+                tools:layout_conversion_absoluteHeight="1dp"
+                tools:layout_conversion_absoluteWidth="1dp"
+                tools:layout_editor_absoluteX="10dp"
+                tools:layout_editor_absoluteY="399dp" />
+
+            <TextView
+                android:id="@+id/total_cost_basis_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Cost Basis: $0.00"
+                tools:layout_conversion_absoluteHeight="1dp"
+                tools:layout_conversion_absoluteWidth="1dp"
+                tools:layout_editor_absoluteX="11dp"
+                tools:layout_editor_absoluteY="399dp" />
+
+            <TextView
+                android:id="@+id/day_change_dollar_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day Change Amount: $0.00"
+                tools:layout_conversion_absoluteHeight="1dp"
+                tools:layout_conversion_absoluteWidth="1dp"
+                tools:layout_editor_absoluteX="11dp"
+                tools:layout_editor_absoluteY="399dp" />
+
+            <TextView
+                android:id="@+id/day_change_percent_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day Change Percent: %0.00"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="170dp"
+                tools:layout_editor_absoluteX="2dp"
+                tools:layout_editor_absoluteY="424dp" />
+
+            <TextView
+                android:id="@+id/lastUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updated: 12:00a,"
+                android:textSize="10sp"
+                tools:layout_conversion_absoluteHeight="13dp"
+                tools:layout_conversion_absoluteWidth="172dp"
+                tools:layout_editor_absoluteX="11dp"
+                tools:layout_editor_absoluteY="389dp" />
+
+            <TextView
+                android:id="@+id/latestLivePrice"
+                android:layout_width="70dp"
+                android:layout_height="34dp"
+                android:background="@android:color/holo_green_light"
+                android:gravity="center"
+                android:text="+1.01%"
+                android:textColor="@color/white"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="172dp"
+                tools:layout_editor_absoluteX="270dp"
+                tools:layout_editor_absoluteY="401dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

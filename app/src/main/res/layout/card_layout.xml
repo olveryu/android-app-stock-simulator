@@ -11,10 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        card_view:cardBackgroundColor="@color/common_google_signin_btn_text_dark_disabled"
+        card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="10dp"
-        card_view:contentPadding="10dp">
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPadding="5dp">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/linearLayout"
@@ -27,10 +29,9 @@
 
             <TextView
                 android:id="@+id/symbol_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="73dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="4dp"
                 android:text="AAPL"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@color/black"
@@ -38,80 +39,15 @@
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toStartOf="@+id/graph"
                 card_view:layout_constraintHorizontal_bias="0.5"
-                card_view:layout_constraintStart_toEndOf="@+id/total_percent_label"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.111"
                 tools:layout_conversion_absoluteHeight="25dp"
                 tools:layout_conversion_absoluteWidth="44dp" />
 
             <TextView
-                android:id="@+id/total_percent_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Gain/Loss: %0.00"
-                android:visibility="gone"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="10dp"
-                tools:layout_editor_absoluteY="10dp" />
-
-            <TextView
-                android:id="@+id/total_cost_basis_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Cost Basis: $0.00"
-                android:visibility="gone"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="10dp"
-                tools:layout_editor_absoluteY="10dp" />
-
-            <TextView
-                android:id="@+id/shares_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Shares Owned: 0.00"
-                android:visibility="gone"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="10dp"
-                tools:layout_editor_absoluteY="10dp" />
-
-            <TextView
-                android:id="@+id/day_change_percent_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:text="Day Change Percent: %0.00"
-                android:visibility="gone"
-                card_view:layout_constraintEnd_toStartOf="@+id/graph"
-                card_view:layout_constraintStart_toEndOf="@+id/lastUpdate"
-                tools:layout_conversion_absoluteHeight="19dp"
-                tools:layout_conversion_absoluteWidth="170dp"
-                tools:layout_editor_absoluteY="35dp" />
-
-            <TextView
-                android:id="@+id/day_change_dollar_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day Change Amount: $0.00"
-                android:visibility="gone"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="10dp"
-                tools:layout_editor_absoluteY="10dp" />
-
-            <TextView
                 android:id="@+id/latestLivePrice"
                 android:layout_width="70dp"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@android:color/holo_green_light"
+                android:layout_height="34dp"
                 android:gravity="center"
                 android:text="+1.01%"
                 android:textColor="@color/white"
@@ -123,31 +59,12 @@
                 tools:layout_conversion_absoluteHeight="19dp"
                 tools:layout_conversion_absoluteWidth="172dp" />
 
-            <TextView
-                android:id="@+id/lastUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:text="Updated: 12:00a,"
-                android:textSize="10sp"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.0"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="1.0"
-                tools:layout_conversion_absoluteHeight="13dp"
-                tools:layout_conversion_absoluteWidth="172dp" />
-
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"
-                android:layout_width="94dp"
-                android:layout_height="50dp"
+                android:layout_width="103dp"
+                android:layout_height="34dp"
+                android:background="@color/white"
                 android:padding="15dp"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toStartOf="@+id/latestLivePrice"
