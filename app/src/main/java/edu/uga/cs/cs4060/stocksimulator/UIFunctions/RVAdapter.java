@@ -1,5 +1,6 @@
 package edu.uga.cs.cs4060.stocksimulator.UIFunctions;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -22,6 +24,8 @@ import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
 import edu.uga.cs.cs4060.stocksimulator.User.Holding;
 import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
+import edu.uga.cs.cs4060.stocksimulator.activities.LoginActivity;
+import edu.uga.cs.cs4060.stocksimulator.activities.StockActivity;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> implements  View.OnClickListener {
 
@@ -91,7 +95,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
 
     @Override
     public void onClick(View v) {
-        System.out.println("CLICKKKKED ");
     }
 
 
@@ -112,6 +115,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
             livePrice = (TextView) itemView.findViewById(R.id.latestLivePrice);
             timeUpdate = (TextView) itemView.findViewById(R.id.lastUpdate);
             graph = (GraphView) itemView.findViewById(R.id.graph);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("you click " + symbol.getText());
+                    Intent intent = new Intent(v.getContext(), StockActivity.class);
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }

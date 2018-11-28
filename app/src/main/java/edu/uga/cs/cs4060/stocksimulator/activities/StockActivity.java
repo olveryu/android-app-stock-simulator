@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 
-public class StockActivity extends AppCompatActivity {
+public class StockActivity extends BasicActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
