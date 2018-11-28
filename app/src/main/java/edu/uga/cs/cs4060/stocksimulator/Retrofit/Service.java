@@ -11,9 +11,13 @@ public interface Service {
     Call<Quote> getQuote(@Path("ticker") String ticker);
 
 
+
     @GET("stock/market/batch?")
-    Call<HashMap<String, Stock>> getStocks(@Query("symbols") String symbols, @Query("types") String types);
-    //TODO : ADD HASK MAP RETURN SVALUES!
+    Call<HashMap<String, Stock>> getStocks(@Query("symbols") String symbols, @Query("types") String types,  @Query("range") String range );
+
+
+
+
 
 //
 //    @GET("stock/{ticker}/quote")

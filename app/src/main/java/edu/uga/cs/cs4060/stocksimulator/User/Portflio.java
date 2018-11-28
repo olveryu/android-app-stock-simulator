@@ -7,9 +7,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
 
 @IgnoreExtraProperties
 public class Portflio {
@@ -65,6 +67,11 @@ public class Portflio {
         holdings.get(symbol).value = value;
         holdings.get(symbol).dayAmountChange = stock.quote.getChange();
         holdings.get(symbol).timeUpdate = stock.quote.getLatestTime();
+
+
+        holdings.get(symbol).dayChart= stock.minutes;
+
+        System.out.println( "TIMEEEE: " + stock.quote.getLatestTime());
 
         System.out.println("Updating: " + stock.quote.getSymbol());
     }

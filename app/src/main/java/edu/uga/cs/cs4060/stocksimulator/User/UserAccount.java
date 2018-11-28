@@ -87,7 +87,7 @@ public class UserAccount {
     public  void buyStock(String symbol, double shares, OnTaskCompleted list){
         Service service = ApiUtils.getService();
         System.out.println("BUYING " + symbol);
-        service.getQuote(symbol).enqueue(new Callback<Quote>() {
+        service.getQuote(symbol).enqueue(new Callback<Quote>() { //get the single stock wwe are buying
             @Override
             public void onResponse(Call<Quote> call, Response<Quote> response) {
                 if (response.isSuccessful()) { // IF API responds
@@ -262,15 +262,19 @@ public class UserAccount {
 
             //Used in the API, example: www.api.iextrading.com/1.0/stock/batch?symbols=AAPL,VGT&types=quotes
             String tickers = getAllSymbols();
-            String types = "quote";
+            String types = "quote,chart";
 
             //Call to API, returns hashmap of <String, Stock>
-            service.getStocks(tickers, types).enqueue(new Callback<HashMap<String, Stock>>() {
+            service.getStocks(tickers, types, "1d").enqueue(new Callback<HashMap<String, Stock>>() {
                 @Override
                 public void onResponse(Call<HashMap<String, Stock>> call, Response<HashMap<String, Stock>> response) {
                     if (response.isSuccessful()) { // If api call is a success, load the data
                         HashMap<String, Stock> map = response.body(); // Map of the symbols and stocks
+                        System.out.println("RAW DATA: \n " + response.raw());
                         for (String key : map.keySet()) { //Loop over map, and update our portflio
+
+                            System.out.println("SIZE OF CHART: " + map.get(key).minutes.size());
+
                             portflio.updateStock(key, map.get(key)); //updates the prices and percetange
                         }
                         updateDatabase(); //Now update the firebase database to store the data

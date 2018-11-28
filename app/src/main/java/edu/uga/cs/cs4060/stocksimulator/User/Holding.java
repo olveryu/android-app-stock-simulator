@@ -4,7 +4,11 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Chart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
 
 @IgnoreExtraProperties
 public class Holding {
@@ -18,6 +22,7 @@ public class Holding {
     public Double dayPercentChange;
     public Double dayAmountChange;
     public String timeUpdate;
+    public List<Minute> dayChart;
 
     public Holding(){}
 
@@ -32,7 +37,6 @@ public class Holding {
         this.dayPercentChange = 0.0;
         this.dayAmountChange = 0.0;
         this.timeUpdate = "0";
-
     }
 
     @Exclude
@@ -47,6 +51,8 @@ public class Holding {
         result.put("dayPercentChange", dayPercentChange);
         result.put("dayAmountChange", dayAmountChange);
         result.put("timeUpdate", timeUpdate);
+        result.put("chartData", dayChart);
+
 
 
         return result;

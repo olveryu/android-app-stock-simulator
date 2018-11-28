@@ -9,18 +9,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
 import edu.uga.cs.cs4060.stocksimulator.User.Holding;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
@@ -33,6 +38,9 @@ public class UserActivity extends BasicActivity {
     private RecyclerView rv;
     private LinearLayoutManager llm;
     private RVAdapter adapter;
+
+    private Button buyStock, refreshButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,75 @@ public class UserActivity extends BasicActivity {
         totalGainLost = (TextView) findViewById(R.id.totalPercentTextView);
         totalCostBasisView = (TextView) findViewById(R.id.totalCostTextView);
 
+        buyStock = findViewById(R.id.buyButton);
+        refreshButton = findViewById(R.id.refreshButton);
+
+
+        ArrayList<String> possibleSymbols = new ArrayList<>();
+
+        possibleSymbols.add("AAPL");
+        possibleSymbols.add("TSLA");
+        possibleSymbols.add("AMZN");
+        possibleSymbols.add("NOC");
+        possibleSymbols.add("FB");
+
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("refreshing now now");
+                UserAccount.getInstance().update(new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        System.out.println("UPdated man!");
+                        refresh();
+                    }
+
+                    @Override
+                    public void onTaskFailed() {
+
+                    }
+                });
+            }
+        });
+
+
+        buyStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Buying now");
+
+                //get symbol to buy!
+                int index = (int)(Math.random() * possibleSymbols.size());
+                UserAccount.getInstance().buyStock(possibleSymbols.get(index), 1, new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        UserAccount.getInstance().update(new OnTaskCompleted() {
+                            @Override
+                            public void onTaskCompleted() {
+                                System.out.println("UPdated man!");
+                                refresh();
+                            }
+
+                            @Override
+                            public void onTaskFailed() {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onTaskFailed() {
+                        refresh();
+                        System.out.println("Failed to purcahse: Not enough funds " + possibleSymbols.get(index) );
+                    }
+                });
+
+            }
+        });
+
+
 
         stocks = UserAccount.portflio.getArrayListHolding();
 
@@ -67,6 +144,7 @@ public class UserActivity extends BasicActivity {
     }
 
     public void refresh() {
+
         System.out.println("REFRESH IF");
 
         System.out.println("REFRESH");
@@ -84,15 +162,7 @@ public class UserActivity extends BasicActivity {
 
 }
 
-class Data {
-    String title;
-
-    public Data(String t) {
-        title = t;
-    }
-}
-
-class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> {
+class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> implements  View.OnClickListener {
 
     List<Holding> stocks;
     Portflio portflio;
@@ -100,7 +170,9 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> {
     RVAdapter(Portflio portflio, List<Holding> stocks) {
         this.stocks = stocks;
         this.portflio = portflio;
+
     }
+
 
 
     @NonNull
@@ -115,15 +187,57 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> {
     public void onBindViewHolder(@NonNull StockViewHolder stockViewHolder, int i) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         DecimalFormat df = new DecimalFormat("%.###");
-
+        System.out.println("UPDATING UI NOW");
         stockViewHolder.symbol.setText((stocks.get(i).symbol));
         stockViewHolder.totalPercent.setText("Gain/Loss: " + df.format(stocks.get(i).percentChange));
         stockViewHolder.totalCostBasis.setText("Cost Basis: " + formatter.format(stocks.get(i).costBasis));
         stockViewHolder.dayPercent.setText("Day Change: " + df.format(stocks.get(i).dayPercentChange));
         stockViewHolder.dayAmount.setText("Day Change: " + formatter.format(stocks.get(i).dayAmountChange));
         stockViewHolder.shares.setText("Shares Owned: " + (stocks.get(i).shares));
-        stockViewHolder.livePrice.setText("Live Price: " + formatter.format(stocks.get(i).latestLivePrice));
+        stockViewHolder.livePrice.setText( df.format(stocks.get(i).dayPercentChange));
+
         stockViewHolder.timeUpdate.setText("Last updated: " + stocks.get(i).timeUpdate);
+
+
+        //change color based on red or green now
+
+        if(stocks.get(i).dayPercentChange >= 0){
+            stockViewHolder.livePrice.setBackgroundColor(Color.argb(255, 69, 244, 66  ));
+        }else{
+            stockViewHolder.livePrice.setBackgroundColor(Color.RED);
+
+        }
+
+        //
+
+        //we need to clean graph minutes first
+
+
+
+
+
+
+
+
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+
+        int x = 0;
+        for(Minute m : stocks.get(i).dayChart){
+            x++;
+            if(m.getAverage() > 0){
+                // add new data point
+                DataPoint point = new DataPoint(x, m.getAverage());
+                series.appendData(point, false, 2147000000, false);
+            }
+        }
+
+
+        stockViewHolder.graph.addSeries(series);
+        stockViewHolder.graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
+
+        stockViewHolder.graph.getGridLabelRenderer().setVerticalLabelsVisible(false);//
+        stockViewHolder.graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);//
     }
 
     @Override
@@ -136,11 +250,17 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @Override
+    public void onClick(View v) {
+        System.out.println("CLICKKKKED ");
+    }
+
 
     public static class StockViewHolder extends RecyclerView.ViewHolder {
+
         CardView cv;
         TextView symbol, totalPercent, totalCostBasis, dayPercent, dayAmount, shares, livePrice, timeUpdate;
-
+        GraphView graph;
         StockViewHolder(Portflio p, View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.card_view);
@@ -153,24 +273,14 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> {
             livePrice = (TextView) itemView.findViewById(R.id.latestLivePrice);
             timeUpdate = (TextView) itemView.findViewById(R.id.lastUpdate);
 
-
-            GraphView graph = (GraphView) itemView.findViewById(R.id.graph);
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
-                    new DataPoint(0, 5),
-                    new DataPoint(1, 4),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 3.2)
-
-            });
+            graph = (GraphView) itemView.findViewById(R.id.graph);
 
 
-            graph.addSeries(series);
-//            graph.lineC
 
-            graph.getViewport().setMinY(3);
-            graph.getViewport().setMaxY(5);
-            graph.getViewport().setXAxisBoundsManual(true);
-            graph.getGridLabelRenderer().setHumanRounding(false);
+
+
         }
+
+
     }
 }

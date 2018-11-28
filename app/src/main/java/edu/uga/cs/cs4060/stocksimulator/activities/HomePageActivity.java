@@ -32,6 +32,27 @@ public class HomePageActivity extends BasicActivity {
 
     ArrayList<String> possibleSymbols = new ArrayList<>();
 
+
+    /***
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * DO NOOOOOT USE THIS!!!
+     *
+     *
+     *
+     *
+     *
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +124,8 @@ public class HomePageActivity extends BasicActivity {
         buyStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Buying now");
+
                 //get symbol to buy!
                 int index = (int)(Math.random() * possibleSymbols.size());
                 UserAccount.getInstance().buyStock(possibleSymbols.get(index), buyShares, new OnTaskCompleted() {
