@@ -111,18 +111,6 @@
                 tools:layout_editor_absoluteX="11dp"
                 tools:layout_editor_absoluteY="389dp" />
 
-            <TextView
-                android:id="@+id/latestLivePrice"
-                android:layout_width="70dp"
-                android:layout_height="34dp"
-                android:background="@android:color/holo_green_light"
-                android:gravity="center"
-                android:text="+1.01%"
-                android:textColor="@color/white"
-                tools:layout_conversion_absoluteHeight="19dp"
-                tools:layout_conversion_absoluteWidth="172dp"
-                tools:layout_editor_absoluteX="270dp"
-                tools:layout_editor_absoluteY="401dp" />
         </LinearLayout>
     </ScrollView>
 

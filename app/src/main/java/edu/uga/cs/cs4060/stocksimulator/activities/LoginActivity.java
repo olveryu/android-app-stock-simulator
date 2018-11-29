@@ -191,21 +191,20 @@ public class LoginActivity extends BasicActivity {
                 public void onSuccess(AuthResult authResult) {
                     //WE LOGGED IN!
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
-
-//                    account.load(new OnTaskCompleted() {
-//                        @Override
-//                        public void onTaskCompleted() {
+                    account.load(new OnTaskCompleted() {
+                        @Override
+                        public void onTaskCompleted() {
                                 Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
                                 home = new Intent(getApplicationContext(), UserActivity.class);
                                 startActivity(home);
 
-//                        }
-//
-//                        @Override
-//                        public void onTaskFailed() {
-//                            Toast.makeText(getApplicationContext(), "portfolio load fail", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
+                        }
+
+                        @Override
+                        public void onTaskFailed() {
+                            Toast.makeText(getApplicationContext(), "portfolio load fail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

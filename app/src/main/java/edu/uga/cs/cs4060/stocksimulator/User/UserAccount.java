@@ -84,7 +84,9 @@ public class UserAccount {
     }
 
     //Buy Stock
-    public  void buyStock(String symbol, double shares, OnTaskCompleted list){
+    public  void buyStock(String symbol, double shares, OnTaskCompleted listener){
+        this.listener = listener;
+        // this should fix
         Service service = ApiUtils.getService();
         System.out.println("BUYING " + symbol);
 
@@ -106,7 +108,7 @@ public class UserAccount {
 
                     //if we don't have cash, cancel
                     if(portflio.cashToTrade < (shares * cost)){
-                        list.onTaskFailed(); //Update UI the trasnaction failed
+                        listener.onTaskFailed(); //Update UI the trasnaction failed
                         return;
                     }
 
@@ -148,18 +150,18 @@ public class UserAccount {
 
                             updateDatabase();  // call to update firebase with new portfolio
                         }
-                    list.onTaskCompleted();
+                    listener.onTaskCompleted();
 
                 } else {
                         System.out.println("ERROR NOT SUCCESFULL");
-                        list.onTaskFailed(); //alert UI of failure
+                        listener.onTaskFailed(); //alert UI of failure
                     }
             }
 
             //Failed to buy stock, problem with API/ API Call
             @Override
             public void onFailure(Call< HashMap<String, Stock>> call, Throwable t) {
-                list.onTaskFailed();
+                listener.onTaskFailed();
                 t.printStackTrace();
                 System.out.println("FAILURE ON CALL");
                 return;
@@ -170,7 +172,8 @@ public class UserAccount {
     } // end of buy method
 
 
-    public void sellStock(String symbol, double shares, OnTaskCompleted list){
+    public void sellStock(String symbol, double shares, OnTaskCompleted listener){
+        this.listener = listener;
         Service service = ApiUtils.getService();
         System.out.println("SELLING " + symbol);
         service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() {
@@ -185,7 +188,7 @@ public class UserAccount {
 
                     //if we don't have cash, cancel
                     if(portflio.holdings.get(symbol) == null){
-                        list.onTaskFailed(); //Update UI the trasnaction failed
+                        listener.onTaskFailed(); //Update UI the trasnaction failed
                         System.out.println("NOT ENOUGH SHARES TO SELL");
                         return;
                     }
@@ -232,14 +235,14 @@ public class UserAccount {
 
 
                 } else {
-                    list.onTaskFailed(); //alert UI of failure
+                    listener.onTaskFailed(); //alert UI of failure
                 }
             }
 
             //Failed to buy stock, problem with API/ API Call
             @Override
             public void onFailure(Call< HashMap<String, Stock>> call, Throwable t) {
-                list.onTaskFailed();
+                listener.onTaskFailed();
                 t.printStackTrace();
                 return;
             }
@@ -311,7 +314,7 @@ public class UserAccount {
 
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
-    public void getSingleStock(String symbol, OnTaskCompleted list){
+    public void getSingleStock(String symbol, OnTaskCompleted listener){
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
         //Call to get a single stock quote
@@ -321,16 +324,16 @@ public class UserAccount {
                 if(response.isSuccessful()){ // If API Call is success
                     HashMap<String, Stock> stockMap =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded = stockMap.get(symbol); // Load into static variable. //TODO Must find better way to pass back this variable
-                    list.onTaskCompleted(); // Alert UI of success
+                    listener.onTaskCompleted(); // Alert UI of success
                 }else{
-                    list.onTaskFailed(); // Alert UI of failure
+                    listener.onTaskFailed(); // Alert UI of failure
                 }
             }
 
             //Failed to call API
             @Override
             public void onFailure(Call< HashMap<String, Stock>> call, Throwable t) {
-                list.onTaskFailed();
+                listener.onTaskFailed();
                 t.printStackTrace();
                 return;
             }
@@ -385,15 +388,9 @@ public class UserAccount {
 
 
     //Updates the entire portflio by loading live API prices and updating database.
-    public void update(OnTaskCompleted list){
+    public void update(OnTaskCompleted listener){
         this.listener = listener;
         loadPortfolio();
         System.out.println("In update useraccount");
     }
-
-
-
-
-
-
 }

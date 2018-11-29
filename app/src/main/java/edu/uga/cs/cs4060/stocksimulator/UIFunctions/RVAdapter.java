@@ -83,11 +83,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
         stockViewHolder.graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
         stockViewHolder.graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
         stockViewHolder.graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-
         stockViewHolder.graph.getGridLabelRenderer().draw(new Canvas() );
-
-
-
     }
 
     @Override
@@ -127,6 +123,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
                 public void onClick(View v) {
                     System.out.println("you click " + symbol.getText());
                     Intent intent = new Intent(v.getContext(), StockActivity.class);
+                    intent.putExtra("symbol", symbol.getText());
                     v.getContext().startActivity(intent);
                 }
             });

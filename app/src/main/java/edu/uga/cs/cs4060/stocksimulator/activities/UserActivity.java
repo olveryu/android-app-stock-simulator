@@ -43,20 +43,20 @@ public class UserActivity extends BasicActivity {
         // get drawer layout
         drawerNavigation();
         initUI();
+        refresh();
 
-
-        UserAccount.getInstance().load(new OnTaskCompleted() {
-            @Override
-            public void onTaskCompleted() {
-                refresh();
-                loaded = true;
-            }
-
-            @Override
-            public void onTaskFailed() {
-
-            }
-        });
+//        UserAccount.getInstance().load(new OnTaskCompleted() {
+//            @Override
+//            public void onTaskCompleted() {
+//                refresh();
+//                loaded = true;
+//            }
+//
+//            @Override
+//            public void onTaskFailed() {
+//
+//            }
+//        });
 
 
 
@@ -125,7 +125,7 @@ public class UserActivity extends BasicActivity {
                     @Override
                     public void onTaskCompleted() {
                        System.out.println("UPDATEEEDDDDD NOOOOW");
-                        Toast.makeText(getApplicationContext(), "Bought " + possibleSymbols.get(index) + " 1 shares" , Toast.LENGTH_SHORT).show();
+                       Toast.makeText(getApplicationContext(), "Bought " + possibleSymbols.get(index) + " 1 shares" , Toast.LENGTH_SHORT).show();
 
                     }
 
