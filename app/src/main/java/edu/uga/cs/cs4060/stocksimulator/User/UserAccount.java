@@ -11,10 +11,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.List;
 
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.ApiUtils;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Service;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +30,10 @@ public class UserAccount {
     public static FirebaseUser user;
     public static UserAccount account;
     public static Stock latestStockLoaded;
+    public static List<OneMonthChart> lastestOneMonthLoaded;
+
     public static String range;
+    public OnTaskCompleted tempList;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -316,11 +321,55 @@ public class UserAccount {
     }// End of live prices retrive!
 
 
+    //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
+    public void getMonthData(String symbol){
+        Service service = ApiUtils.getService(); //Retrofit2 reference
+
+        //Call to get a single stock quote
+        service.getMonth(symbol).enqueue(new Callback<List<OneMonthChart>>() {
+            @Override
+            public void onResponse(Call<List<OneMonthChart>> call, Response<List<OneMonthChart>> response) {
+                System.out.println("API CALL FOR MONTH: " + response.raw());
+                if(response.isSuccessful()){ // If API Call is success
+                    List<OneMonthChart> month =  response.body(); // Load data into a Stock Quote
+                    latestStockLoaded.oneMonthCharts = month;
+
+                    if(month.size() == 0){
+                        tempList.onTaskFailed();
+                        tempList = null;
+
+                    }else{
+                        System.out.println("WE HAVE DATA");
+                        tempList.onTaskCompleted(); // Alert UI of success
+                        tempList = null;
+
+                    }
+                }else{
+                    tempList.onTaskFailed(); // Alert UI of failure
+                    tempList = null;
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<OneMonthChart>> call, Throwable t) {
+                listener.onTaskFailed();
+                t.printStackTrace();
+                return;
+            }
+
+
+
+        });
+    }
+
+
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
     public void getSingleStock(String symbol, OnTaskCompleted listener){
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
+        tempList = listener;
         //Call to get a single stock quote
         service.getStock(symbol, "quote,chart", range).enqueue(new Callback< HashMap<String, Stock>>() {
             @Override
@@ -333,7 +382,9 @@ public class UserAccount {
                     if(stockMap.size() == 0){
                         listener.onTaskFailed();
                     }else{
-                        listener.onTaskCompleted(); // Alert UI of success
+
+                        getMonthData(symbol);
+
                     }
                 }else{
                     listener.onTaskFailed(); // Alert UI of failure
@@ -349,6 +400,8 @@ public class UserAccount {
             }
         });
     }
+
+
 
     //Load the inital firebase portflio for stock trading
     private void loadPortfolio(){
