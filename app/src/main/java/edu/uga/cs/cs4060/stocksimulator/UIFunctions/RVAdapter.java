@@ -3,7 +3,6 @@ package edu.uga.cs.cs4060.stocksimulator.UIFunctions;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -23,10 +21,9 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
 import edu.uga.cs.cs4060.stocksimulator.User.Holding;
 import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
-import edu.uga.cs.cs4060.stocksimulator.activities.LoginActivity;
 import edu.uga.cs.cs4060.stocksimulator.activities.StockActivity;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> implements  View.OnClickListener {
@@ -52,12 +49,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         DecimalFormat df = new DecimalFormat("%.###");
         stockViewHolder.symbol.setText((stocks.get(i).symbol));
-        //stockViewHolder.totalPercent.setText("Gain/Loss: " + df.format(stocks.get(i).percentChange));
-        //stockViewHolder.totalCostBasis.setText("Cost Basis: " + formatter.format(stocks.get(i).costBasis));
-        //stockViewHolder.dayPercent.setText("Day Change: " + df.format(stocks.get(i).dayPercentChange));
-        //stockViewHolder.dayAmount.setText("Day Change: " + formatter.format(stocks.get(i).dayAmountChange));
-        //stockViewHolder.shares.setText("Shares Owned: " + (stocks.get(i).shares));
-        //stockViewHolder.timeUpdate.setText("Last updated: " + stocks.get(i).timeUpdate);
         stockViewHolder.livePrice.setText( df.format(stocks.get(i).dayPercentChange));
         //change color based on red or green now
         if(stocks.get(i).dayPercentChange >= 0){
@@ -69,7 +60,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
         int x = 0;
-        for(Minute m : stocks.get(i).dayChart){
+        for(OneDayChart m : stocks.get(i).oneDayCharts){
             x++;
             if(m.getAverage() > 0){
                 // add new data point
@@ -104,7 +95,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
     public static class StockViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
-        TextView symbol, totalPercent, totalCostBasis, dayPercent, dayAmount, shares, livePrice, timeUpdate;
+        TextView symbol;
+        TextView livePrice;
         GraphView graph;
         StockViewHolder(Portflio p, View itemView) {
             super(itemView);

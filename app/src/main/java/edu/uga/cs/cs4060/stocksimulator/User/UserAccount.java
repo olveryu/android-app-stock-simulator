@@ -28,6 +28,7 @@ public class UserAccount {
     public static FirebaseUser user;
     public static UserAccount account;
     public static Stock latestStockLoaded;
+    public static String range;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -37,6 +38,7 @@ public class UserAccount {
         auth = FirebaseAuth.getInstance();
         user =  auth.getCurrentUser();
         portflio = Portflio.getInstance(); //Create new portflio
+        range = "1d";
     }
 
     public static void signOut(){
@@ -119,7 +121,7 @@ public class UserAccount {
                     //If the symbol isnt in the holdings, add a new holding
                      if(portflio.holdings.get(symbol) == null){
                          System.out.println("DOSENT HOLD SYM, adding to port");
-                         Holding holding = new Holding(symbol, shares, sharePrice, stock.minutes);
+                         Holding holding = new Holding(symbol, shares, sharePrice, stock.oneDayCharts, stock.oneMonthCharts);
                          addStockToDatabase(holding);  //Adds to firebase
                         }else{ //Otherwise, we own shares already
                             //Number of previous shares
@@ -285,7 +287,7 @@ public class UserAccount {
             String types = "quote,chart";
 
             //Call to API, returns hashmap of <String, Stock>
-            service.getStocks(tickers, types, "1d").enqueue(new Callback<HashMap<String, Stock>>() {
+            service.getStocks(tickers, types, range).enqueue(new Callback<HashMap<String, Stock>>() {
                 @Override
                 public void onResponse(Call<HashMap<String, Stock>> call, Response<HashMap<String, Stock>> response) {
                     if (response.isSuccessful()) { // If api call is a success, load the data
@@ -293,7 +295,7 @@ public class UserAccount {
                         System.out.println("RAW DATA: \n " + response.raw());
                         for (String key : map.keySet()) { //Loop over map, and update our portflio
 
-                            System.out.println("SIZE OF CHART: " + map.get(key).minutes.size());
+                            System.out.println("SIZE OF CHART: " + map.get(key).oneDayCharts.size());
 
                             portflio.updateStock(key, map.get(key)); //updates the prices and percetange
                         }
@@ -320,7 +322,7 @@ public class UserAccount {
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
         //Call to get a single stock quote
-        service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() {
+        service.getStock(symbol, "quote,chart", range).enqueue(new Callback< HashMap<String, Stock>>() {
             @Override
             public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
                 System.out.println("API CALL: " + response.raw());

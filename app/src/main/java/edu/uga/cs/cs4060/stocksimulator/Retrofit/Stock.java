@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Chart;
 
 
 @IgnoreExtraProperties
@@ -16,11 +16,13 @@ public class Stock {
     @Expose
     public Quote quote;
 
-    @SerializedName("chart")
+    @SerializedName("chartOneDay")
     @Expose
-    public List<Minute> minutes;
+    public List<OneDayChart> oneDayCharts;
 
-
+    @SerializedName("chartOneMonth")
+    @Expose
+    public List<OneMonthChart> oneMonthCharts;
 
 }
 

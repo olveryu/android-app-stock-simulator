@@ -120,21 +120,6 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    public void drawerNavigation() {
-        // initialize view
-        mDrawerLayout = findViewById(R.id.drawerLayout);
-        mNavigationView = findViewById(R.id.nav_view);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
-        mDrawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (mNavigationView != null) {
-            // this line spend me 2 hours!!! OMG
-            mNavigationView.bringToFront();
-            mNavigationView.setNavigationItemSelectedListener(this);
-        }
-    }
-
     // switch options
     public void signIn() {
         intent = new Intent(this, LoginActivity.class);
@@ -150,6 +135,22 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
             intent = new Intent(this, SplashActivity.class);
         } else {
             intent = new Intent(this, UserActivity.class);
+        }
+    }
+
+    // initialize drawer navigation
+    public void drawerNavigation() {
+        // initialize view
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mNavigationView = findViewById(R.id.nav_view);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (mNavigationView != null) {
+            // this line spend me 2 hours!!! OMG
+            mNavigationView.bringToFront();
+            mNavigationView.setNavigationItemSelectedListener(this);
         }
     }
 }

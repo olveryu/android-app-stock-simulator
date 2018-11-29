@@ -7,7 +7,11 @@ import java.util.List;
 
 public class Chart {
 
-    @SerializedName("minutes")
+    @SerializedName("oneDayCharts")
     @Expose
-    public List<Minute> minutes;
+    public List<OneDayChart> oneDayCharts;
+
+    @SerializedName("oneMonthChart")
+    @Expose
+    public List<OneMonthChart> OneMonthCharts;
 }

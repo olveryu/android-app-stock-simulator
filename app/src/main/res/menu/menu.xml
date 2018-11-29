@@ -14,16 +14,17 @@
         android:icon="@android:drawable/ic_delete"
         android:orderInCategory="102"
         android:title="Sign Out" />
-    <item
-        android:id="@+id/logIn"
-        android:icon="@android:drawable/ic_input_add"
-        android:orderInCategory="101"
-        android:title="Log In" />
 
     <item
         android:id="@+id/home"
         android:icon="@android:drawable/btn_star_big_on"
+        android:orderInCategory="101"
+        android:title="home"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/logIn"
+        android:icon="@android:drawable/ic_input_add"
         android:orderInCategory="100"
-        android:title="home" />
+        android:title="Log In" />
 
 </menu>

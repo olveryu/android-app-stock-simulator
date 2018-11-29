@@ -35,27 +35,11 @@ public class UserActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
         // get drawer layout
         drawerNavigation();
         initUI();
         refresh();
-
-//        UserAccount.getInstance().load(new OnTaskCompleted() {
-//            @Override
-//            public void onTaskCompleted() {
-//                refresh();
-//                loaded = true;
-//            }
-//
-//            @Override
-//            public void onTaskFailed() {
-//
-//            }
-//        });
-
-
-
+        UserAccount.range = "1d";
     }
 
     //LOADED MUST BE TRUE

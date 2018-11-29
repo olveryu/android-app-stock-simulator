@@ -3,13 +3,12 @@ package edu.uga.cs.cs4060.stocksimulator.User;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Chart;
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Minute;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 
 @IgnoreExtraProperties
 public class Holding {
@@ -23,11 +22,12 @@ public class Holding {
     public Double dayPercentChange;
     public Double dayAmountChange;
     public String timeUpdate;
-    public List<Minute> dayChart;
+    public List<OneDayChart> oneDayCharts;
+    public List<OneMonthChart> oneMonthCharts;
 
     public Holding(){}
 
-    public Holding(String symbol, double shares, double buyPrice, List<Minute> minutes){
+    public Holding(String symbol, double shares, double buyPrice, List<OneDayChart> oneDayCharts,List<OneMonthChart> oneMonthCharts){
         this.latestLivePrice = buyPrice;
         this.symbol = symbol;
         this.costBasis = buyPrice;
@@ -38,7 +38,8 @@ public class Holding {
         this.dayPercentChange = 0.0;
         this.dayAmountChange = 0.0;
         this.timeUpdate = "0";
-        this.dayChart = minutes;
+        this.oneDayCharts = oneDayCharts;
+        this.oneMonthCharts = oneMonthCharts;
     }
 
     @Exclude
@@ -53,8 +54,8 @@ public class Holding {
         result.put("dayPercentChange", dayPercentChange);
         result.put("dayAmountChange", dayAmountChange);
         result.put("timeUpdate", timeUpdate);
-        result.put("chartData", dayChart);
-
+        result.put("chartDataOneDay", oneDayCharts);
+        result.put("chartDataOneMonth", oneMonthCharts);
 
 
         return result;
