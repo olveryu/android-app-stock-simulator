@@ -30,11 +30,6 @@ public class UserActivity extends BasicActivity {
     private LinearLayoutManager llm;
     private RVAdapter adapter;
 
-    private Button buyStock, sellStock, refreshButton;
-
-    private boolean loaded = false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,76 +65,6 @@ public class UserActivity extends BasicActivity {
         totalGainLost = (TextView) findViewById(R.id.totalPercentTextView);
         totalCostBasisView = (TextView) findViewById(R.id.totalCostTextView);
         fundsText = (TextView) findViewById(R.id.fundsText);
-
-        buyStock = findViewById(R.id.buyButton);
-        sellStock = findViewById(R.id.sellButton);
-
-        refreshButton = findViewById(R.id.refreshButton);
-
-
-        ArrayList<String> possibleSymbols = new ArrayList<>();
-
-        possibleSymbols.add("AAPL");
-        possibleSymbols.add("TSLA");
-        possibleSymbols.add("AMZN");
-        possibleSymbols.add("NOC");
-        possibleSymbols.add("FB");
-
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("refreshing now now");
-               refresh();
-            }
-        });
-
-
-        sellStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserAccount.getInstance().sellStock("AAPL", 1, new OnTaskCompleted() {
-                    @Override
-                    public void onTaskCompleted() {
-                        System.out.println("FINISHED SELLING!");
-                        Toast.makeText(getApplicationContext(), "Sold: 1 share AAPL ... add data" , Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onTaskFailed() {
-                        System.out.println("FAiled to sell");
-                    }
-                });
-            }
-        });
-
-        buyStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Buying now");
-
-                //get symbol to buy!
-                int index = (int)(Math.random() * possibleSymbols.size());
-                UserAccount.getInstance().buyStock(possibleSymbols.get(index), 1, new OnTaskCompleted() {
-                    @Override
-                    public void onTaskCompleted() {
-                       System.out.println("UPDATEEEDDDDD NOOOOW");
-                       Toast.makeText(getApplicationContext(), "Bought " + possibleSymbols.get(index) + " 1 shares" , Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onTaskFailed() {
-                        refresh();
-                        System.out.println("Failed to purcahse: Not enough funds " + possibleSymbols.get(index) );
-                    }
-                });
-
-            }
-        });
-
-
 
         rv = findViewById(R.id.recView);
         rv.setHasFixedSize(true);

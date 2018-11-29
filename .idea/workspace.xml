@@ -25,10 +25,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/UIFunctions/RVAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/UIFunctions/RVAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/BasicActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/BasicActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/UserActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/UserActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_stock.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_stock.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_user.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,27 +51,67 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="StockActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StockActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="39" column="66" selection-start-line="39" selection-start-column="60" selection-end-line="39" selection-end-column="66" />
+            <state relative-caret-position="515">
+              <caret line="94" column="54" selection-start-line="94" selection-start-column="54" selection-end-line="94" selection-end-column="54" />
               <folding>
-                <element signature="e#2668#2669#0" expanded="true" />
-                <element signature="e#2705#2706#0" expanded="true" />
+                <element signature="e#2226#2227#0" expanded="true" />
+                <element signature="e#2310#2311#0" expanded="true" />
+                <element signature="e#4449#4450#0" expanded="true" />
+                <element signature="e#4525#4526#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BasicActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserAccount.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/User/UserAccount.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="86" column="25" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_user.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_user.xml">
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_stock.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_stock.xml">
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/UserActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="76">
+              <caret line="67" selection-start-line="67" selection-end-line="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BasicActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/BasicActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="67" column="57" selection-start-line="67" selection-start-column="57" selection-end-line="67" selection-end-column="57" />
+            <state relative-caret-position="409">
+              <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
               <folding>
-                <element signature="e#4984#4985#0" expanded="true" />
-                <element signature="e#5046#5047#0" expanded="true" />
+                <element signature="e#5030#5031#0" expanded="true" />
+                <element signature="e#5092#5093#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,6 +148,7 @@
       <find>dayChart</find>
       <find>dayPercentChange</find>
       <find>search</find>
+      <find>buyStock</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2412,14 +2453,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/UserActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/User/UserAccount.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/StocksInfomations/Chart.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_stock.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/UIFunctions/RVAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/BasicActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_user.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_stock.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/UserActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java" />
       </list>
     </option>
   </component>
@@ -2681,12 +2723,12 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Terminal" />
-      <window_info active="true" anchor="bottom" id="Logcat" visible="true" weight="0.32963374" />
+      <window_info anchor="bottom" id="Logcat" weight="0.32963374" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
-      <window_info anchor="bottom" id="Build" weight="0.32963374" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info anchor="bottom" id="Build" visible="true" weight="0.32963374" />
       <window_info anchor="right" id="Gradle" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Theme Preview" />
@@ -2735,13 +2777,6 @@
             <element signature="e#8523#8524#0" expanded="true" />
             <element signature="e#8579#8580#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/User/UserAccount.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2687">
-          <caret line="191" column="35" selection-start-line="191" selection-start-column="35" selection-end-line="191" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -2795,20 +2830,28 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_user.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/UserActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="161" column="101" lean-forward="true" selection-start-line="161" selection-start-column="101" selection-end-line="161" selection-end-column="101" />
+        <state relative-caret-position="76">
+          <caret line="67" selection-start-line="67" selection-end-line="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/BasicActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="39" column="66" selection-start-line="39" selection-start-column="60" selection-end-line="39" selection-end-column="66" />
+        <state relative-caret-position="409">
+          <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
           <folding>
-            <element signature="e#2668#2669#0" expanded="true" />
-            <element signature="e#2705#2706#0" expanded="true" />
+            <element signature="e#5030#5031#0" expanded="true" />
+            <element signature="e#5092#5093#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2820,13 +2863,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/BasicActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/User/UserAccount.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="67" column="57" selection-start-line="67" selection-start-column="57" selection-end-line="67" selection-end-column="57" />
+        <state relative-caret-position="174">
+          <caret line="86" column="25" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uga/cs/cs4060/stocksimulator/activities/StockActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="94" column="54" selection-start-line="94" selection-start-column="54" selection-end-line="94" selection-end-column="54" />
           <folding>
-            <element signature="e#4984#4985#0" expanded="true" />
-            <element signature="e#5046#5047#0" expanded="true" />
+            <element signature="e#2226#2227#0" expanded="true" />
+            <element signature="e#2310#2311#0" expanded="true" />
+            <element signature="e#4449#4450#0" expanded="true" />
+            <element signature="e#4525#4526#0" expanded="true" />
           </folding>
         </state>
       </provider>

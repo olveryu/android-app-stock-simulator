@@ -6,6 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".activities.StockActivity">
 
+    <Button
+        android:id="@+id/buyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:text="Buy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/sellButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Sell"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buyButton"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
     <TextView
         android:id="@+id/symbol_label"
         android:layout_width="63dp"
@@ -19,17 +44,18 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         tools:layout_conversion_absoluteHeight="25dp"
         tools:layout_conversion_absoluteWidth="44dp" />
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="279dp"
+        android:layout_height="285dp"
         android:padding="15dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/symbol_label"
         tools:layout_conversion_absoluteHeight="75dp"
@@ -38,8 +64,8 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="383dp"
-        android:layout_height="159dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="127dp"
+        app:layout_constraintBottom_toTopOf="@+id/buyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

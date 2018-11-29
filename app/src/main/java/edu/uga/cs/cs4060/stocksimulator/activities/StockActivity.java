@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -28,16 +30,63 @@ public class StockActivity extends BasicActivity {
     private TextView symbol;
     private GraphView graph;
     private Stock stock;
+    private Button buyStock;
+    private Button sellStock;
+    private String symbolString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
         symbol = (TextView)findViewById(R.id.symbol_label);
         graph = (GraphView)findViewById(R.id.graph);
+        buyStock = findViewById(R.id.buyButton);
+        sellStock = findViewById(R.id.sellButton);
+
+        // sell stock button
+        sellStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserAccount.getInstance().sellStock(symbolString, 1, new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        System.out.println("FINISHED SELLING!");
+                        Toast.makeText(getApplicationContext(), "Sold: 1 share" + symbolString + ". add data" , Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onTaskFailed() {
+                        System.out.println("FAiled to sell");
+                    }
+                });
+            }
+        });
+
+        // buy stock button
+        buyStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Buying now");
+
+                UserAccount.getInstance().buyStock(symbolString, 1, new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        System.out.println("UPDATEEEDDDDD NOOOOW");
+                        Toast.makeText(getApplicationContext(), "Bought " + symbolString + " 1 shares" , Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onTaskFailed() {
+                        System.out.println("Failed to purcahse: Not enough funds " + symbolString );
+                    }
+                });
+
+            }
+        });
 
         // get message from previous activity
         Intent intent = getIntent();
-        String symbolString = intent.getExtras().getString("symbol");
+        symbolString = intent.getExtras().getString("symbol");
         //retrieval information of the stock
         UserAccount.getInstance().getSingleStock(symbolString, new OnTaskCompleted(){
 
@@ -58,13 +107,7 @@ public class StockActivity extends BasicActivity {
                         series.appendData(point, false, 2147000000, false);
                     }
                 }
-
-                // also change color based on red or green for the graph
                 graph.addSeries(series);
-                //graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
-                //graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-                //graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-                //graph.getGridLabelRenderer().draw(new Canvas() );
             }
 
             @Override
