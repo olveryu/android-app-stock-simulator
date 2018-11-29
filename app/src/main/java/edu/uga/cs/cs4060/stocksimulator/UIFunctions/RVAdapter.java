@@ -1,7 +1,9 @@
 package edu.uga.cs.cs4060.stocksimulator.UIFunctions;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -81,6 +83,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
         stockViewHolder.graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
         stockViewHolder.graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
         stockViewHolder.graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+
+        stockViewHolder.graph.getGridLabelRenderer().draw(new Canvas() );
+
+
+
     }
 
     @Override

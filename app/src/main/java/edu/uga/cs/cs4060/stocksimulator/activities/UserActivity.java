@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -21,7 +22,7 @@ import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class UserActivity extends BasicActivity {
 
-    private TextView totalValue, daySummary, totalGainLost, totalCostBasisView;
+    private TextView totalValue, daySummary, totalGainLost, totalCostBasisView, fundsText;
     private NumberFormat formatter = NumberFormat.getCurrencyInstance();
     private DecimalFormat df = new DecimalFormat("%.##");
     private List<Holding> stocks;
@@ -29,7 +30,9 @@ public class UserActivity extends BasicActivity {
     private LinearLayoutManager llm;
     private RVAdapter adapter;
 
-    private Button buyStock, refreshButton;
+    private Button buyStock, sellStock, refreshButton;
+
+    private boolean loaded = false;
 
 
     @Override
@@ -40,7 +43,23 @@ public class UserActivity extends BasicActivity {
         // get drawer layout
         drawerNavigation();
         initUI();
-        refresh();
+
+
+        UserAccount.getInstance().load(new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                refresh();
+                loaded = true;
+            }
+
+            @Override
+            public void onTaskFailed() {
+
+            }
+        });
+
+
+
     }
 
     //LOADED MUST BE TRUE
@@ -50,8 +69,11 @@ public class UserActivity extends BasicActivity {
         daySummary = (TextView) findViewById(R.id.dailyTextView);
         totalGainLost = (TextView) findViewById(R.id.totalPercentTextView);
         totalCostBasisView = (TextView) findViewById(R.id.totalCostTextView);
+        fundsText = (TextView) findViewById(R.id.fundsText);
 
         buyStock = findViewById(R.id.buyButton);
+        sellStock = findViewById(R.id.sellButton);
+
         refreshButton = findViewById(R.id.refreshButton);
 
 
@@ -68,21 +90,29 @@ public class UserActivity extends BasicActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("refreshing now now");
-                UserAccount.getInstance().update(new OnTaskCompleted() {
+               refresh();
+            }
+        });
+
+
+        sellStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserAccount.getInstance().sellStock("AAPL", 1, new OnTaskCompleted() {
                     @Override
                     public void onTaskCompleted() {
-                        System.out.println("UPdated man!");
-                        refresh();
+                        System.out.println("FINISHED SELLING!");
+                        Toast.makeText(getApplicationContext(), "Sold: 1 share AAPL ... add data" , Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onTaskFailed() {
-
+                        System.out.println("FAiled to sell");
                     }
                 });
             }
         });
-
 
         buyStock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,18 +124,8 @@ public class UserActivity extends BasicActivity {
                 UserAccount.getInstance().buyStock(possibleSymbols.get(index), 1, new OnTaskCompleted() {
                     @Override
                     public void onTaskCompleted() {
-                        UserAccount.getInstance().update(new OnTaskCompleted() {
-                            @Override
-                            public void onTaskCompleted() {
-                                System.out.println("UPdated man!");
-                                refresh();
-                            }
-
-                            @Override
-                            public void onTaskFailed() {
-
-                            }
-                        });
+                       System.out.println("UPDATEEEDDDDD NOOOOW");
+                        Toast.makeText(getApplicationContext(), "Bought " + possibleSymbols.get(index) + " 1 shares" , Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -121,26 +141,31 @@ public class UserActivity extends BasicActivity {
 
 
 
-        stocks = UserAccount.portflio.getArrayListHolding();
         rv = findViewById(R.id.recView);
         rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(this.getBaseContext());
         rv.setLayoutManager(llm);
-        adapter = new RVAdapter(UserAccount.portflio, stocks);
-        rv.setAdapter(adapter);
+
 
     }
 
     public void refresh() {
-        if (UserAccount.portflio.getDayAmountChange() < 0.00) {
-            daySummary.setTextColor(Color.RED);
-        } else {
-            daySummary.setTextColor(Color.parseColor("#508c00"));
-        }
-        totalValue.setText(formatter.format(UserAccount.portflio.getValue()));
-        daySummary.setText(UserAccount.portflio.getDaySummary());
-        totalGainLost.setText("Total Gain/Lost: " + df.format(UserAccount.portflio.getTotalPercent()) + "%");
-        totalCostBasisView.setText("Total Cost Basis: " + UserAccount.portflio.getCostBasis());
+                if (UserAccount.portflio.getDayAmountChange() < 0.00) {
+                    daySummary.setTextColor(Color.RED);
+                } else {
+                    daySummary.setTextColor(Color.parseColor("#508c00"));
+                }
+                totalValue.setText(formatter.format(UserAccount.portflio.getValue()));
+                daySummary.setText(UserAccount.portflio.getDaySummary());
+                fundsText.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
+                totalGainLost.setText("Total Return: " + df.format(UserAccount.portflio.getTotalPercent()) + "%");
+                totalCostBasisView.setText("Total Invested: " + UserAccount.portflio.getCostBasis());
+
+        stocks = UserAccount.portflio.getArrayListHolding();
+        adapter = new RVAdapter(UserAccount.portflio, stocks);
+        rv.setAdapter(adapter);
+
+
 
     }
 

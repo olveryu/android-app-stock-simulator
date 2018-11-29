@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
 import edu.uga.cs.cs4060.stocksimulator.UIFunctions.ShowPrograssingBar;
 import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
@@ -188,8 +189,9 @@ public class HomePageActivity extends BasicActivity {
 
     //Updates UI with current stock loaded from the API
     private void updateSingleStockInfo(){
-        Quote stock = UserAccount.latestStockLoaded;
-       info.setText(stock.getSymbol() + " | Live Price: $" + stock.getLatestPrice() + " | Percent Change %" + stock.getChangePercent());
+        Stock stock = UserAccount.latestStockLoaded;
+        Quote quote = stock.quote;
+       info.setText(quote.getSymbol() + " | Live Price: $" + quote.getLatestPrice() + " | Percent Change %" + quote.getChangePercent());
     }
 
     //Hide keyboard

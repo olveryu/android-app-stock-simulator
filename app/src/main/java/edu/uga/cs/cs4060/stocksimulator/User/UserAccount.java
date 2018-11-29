@@ -27,7 +27,7 @@ public class UserAccount {
     public static FirebaseDatabase data;
     public static FirebaseUser user;
     public static UserAccount account;
-    public static Quote latestStockLoaded;
+    public static Stock latestStockLoaded;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -87,11 +87,20 @@ public class UserAccount {
     public  void buyStock(String symbol, double shares, OnTaskCompleted list){
         Service service = ApiUtils.getService();
         System.out.println("BUYING " + symbol);
-        service.getQuote(symbol).enqueue(new Callback<Quote>() { //get the single stock wwe are buying
+
+
+        service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() { //get the single stock wwe are buying
             @Override
-            public void onResponse(Call<Quote> call, Response<Quote> response) {
+            public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
                 if (response.isSuccessful()) { // IF API responds
-                    Quote q = response.body(); // Gets the quote from API
+                    HashMap<String, Stock> stockMap = response.body(); // Gets the quote from API
+                    System.out.println("RAW ASK: " + response.raw());
+
+                    //will always be 1 answer into this!
+
+                    Quote q = stockMap.get(symbol).quote; // Gets the quote from API
+                    Stock stock = stockMap.get(symbol);
+
                     double sharePrice = q.getLatestPrice(); // Share Price of quote
                     double cost = sharePrice * shares; // Cost of transaction
 
@@ -108,7 +117,7 @@ public class UserAccount {
                     //If the symbol isnt in the holdings, add a new holding
                      if(portflio.holdings.get(symbol) == null){
                          System.out.println("DOSENT HOLD SYM, adding to port");
-                         Holding holding = new Holding(symbol, shares, sharePrice);
+                         Holding holding = new Holding(symbol, shares, sharePrice, stock.minutes);
                          addStockToDatabase(holding);  //Adds to firebase
                         }else{ //Otherwise, we own shares already
                             //Number of previous shares
@@ -131,6 +140,7 @@ public class UserAccount {
                             portflio.holdings.get(symbol).dayPercentChange = q.getChangePercent();
 
 
+
                             //Calculate percent up/down
                              double calcPercent = ((sharePrice - costBasis) / costBasis) ;
                             portflio.getHolding(symbol).percentChange = calcPercent;
@@ -138,7 +148,7 @@ public class UserAccount {
 
                             updateDatabase();  // call to update firebase with new portfolio
                         }
-                    list.onTaskCompleted(); // alert UI of success
+                    list.onTaskCompleted();
 
                 } else {
                         System.out.println("ERROR NOT SUCCESFULL");
@@ -148,7 +158,7 @@ public class UserAccount {
 
             //Failed to buy stock, problem with API/ API Call
             @Override
-            public void onFailure(Call<Quote> call, Throwable t) {
+            public void onFailure(Call< HashMap<String, Stock>> call, Throwable t) {
                 list.onTaskFailed();
                 t.printStackTrace();
                 System.out.println("FAILURE ON CALL");
@@ -163,11 +173,13 @@ public class UserAccount {
     public void sellStock(String symbol, double shares, OnTaskCompleted list){
         Service service = ApiUtils.getService();
         System.out.println("SELLING " + symbol);
-        service.getQuote(symbol).enqueue(new Callback<Quote>() {
+        service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() {
             @Override
-            public void onResponse(Call<Quote> call, Response<Quote> response) {
+            public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
                 if (response.isSuccessful()) { // IF API responds
-                    Quote q = response.body(); // Gets the quote from API
+                    HashMap<String, Stock> stockMap = response.body(); // Gets the quote from API
+                    Quote q = stockMap.get(symbol).quote;
+
                     double sharePrice = q.getLatestPrice(); // Share Price of quote
                     double salePrice = sharePrice * shares; // Cost of transaction
 
@@ -218,6 +230,7 @@ public class UserAccount {
                     updateDatabase();  // call to update firebase with new portfolio
 
 
+
                 } else {
                     list.onTaskFailed(); //alert UI of failure
                 }
@@ -225,7 +238,7 @@ public class UserAccount {
 
             //Failed to buy stock, problem with API/ API Call
             @Override
-            public void onFailure(Call<Quote> call, Throwable t) {
+            public void onFailure(Call< HashMap<String, Stock>> call, Throwable t) {
                 list.onTaskFailed();
                 t.printStackTrace();
                 return;
@@ -238,6 +251,8 @@ public class UserAccount {
     public  void updateDatabase(){
         //UID of current User
         String uid = user.getUid();
+
+        System.out.println("UPDATE COMPLETE!!!!");
 
         //Locate user in database and update the portflio
         data.getReference().child("/users/" + uid + "/port/"  ).updateChildren(portflio.toMap());
@@ -300,12 +315,12 @@ public class UserAccount {
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
         //Call to get a single stock quote
-        service.getQuote(symbol).enqueue(new Callback<Quote>() {
+        service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() {
             @Override
-            public void onResponse(Call<Quote> call, Response<Quote> response) {
+            public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
                 if(response.isSuccessful()){ // If API Call is success
-                    Quote quote =  response.body(); // Load data into a Stock Quote
-                    latestStockLoaded = quote; // Load into static variable. //TODO Must find better way to pass back this variable
+                    HashMap<String, Stock> stockMap =  response.body(); // Load data into a Stock Quote
+                    latestStockLoaded = stockMap.get(symbol); // Load into static variable. //TODO Must find better way to pass back this variable
                     list.onTaskCompleted(); // Alert UI of success
                 }else{
                     list.onTaskFailed(); // Alert UI of failure
@@ -314,7 +329,7 @@ public class UserAccount {
 
             //Failed to call API
             @Override
-            public void onFailure(Call<Quote> call, Throwable t) {
+            public void onFailure(Call< HashMap<String, Stock>> call, Throwable t) {
                 list.onTaskFailed();
                 t.printStackTrace();
                 return;

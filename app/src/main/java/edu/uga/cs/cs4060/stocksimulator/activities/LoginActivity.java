@@ -182,6 +182,8 @@ public class LoginActivity extends BasicActivity {
         protected Void doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
             hideKeys();
+            System.out.println("LOGIN ACTIVITY GO!");
+            boolean loggedIn = false;
             // Simulate network access.
             account = UserAccount.getInstance();
             UserAccount.auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -190,19 +192,20 @@ public class LoginActivity extends BasicActivity {
                     //WE LOGGED IN!
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
 
-                    account.load(new OnTaskCompleted() {
-                        @Override
-                        public void onTaskCompleted() {
-                            Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
-                            home = new Intent(getApplicationContext(), UserActivity.class);
-                            startActivity(home);
-                        }
+//                    account.load(new OnTaskCompleted() {
+//                        @Override
+//                        public void onTaskCompleted() {
+                                Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
+                                home = new Intent(getApplicationContext(), UserActivity.class);
+                                startActivity(home);
 
-                        @Override
-                        public void onTaskFailed() {
-                            Toast.makeText(getApplicationContext(), "portfolio load fail", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//                        }
+//
+//                        @Override
+//                        public void onTaskFailed() {
+//                            Toast.makeText(getApplicationContext(), "portfolio load fail", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

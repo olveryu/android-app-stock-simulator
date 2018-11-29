@@ -3,6 +3,7 @@ package edu.uga.cs.cs4060.stocksimulator.User;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class Holding {
 
     public Holding(){}
 
-    public Holding(String symbol, double shares, double buyPrice){
+    public Holding(String symbol, double shares, double buyPrice, List<Minute> minutes){
         this.latestLivePrice = buyPrice;
         this.symbol = symbol;
         this.costBasis = buyPrice;
@@ -37,6 +38,7 @@ public class Holding {
         this.dayPercentChange = 0.0;
         this.dayAmountChange = 0.0;
         this.timeUpdate = "0";
+        this.dayChart = minutes;
     }
 
     @Exclude

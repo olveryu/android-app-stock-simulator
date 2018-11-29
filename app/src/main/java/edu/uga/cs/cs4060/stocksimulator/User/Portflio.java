@@ -98,13 +98,21 @@ public class Portflio {
 
     @Exclude
     public double getTotalPercent(){
-        double totalShares = getTotalShares();
-        double totalValue = getValue();
-        double totalPercent = 0.0;
-        for(String str: holdings.keySet()){
-            totalPercent += (holdings.get(str).value / totalValue) * holdings.get(str).percentChange;
-        }
-        return totalPercent;
+
+            double percent = 0;
+            //how much did i start with ?
+            //what my value now?
+
+            double start = getCostBasisDouble();
+            double current = getValue();
+
+             double totalChange = (current  / start);
+             System.out.println("Start value: " + start);
+
+
+            System.out.println("Current value: " + current);
+            System.out.println("Total Change: " + totalChange);
+            return totalChange;
 
     }
 
@@ -145,21 +153,31 @@ public class Portflio {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         double costDouble = 0.00;
         for(String str: holdings.keySet()){
-            costDouble += holdings.get(str).costBasis;
+            costDouble += holdings.get(str).costBasis * holdings.get(str).shares;
         }
         cost = formatter.format((costDouble));
         return cost;
+    }
 
-
+    @Exclude
+    public double getCostBasisDouble(){
+        double costDouble = 0.00;
+        for(String str: holdings.keySet()){
+            costDouble += holdings.get(str).costBasis * holdings.get(str).shares;
+        }
+        return costDouble;
     }
     @Exclude
     public double getDayPercentChange(){
-        double totalShares = getTotalShares();
+
         double totalValue = getValue();
+        System.out.println("Value! " + totalValue );
         double dayPercent = 0.0;
         for(String str: holdings.keySet()){
             dayPercent += (holdings.get(str).value / totalValue) * holdings.get(str).dayPercentChange;
+            System.out.println(str + " " + holdings.get(str).dayPercentChange + " " + holdings.get(str).value + " / " + totalValue + "    " +  (holdings.get(str).value / totalValue));
         }
+        System.out.println(dayPercent);
         return dayPercent;
     }
 
@@ -168,7 +186,7 @@ public class Portflio {
     public double getDayAmountChange(){
         double amount = 0.0;
         for(String str : holdings.keySet()){
-            amount += holdings.get(str).dayAmountChange;
+            amount += holdings.get(str).dayAmountChange * holdings.get(str).shares;
         }
         return amount;
     }

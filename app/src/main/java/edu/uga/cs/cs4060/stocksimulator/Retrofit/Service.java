@@ -7,10 +7,9 @@ import retrofit2.Call;
 
 public interface Service {
 
-    @GET("stock/{ticker}/quote")
-    Call<Quote> getQuote(@Path("ticker") String ticker);
-
-
+    @GET("stock/market/batch?")
+    Call<HashMap<String, Stock>> getStock(@Query("symbols") String symbols, @Query("types") String types,  @Query("range") String range );
+    //http://api.iextrading.com/1.0/stock/market/batch?symbols=aapl&types=quote&range=1d
 
     @GET("stock/market/batch?")
     Call<HashMap<String, Stock>> getStocks(@Query("symbols") String symbols, @Query("types") String types,  @Query("range") String range );
