@@ -135,6 +135,8 @@ public class UserAccount {
                             //Merge cost basis and calculate new one
                             double updatedCostBasis = ((oldShares * costBasis + newShares * sharePrice)/ (oldShares + newShares) );
 
+                            System.out.println("NEW BASIS:  " + updatedCostBasis);
+
                             //Update portflio variables for the symbol
 
                             portflio.holdings.get(symbol).shares += shares;
@@ -321,10 +323,16 @@ public class UserAccount {
         service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() {
             @Override
             public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
+                System.out.println("API CALL: " + response.raw());
                 if(response.isSuccessful()){ // If API Call is success
                     HashMap<String, Stock> stockMap =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded = stockMap.get(symbol); // Load into static variable. //TODO Must find better way to pass back this variable
-                    listener.onTaskCompleted(); // Alert UI of success
+                    System.out.println(stockMap.size());
+                    if(stockMap.size() == 0){
+                        listener.onTaskFailed();
+                    }else{
+                        listener.onTaskCompleted(); // Alert UI of success
+                    }
                 }else{
                     listener.onTaskFailed(); // Alert UI of failure
                 }

@@ -34,7 +34,9 @@
     <TextView
         android:id="@+id/symbol_label"
         android:layout_width="63dp"
-        android:layout_height="38dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical|center"
         android:text="AAPL"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/black"
@@ -51,8 +53,8 @@
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
-        android:layout_height="285dp"
-        android:padding="15dp"
+        android:layout_height="0dp"
+        android:padding="20dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -76,7 +78,63 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/percentToday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Percent Today: %1.02" />
+
+            <TextView
+                android:id="@+id/livePrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Live Price: 23.50" />
+
+            <TextView
+                android:id="@+id/highlow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="52-week high/low: 55, 21" />
+
+            <TextView
+                android:id="@+id/sharesOwned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shared Owned: 0"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/costBasis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cost: 0"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/returnLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Return: %0.0"
+                android:visibility="invisible" />
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/fundsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Funds: 3,400"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

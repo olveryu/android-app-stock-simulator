@@ -23,6 +23,7 @@ import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 public class UserActivity extends BasicActivity {
 
     private TextView totalValue, daySummary, totalGainLost, totalCostBasisView, fundsText;
+    private Button refreshButton;
     private NumberFormat formatter = NumberFormat.getCurrencyInstance();
     private DecimalFormat df = new DecimalFormat("%.##");
     private List<Holding> stocks;
@@ -65,6 +66,24 @@ public class UserActivity extends BasicActivity {
         totalGainLost = (TextView) findViewById(R.id.totalPercentTextView);
         totalCostBasisView = (TextView) findViewById(R.id.totalCostTextView);
         fundsText = (TextView) findViewById(R.id.fundsText);
+        refreshButton = (Button) findViewById(R.id.refreshButton2);
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserAccount.getInstance().update(new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        refresh();
+                    }
+
+                    @Override
+                    public void onTaskFailed() {
+
+                    }
+                });
+            }
+        });
 
         rv = findViewById(R.id.recView);
         rv.setHasFixedSize(true);

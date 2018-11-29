@@ -97,6 +97,16 @@ public class Portflio {
     }
 
     @Exclude
+    public double getTotalInvested(String key){
+        if(getHolding(key) != null){
+            return getHolding(key).costBasis * getHolding(key).shares;
+        }else{
+            return 0;
+        }
+    }
+
+
+    @Exclude
     public double getTotalPercent(){
 
             double percent = 0;
