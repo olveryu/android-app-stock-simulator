@@ -110,13 +110,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.card_view);
             symbol = (TextView) itemView.findViewById(R.id.symbol_label);
-            totalPercent = (TextView) itemView.findViewById(R.id.total_percent_label);
-            totalCostBasis = (TextView) itemView.findViewById(R.id.total_cost_basis_label);
-            dayPercent = (TextView) itemView.findViewById(R.id.day_change_percent_label);
-            dayAmount = (TextView) itemView.findViewById(R.id.day_change_dollar_label);
-            shares = (TextView) itemView.findViewById(R.id.shares_label);
             livePrice = (TextView) itemView.findViewById(R.id.latestLivePrice);
-            timeUpdate = (TextView) itemView.findViewById(R.id.lastUpdate);
             graph = (GraphView) itemView.findViewById(R.id.graph);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

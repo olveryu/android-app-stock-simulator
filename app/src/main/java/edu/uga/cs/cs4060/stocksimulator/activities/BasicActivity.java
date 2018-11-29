@@ -1,8 +1,13 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.health.SystemHealthManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,8 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutionException;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
@@ -29,12 +36,37 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         if (UserAccount.userIsLogin()) {
             MenuItem login = menu.findItem(R.id.logIn);
             login.setVisible(false);
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchView searchView = (SearchView) menu.findItem(R.id.search)
+                    .getActionView();
+            if (null != searchView) {
+                searchView.setSearchableInfo(searchManager
+                        .getSearchableInfo(getComponentName()));
+                searchView.setIconifiedByDefault(true);
+            }
+
+            SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+                public boolean onQueryTextChange(String newText) {
+                    // this is your adapter that will be filtered
+                    return true;
+                }
+
+                public boolean onQueryTextSubmit(String query) {
+                    System.out.println("you submit search: " + query);
+                    Intent intent = new Intent(searchView.getContext(), StockActivity.class);
+                    intent.putExtra("symbol", query);
+                    searchView.getContext().startActivity(intent);
+                    return true;
+                }
+            };
+            searchView.setOnQueryTextListener(queryTextListener);
         }
         if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
             try {

@@ -24,7 +24,7 @@
 
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
-        android:layout_width="239dp"
+        android:layout_width="match_parent"
         android:layout_height="279dp"
         android:padding="15dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView"
@@ -49,67 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/total_percent_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Gain/Loss: %0.00"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="11dp"
-                tools:layout_editor_absoluteY="399dp" />
-
-            <TextView
-                android:id="@+id/shares_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Shares Owned: 0.00"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="10dp"
-                tools:layout_editor_absoluteY="399dp" />
-
-            <TextView
-                android:id="@+id/total_cost_basis_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Cost Basis: $0.00"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="11dp"
-                tools:layout_editor_absoluteY="399dp" />
-
-            <TextView
-                android:id="@+id/day_change_dollar_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day Change Amount: $0.00"
-                tools:layout_conversion_absoluteHeight="1dp"
-                tools:layout_conversion_absoluteWidth="1dp"
-                tools:layout_editor_absoluteX="11dp"
-                tools:layout_editor_absoluteY="399dp" />
-
-            <TextView
-                android:id="@+id/day_change_percent_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day Change Percent: %0.00"
-                tools:layout_conversion_absoluteHeight="19dp"
-                tools:layout_conversion_absoluteWidth="170dp"
-                tools:layout_editor_absoluteX="2dp"
-                tools:layout_editor_absoluteY="424dp" />
-
-            <TextView
-                android:id="@+id/lastUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Updated: 12:00a,"
-                android:textSize="10sp"
-                tools:layout_conversion_absoluteHeight="13dp"
-                tools:layout_conversion_absoluteWidth="172dp"
-                tools:layout_editor_absoluteX="11dp"
-                tools:layout_editor_absoluteY="389dp" />
 
         </LinearLayout>
     </ScrollView>

@@ -26,12 +26,6 @@ import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class StockActivity extends BasicActivity {
     private TextView symbol;
-    private TextView totalPercent;
-    private TextView totalCostBasis;
-    private TextView dayPercent;
-    private TextView dayAmount;
-    private TextView shares;
-    private TextView timeUpdate;
     private GraphView graph;
     private Stock stock;
     @Override
@@ -39,12 +33,6 @@ public class StockActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock);
         symbol = (TextView)findViewById(R.id.symbol_label);
-        totalPercent = (TextView)findViewById(R.id.total_percent_label);
-        totalCostBasis = (TextView)findViewById(R.id.total_cost_basis_label);
-        dayPercent = (TextView)findViewById(R.id.day_change_percent_label);
-        dayAmount = (TextView)findViewById(R.id.day_change_dollar_label);
-        shares = (TextView)findViewById(R.id.shares_label);
-        timeUpdate = (TextView)findViewById(R.id.lastUpdate);
         graph = (GraphView)findViewById(R.id.graph);
 
         // get message from previous activity
@@ -55,43 +43,34 @@ public class StockActivity extends BasicActivity {
 
             @Override
             public void onTaskCompleted() {
-                System.out.println("get stock + " + symbolString);
+                stock = UserAccount.latestStockLoaded;
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                DecimalFormat df = new DecimalFormat("%.###");
+                symbol.setText(symbolString);
+                //change color based on red or green now
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+                int x = 0;
+                for(Minute m : stock.minutes){
+                    x++;
+                    if(m.getAverage() > 0){
+                        // add new data point
+                        DataPoint point = new DataPoint(x, m.getAverage());
+                        series.appendData(point, false, 2147000000, false);
+                    }
+                }
+
+                // also change color based on red or green for the graph
+                graph.addSeries(series);
+                //graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
+                //graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+                //graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+                //graph.getGridLabelRenderer().draw(new Canvas() );
             }
 
             @Override
             public void onTaskFailed() {
-
+                System.out.println("fail to load the stock");
             }
         });
-        stock = UserAccount.latestStockLoaded;
-        System.out.println("wow" + stock);
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        DecimalFormat df = new DecimalFormat("%.###");
-        symbol.setText(symbolString);
-        //stockViewHolder.totalPercent.setText("Gain/Loss: " + df.format(stocks.get(i).percentChange));
-        //stockViewHolder.totalCostBasis.setText("Cost Basis: " + formatter.format(stocks.get(i).costBasis));
-        //stockViewHolder.dayPercent.setText("Day Change: " + df.format(stocks.get(i).dayPercentChange));
-        //stockViewHolder.dayAmount.setText("Day Change: " + formatter.format(stocks.get(i).dayAmountChange));
-        //stockViewHolder.shares.setText("Shares Owned: " + (stocks.get(i).shares));
-        //stockViewHolder.timeUpdate.setText("Last updated: " + stocks.get(i).timeUpdate);
-        //change color based on red or green now
-
-//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-//        int x = 0;
-//        for(Minute m : stock.minutes){
-//            x++;
-//            if(m.getAverage() > 0){
-//                // add new data point
-//                DataPoint point = new DataPoint(x, m.getAverage());
-//                series.appendData(point, false, 2147000000, false);
-//            }
-//        }
-//
-//        // also change color based on red or green for the graph
-//        graph.addSeries(series);
-//        graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
-//        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-//        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-//        graph.getGridLabelRenderer().draw(new Canvas() );
     }
 }
