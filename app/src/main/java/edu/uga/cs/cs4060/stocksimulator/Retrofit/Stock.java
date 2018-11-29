@@ -16,7 +16,7 @@ public class Stock {
     @Expose
     public Quote quote;
 
-    @SerializedName("chartOneDay")
+    @SerializedName("chart")
     @Expose
     public List<OneDayChart> oneDayCharts;
 
