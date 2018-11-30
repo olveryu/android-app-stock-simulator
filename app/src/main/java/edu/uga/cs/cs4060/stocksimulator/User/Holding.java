@@ -22,6 +22,8 @@ public class Holding {
     public Double dayPercentChange;
     public Double dayAmountChange;
     public String timeUpdate;
+
+    @Exclude
     public List<OneDayChart> oneDayCharts;
 
     public Holding(){}

@@ -112,8 +112,12 @@ public class Portflio {
             double start = getCostBasisDouble();
             double current = getValue();
 
-             double totalChange = (current  / start);
+             double totalChange = (current  / start) - 1;
              System.out.println("Start value: " + start);
+
+             if(start == 0 && current == 0){
+                 return 0;
+             }
 
 
             System.out.println("Current value: " + current);

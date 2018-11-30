@@ -123,12 +123,14 @@ public class TradeActivity extends BasicActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Buying now");
+                System.out.println(stockNumber + "attempign to buy x shares");
+                double tempStockNum = stockNumber;
 
                 UserAccount.getInstance().buyStock(symbolString, stockNumber, new OnTaskCompleted() {
                     @Override
                     public void onTaskCompleted() {
                         System.out.println("UPDATEEEDDDDD NOOOOW");
-                        Toast.makeText(getApplicationContext(), "Bought " + symbolString + ": " + stockNumber + " shares", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Bought " + symbolString + ": " + tempStockNum + " shares", Toast.LENGTH_SHORT).show();
                         UIupdate();
                     }
 

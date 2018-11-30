@@ -139,7 +139,9 @@ public class UserAccount {
                     double cost = sharePrice * shares; // Cost of transaction
 
                     //if we don't have cash, cancel
-                    if(portflio.cashToTrade < (shares * cost)){
+                    //8000 < 3000
+                    if(portflio.cashToTrade < (cost)){
+                        System.out.println("CASH CHECK IF");
                         listener.onTaskFailed(); //Update UI the trasnaction failed
                         return;
                     }
@@ -256,6 +258,7 @@ public class UserAccount {
                         portflio.holdings.get(symbol).shares -= sharesSold;
                         portflio.holdings.get(symbol).value = portflio.getHolding(symbol).shares * q.getLatestPrice();
                         portflio.holdings.get(symbol).dayPercentChange = q.getChangePercent();
+                        portflio.cashToTrade += salePrice;
 
 
                         //Calculate percent up/down
@@ -329,7 +332,8 @@ public class UserAccount {
 
                             portflio.updateStock(key, map.get(key)); //updates the prices and percetange
                         }
-                        updateDatabase(); //Now update the firebase database to store the data
+                        listener.onTaskCompleted();
+                    //    updateDatabase(); //Now update the firebase database to store the data
                     }
                 } // End of onResponse
 
@@ -530,7 +534,8 @@ public class UserAccount {
     //Updates the entire portflio by loading live API prices and updating database.
     public void update(OnTaskCompleted listener){
         this.listener = listener;
-        loadPortfolio();
+      //  loadPortfolio();
+        retriveLivePrices();
         System.out.println("In update useraccount");
     }
 }

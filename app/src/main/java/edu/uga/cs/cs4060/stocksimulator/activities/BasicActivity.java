@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
@@ -50,6 +52,9 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
     }
 
 
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -64,11 +69,15 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
 
             //set up search functions
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
             searchView = (SearchView) menu.findItem(R.id.search).getActionView();
             searchView.setQueryHint("Search for stock");
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             searchView.setIconifiedByDefault(true);
+
+
             // set on query text listener
+
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
 
                 public boolean onQueryTextChange(String newText) {

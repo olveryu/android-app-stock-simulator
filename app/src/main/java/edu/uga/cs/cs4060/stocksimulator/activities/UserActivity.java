@@ -1,7 +1,9 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +15,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.UIFunctions.RVAdapter;
@@ -44,26 +48,31 @@ public class UserActivity extends BasicActivity {
 
 
         //refresh every 1 minute second
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(60000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                refresh();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-        thread.start();
+      update(2);
     }
 
+
+    public void update(int seconds){
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                           refresh();
+                        } catch (Exception e) {
+                            // error, do something
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(task, 0, seconds*1000);  // interval of one minute
+
+    }
     //LOADED MUST BE TRUE
     public void initUI() {
         System.out.println("INIT UI");
@@ -78,6 +87,9 @@ public class UserActivity extends BasicActivity {
     }
 
     public void refresh() {
+        UserAccount.getInstance().load(new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
                 if (UserAccount.portflio.getDayAmountChange() < 0.00) {
                     daySummary.setTextColor(Color.RED);
                 } else {
@@ -88,13 +100,24 @@ public class UserActivity extends BasicActivity {
                 totalGainLost.setText("Total Return: " + df.format(UserAccount.portflio.getTotalPercent()) + "%");
                 totalCostBasisView.setText("Total Invested: " + UserAccount.portflio.getCostBasis());
 
-        stocks = UserAccount.portflio.getArrayListHolding();
-        adapter = new RVAdapter(UserAccount.portflio, stocks);
-        rv.setAdapter(adapter);
+                stocks = UserAccount.portflio.getArrayListHolding();
+                adapter = new RVAdapter(UserAccount.portflio, stocks);
+                rv.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onTaskFailed() {
+                Toast.makeText(getApplicationContext(), "Failed to refresh...", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 
 
     }
+
+
 
 }
 
