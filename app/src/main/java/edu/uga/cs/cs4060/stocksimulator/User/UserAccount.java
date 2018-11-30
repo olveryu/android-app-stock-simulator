@@ -16,7 +16,9 @@ import java.util.List;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.ApiUtils;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Service;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,8 +32,7 @@ public class UserAccount {
     public static FirebaseUser user;
     public static UserAccount account;
     public static Stock latestStockLoaded;
-    public static List<OneMonthChart> lastestOneMonthLoaded;
-
+    public static List<symbol> symbols;
     public static String range;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
@@ -56,6 +57,31 @@ public class UserAccount {
 
     public static boolean userIsLogin(){
         return user != null;
+    }
+
+
+    // fucntion to load csv
+    public void loadCSV(OnTaskCompleted listener) {
+        this.listener = listener;
+        Service service = ApiUtils.getService();
+        service.getSymbols().enqueue(new Callback<List<symbol>>() {
+            @Override
+            public void onResponse(Call<List<symbol>> call, Response<List<symbol>> response) {
+                System.out.println("API CALL FOR symbol: " + response.raw());
+                if(response.isSuccessful()){ // If API Call is success
+                    System.out.println("csv load sucessful");
+                    symbols =  response.body(); // Load data into a Stock Quote
+                    listener.onTaskCompleted();
+                }else{
+                    listener.onTaskFailed(); // Alert UI of failure
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<symbol>> call, Throwable t) {
+                listener.onTaskFailed(); // Alert UI of failure
+            }
+        });
     }
 
     //Loads the user account and updates live prices
@@ -125,7 +151,7 @@ public class UserAccount {
                     //If the symbol isnt in the holdings, add a new holding
                      if(portflio.holdings.get(symbol) == null){
                          System.out.println("DOSENT HOLD SYM, adding to port");
-                         Holding holding = new Holding(symbol, shares, sharePrice, stock.oneDayCharts, stock.oneMonthCharts);
+                         Holding holding = new Holding(symbol, shares, sharePrice, stock.oneDayCharts);
                          addStockToDatabase(holding);  //Adds to firebase
                         }else{ //Otherwise, we own shares already
                             //Number of previous shares
@@ -322,17 +348,18 @@ public class UserAccount {
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
     public void getMonthData(String symbol, OnTaskCompleted listener){
+        this.listener = listener;
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
         //Call to get a single stock quote
         service.getMonth(symbol).enqueue(new Callback<List<OneMonthChart>>() {
             @Override
             public void onResponse(Call<List<OneMonthChart>> call, Response<List<OneMonthChart>> response) {
-                System.out.println("API CALL FOR MONTH: " + response.raw());
+                System.out.println("API CALL FOR : " + response.raw());
                 if(response.isSuccessful()){ // If API Call is success
-                    List<OneMonthChart> month =  response.body(); // Load data into a Stock Quote
-                    latestStockLoaded.oneMonthCharts = month;
-                    if(month.size() == 0){
+                    List<OneMonthChart> data =  response.body(); // Load data into a Stock Quote
+                    latestStockLoaded.oneMonthCharts = data;
+                    if(data.size() == 0){
                         listener.onTaskFailed();
                     }else{
                         System.out.println("WE HAVE DATA");
@@ -346,13 +373,77 @@ public class UserAccount {
             @Override
             public void onFailure(Call<List<OneMonthChart>> call, Throwable t) {
                 listener.onTaskFailed();
-                t.printStackTrace();
+                System.out.println(t.getMessage());
                 return;
             }
         });
     }
 
+    //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
+    public void getYearData(String symbol, OnTaskCompleted listener){
+        this.listener = listener;
+        Service service = ApiUtils.getService(); //Retrofit2 reference
 
+        //Call to get a single stock quote
+        service.getYear(symbol).enqueue(new Callback<List<OneYearChart>>() {
+            @Override
+            public void onResponse(Call<List<OneYearChart>> call, Response<List<OneYearChart>> response) {
+                System.out.println("API CALL FOR : " + response.raw());
+                if(response.isSuccessful()){ // If API Call is success
+                    List<OneYearChart> data =  response.body(); // Load data into a Stock Quote
+                    latestStockLoaded.oneYearCharts = data;
+                    if(data.size() == 0){
+                        listener.onTaskFailed();
+                    }else{
+                        System.out.println("WE HAVE DATA");
+                        listener.onTaskCompleted(); // Alert UI of success
+                    }
+                }else{
+                    listener.onTaskFailed(); // Alert UI of failure
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<OneYearChart>> call, Throwable t) {
+                listener.onTaskFailed();
+                System.out.println(t.getMessage());
+                return;
+            }
+        });
+    }
+
+    //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
+    public void getFiveYearData(String symbol, OnTaskCompleted listener){
+        this.listener = listener;
+        Service service = ApiUtils.getService(); //Retrofit2 reference
+
+        //Call to get a single stock quote
+        service.getFiveYear(symbol).enqueue(new Callback<List<FiveYearChart>>() {
+            @Override
+            public void onResponse(Call<List<FiveYearChart>> call, Response<List<FiveYearChart>> response) {
+                System.out.println("API CALL FOR : " + response.raw());
+                if(response.isSuccessful()){ // If API Call is success
+                    List<FiveYearChart> data =  response.body(); // Load data into a Stock Quote
+                    latestStockLoaded.fiveYearCharts = data;
+                    if(data.size() == 0){
+                        listener.onTaskFailed();
+                    }else{
+                        System.out.println("WE HAVE DATA");
+                        listener.onTaskCompleted(); // Alert UI of success
+                    }
+                }else{
+                    listener.onTaskFailed(); // Alert UI of failure
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<FiveYearChart>> call, Throwable t) {
+                listener.onTaskFailed();
+                System.out.println(t.getMessage());
+                return;
+            }
+        });
+    }
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
     public void getSingleStock(String symbol, OnTaskCompleted listener){

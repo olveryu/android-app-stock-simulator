@@ -25,29 +25,17 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/buyButton"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:text="Buy"
+            android:id="@+id/tradeButton"
+            android:layout_width="93dp"
+            android:layout_height="95dp"
+            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:text="Trade"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.182"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/sellButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Sell"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/buyButton"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+            app:layout_constraintHorizontal_bias="0.945"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.961" />
 
         <TextView
             android:id="@+id/symbol_label"
@@ -61,7 +49,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/graph"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.307"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.6"
@@ -72,12 +60,12 @@
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
             android:layout_width="357dp"
-            android:layout_height="219dp"
+            android:layout_height="282dp"
             android:layout_marginBottom="30dp"
             android:padding="20dp"
             app:layout_constraintBottom_toTopOf="@+id/scrollView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.037"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/symbol_label"
             tools:layout_conversion_absoluteHeight="75dp"
@@ -87,7 +75,8 @@
             android:id="@+id/scrollView"
             android:layout_width="383dp"
             android:layout_height="127dp"
-            app:layout_constraintBottom_toTopOf="@+id/buyButton"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -150,7 +139,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.615" />
+            app:layout_constraintVertical_bias="0.719" />
 
         <Button
             android:id="@+id/oneMonth"
@@ -163,7 +152,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneDay"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.615" />
+            app:layout_constraintVertical_bias="0.719" />
 
         <Button
             android:id="@+id/oneYear"
@@ -176,7 +165,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneMonth"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.615" />
+            app:layout_constraintVertical_bias="0.719" />
 
         <Button
             android:id="@+id/fiveYear"
@@ -189,7 +178,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneYear"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.615" />
+            app:layout_constraintVertical_bias="0.719" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v4.widget.DrawerLayout>

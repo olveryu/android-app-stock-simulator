@@ -1,17 +1,26 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
+import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.content.Intent;
 
-import java.io.File;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Random;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.ApiUtils;
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.Service;
 import edu.uga.cs.cs4060.stocksimulator.UIFunctions.Backgoundvideo;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
+import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
+import edu.uga.cs.cs4060.stocksimulator.User.symbol;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SplashActivity extends BasicActivity {
@@ -49,6 +58,7 @@ public class SplashActivity extends BasicActivity {
             e.printStackTrace();
         }
         video.playBackGroundVideo(this,R.id.videoView, resourceID);
+
     }
 
 

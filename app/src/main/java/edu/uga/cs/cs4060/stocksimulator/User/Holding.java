@@ -23,11 +23,10 @@ public class Holding {
     public Double dayAmountChange;
     public String timeUpdate;
     public List<OneDayChart> oneDayCharts;
-    public List<OneMonthChart> oneMonthCharts;
 
     public Holding(){}
 
-    public Holding(String symbol, double shares, double buyPrice, List<OneDayChart> oneDayCharts,List<OneMonthChart> oneMonthCharts){
+    public Holding(String symbol, double shares, double buyPrice, List<OneDayChart> oneDayCharts){
         this.latestLivePrice = buyPrice;
         this.symbol = symbol;
         this.costBasis = buyPrice;
@@ -39,7 +38,6 @@ public class Holding {
         this.dayAmountChange = 0.0;
         this.timeUpdate = "0";
         this.oneDayCharts = oneDayCharts;
-        this.oneMonthCharts = oneMonthCharts;
     }
 
     @Exclude
@@ -55,9 +53,6 @@ public class Holding {
         result.put("dayAmountChange", dayAmountChange);
         result.put("timeUpdate", timeUpdate);
         result.put("chartDataOneDay", oneDayCharts);
-        result.put("chartDataOneMonth", oneMonthCharts);
-
-
         return result;
     }
 }

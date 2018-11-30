@@ -22,10 +22,10 @@ public class OneMonthChart {
     private Double close;
     @SerializedName("volume")
     @Expose
-    private Integer volume;
+    private double volume;
     @SerializedName("unadjustedVolume")
     @Expose
-    private Integer unadjustedVolume;
+    private double unadjustedVolume;
     @SerializedName("change")
     @Expose
     private Double change;
@@ -82,7 +82,7 @@ public class OneMonthChart {
         this.close = close;
     }
 
-    public Integer getVolume() {
+    public double getVolume() {
         return volume;
     }
 
@@ -90,7 +90,7 @@ public class OneMonthChart {
         this.volume = volume;
     }
 
-    public Integer getUnadjustedVolume() {
+    public double getUnadjustedVolume() {
         return unadjustedVolume;
     }
 

@@ -18,11 +18,13 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <activity
             android:name=".activities.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,14 +37,13 @@
             android:parentActivityName=".activities.SplashActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.HomePageActivity"
-            android:label="@string/title_activity_home_page"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".activities.UserActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.StockActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.TradeActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
 

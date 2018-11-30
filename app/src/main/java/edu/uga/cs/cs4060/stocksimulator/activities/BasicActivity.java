@@ -3,6 +3,8 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.health.SystemHealthManager;
@@ -16,7 +18,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.CursorAdapter;
 import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.lang.reflect.Method;
@@ -33,10 +39,9 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
     private NavigationView mNavigationView;
     private TextView navUsername;
     private View headerView;
+    private SearchView searchView;
     public TextView fundsLabel;
     public NumberFormat formatter = NumberFormat.getCurrencyInstance();
-    private SearchView searchView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,33 +49,30 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         // hide search button before login
         MenuItem search = menu.findItem(R.id.search);
+        MenuItem login = menu.findItem(R.id.logIn);
         search.setVisible(false);
         if (UserAccount.userIsLogin()) {
             // show search button and hide login button
-            MenuItem login = menu.findItem(R.id.logIn);
             login.setVisible(false);
-            // set up search functions
-            search = menu.findItem(R.id.search);
             search.setVisible(true);
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            searchView = (SearchView) menu.findItem(R.id.search)
-                    .getActionView();
-            if (null != searchView) {
-                searchView.setSearchableInfo(searchManager
-                        .getSearchableInfo(getComponentName()));
-                searchView.setIconifiedByDefault(true);
-            }
 
+            //set up search functions
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+            searchView.setQueryHint("Search for stock");
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setIconifiedByDefault(true);
+            // set on query text listener
             SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+
                 public boolean onQueryTextChange(String newText) {
-                    // this is your adapter that will be filtered
-                    return true;
+                    return false;
                 }
 
                 public boolean onQueryTextSubmit(String query) {
@@ -97,6 +99,10 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
             }
         }
         return true;
+    }
+
+    public void setupSearch(){
+
     }
 
     @Override

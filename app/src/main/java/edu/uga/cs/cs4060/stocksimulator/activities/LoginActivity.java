@@ -194,9 +194,20 @@ public class LoginActivity extends BasicActivity {
                     account.load(new OnTaskCompleted() {
                         @Override
                         public void onTaskCompleted() {
-                                Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
-                                home = new Intent(getApplicationContext(), UserActivity.class);
-                                startActivity(home);
+                            UserAccount.getInstance().loadCSV(new OnTaskCompleted() {
+                                @Override
+                                public void onTaskCompleted() {
+
+                                }
+
+                                @Override
+                                public void onTaskFailed() {
+
+                                }
+                            });
+                            Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
+                            home = new Intent(getApplicationContext(), UserActivity.class);
+                            startActivity(home);
 
                         }
 

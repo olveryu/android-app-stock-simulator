@@ -66,7 +66,6 @@ public class Portflio {
         holdings.get(symbol).dayAmountChange = stock.quote.getChange();
         holdings.get(symbol).timeUpdate = stock.quote.getLatestTime();
         holdings.get(symbol).oneDayCharts = stock.oneDayCharts;
-        holdings.get(symbol).oneMonthCharts = stock.oneMonthCharts;
 
         System.out.println( "TIMEEEE: " + stock.quote.getLatestTime());
 

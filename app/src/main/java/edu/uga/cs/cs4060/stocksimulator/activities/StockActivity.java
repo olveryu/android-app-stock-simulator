@@ -18,8 +18,10 @@ import java.text.NumberFormat;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
@@ -34,13 +36,13 @@ public class StockActivity extends BasicActivity {
     private TextView returnText;
     private GraphView graph;
     private Stock stock;
-    private Button buyStock;
-    private Button sellStock;
+    private Button trade;
     private Button oneDay;
     private Button oneMonth;
     private Button oneYear;
     private Button fiveYear;
     private String symbolString;
+    private Intent intent;
 
     public StockActivity() {
     }
@@ -55,8 +57,6 @@ public class StockActivity extends BasicActivity {
         // reference element
         symbol = (TextView) findViewById(R.id.symbol_label);
         graph = (GraphView) findViewById(R.id.graph);
-        buyStock = findViewById(R.id.buyButton);
-        sellStock = findViewById(R.id.sellButton);
         percentToday = findViewById(R.id.percentToday);
         livePrice = findViewById(R.id.livePrice);
         highLow = findViewById(R.id.highlow);
@@ -67,54 +67,13 @@ public class StockActivity extends BasicActivity {
         oneMonth = findViewById(R.id.oneMonth);
         oneYear = findViewById(R.id.oneYear);
         fiveYear = findViewById(R.id.fiveYear);
+        trade = findViewById(R.id.tradeButton);
 
         oneDay.setOnClickListener(new ButtonClickListener());
         oneMonth.setOnClickListener(new ButtonClickListener());
         oneYear.setOnClickListener(new ButtonClickListener());
         fiveYear.setOnClickListener(new ButtonClickListener());
-
-        // sell stock button
-        sellStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserAccount.getInstance().sellStock(symbolString, 1, new OnTaskCompleted() {
-                    @Override
-                    public void onTaskCompleted() {
-                        System.out.println("FINISHED SELLING!");
-                        Toast.makeText(getApplicationContext(), "Sold: 1 share" + symbolString + ". add data", Toast.LENGTH_SHORT).show();
-                        refresh();
-                    }
-
-                    @Override
-                    public void onTaskFailed() {
-                        System.out.println("FAiled to sell");
-                    }
-                });
-            }
-        });
-
-        // buy stock button
-        buyStock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Buying now");
-
-                UserAccount.getInstance().buyStock(symbolString, 1, new OnTaskCompleted() {
-                    @Override
-                    public void onTaskCompleted() {
-                        System.out.println("UPDATEEEDDDDD NOOOOW");
-                        Toast.makeText(getApplicationContext(), "Bought " + symbolString + " 1 shares", Toast.LENGTH_SHORT).show();
-                        refresh();
-                    }
-
-                    @Override
-                    public void onTaskFailed() {
-                        System.out.println("Failed to purcahse: Not enough funds " + symbolString);
-                    }
-                });
-
-            }
-        });
+        trade.setOnClickListener(new ButtonClickListener());
 
         // set graph attribute
         graph.getViewport().setMaxX(400);
@@ -140,15 +99,14 @@ public class StockActivity extends BasicActivity {
             }
         });
 
-        // refresh stock
-        Intent intent = getIntent();
+        // get intent from previous activity
+        intent = getIntent();
         symbolString = intent.getExtras().getString("symbol");
         refresh();
     }
 
     public void refresh() {
         graph.removeAllSeries();
-        fundsLabel.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
         //retrieval information of the stock
         switch (UserAccount.range){
             case "1d":
@@ -158,8 +116,10 @@ public class StockActivity extends BasicActivity {
                 oneMonth();
                 break;
             case "1y":
+                oneYear();
                 break;
             case "5y":
+                fiveYear();
                 break;
         }
     }
@@ -198,11 +158,47 @@ public class StockActivity extends BasicActivity {
                 symbol.setText("Failed to load stock: " + symbolString);
             }
         });
+    }
 
+    public void oneYear(){
+        UserAccount.getInstance().getYearData(symbolString, new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                stock = UserAccount.latestStockLoaded;
+                symbol.setText(stock.quote.getCompanyName());
+                //change color based on red or green now
+                graph();
+                Information();
+            }
+            @Override
+            public void onTaskFailed() {
+                System.out.println("fail to load the stock");
+                symbol.setText("Failed to load stock: " + symbolString);
+            }
+        });
+    }
+
+    public void fiveYear(){
+        UserAccount.getInstance().getFiveYearData(symbolString, new OnTaskCompleted() {
+            @Override
+            public void onTaskCompleted() {
+                stock = UserAccount.latestStockLoaded;
+                symbol.setText(stock.quote.getCompanyName());
+                //change color based on red or green now
+                graph();
+                Information();
+            }
+            @Override
+            public void onTaskFailed() {
+                System.out.println("fail to load the stock");
+                symbol.setText("Failed to load stock: " + symbolString);
+            }
+        });
     }
 
     public void graph(){
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+        series.setAnimated(true);
         int x = 0;
         switch (UserAccount.range){
             case "1d":
@@ -217,6 +213,26 @@ public class StockActivity extends BasicActivity {
                 break;
             case "1m":
                 for (OneMonthChart m : stock.oneMonthCharts) {
+                    x++;
+                    if (m.getClose() > 0) {
+                        // add new data point
+                        DataPoint point = new DataPoint(x, m.getClose());
+                        series.appendData(point, false, Integer.MAX_VALUE, false);
+                    }
+                }
+                break;
+            case "1y":
+                for (OneYearChart m : stock.oneYearCharts) {
+                    x++;
+                    if (m.getClose() > 0) {
+                        // add new data point
+                        DataPoint point = new DataPoint(x, m.getClose());
+                        series.appendData(point, false, Integer.MAX_VALUE, false);
+                    }
+                }
+                break;
+            case "5y":
+                for (FiveYearChart m : stock.fiveYearCharts) {
                     x++;
                     if (m.getClose() > 0) {
                         // add new data point
@@ -263,6 +279,11 @@ public class StockActivity extends BasicActivity {
                     break;
                 case R.id.fiveYear:
                     UserAccount.range = "5y";
+                    break;
+                case R.id.tradeButton:
+                    Intent intent = new Intent(view.getContext(), TradeActivity.class);
+                    intent.putExtra("symbol", symbolString);
+                    view.getContext().startActivity(intent);
                     break;
             }
             refresh();

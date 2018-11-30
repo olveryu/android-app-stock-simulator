@@ -41,13 +41,15 @@ public class UserActivity extends BasicActivity {
         initUI();
         UserAccount.range = "1d";
         refresh();
-        // refresh every 5 second
+
+
+        //refresh every 1 minute second
         Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(5000);
+                        Thread.sleep(60000);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -83,7 +85,6 @@ public class UserActivity extends BasicActivity {
                 }
                 totalValue.setText(formatter.format(UserAccount.portflio.getValue()));
                 daySummary.setText(UserAccount.portflio.getDaySummary());
-                fundsLabel.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
                 totalGainLost.setText("Total Return: " + df.format(UserAccount.portflio.getTotalPercent()) + "%");
                 totalCostBasisView.setText("Total Invested: " + UserAccount.portflio.getCostBasis());
 

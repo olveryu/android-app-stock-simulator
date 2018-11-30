@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 
 
@@ -20,6 +22,8 @@ public class Stock {
     @Expose
     public List<OneDayChart> oneDayCharts;
     public List<OneMonthChart> oneMonthCharts;
+    public List<OneYearChart> oneYearCharts;
+    public List<FiveYearChart> fiveYearCharts;
 
 }
 
