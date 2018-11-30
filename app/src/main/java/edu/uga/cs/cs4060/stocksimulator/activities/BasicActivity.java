@@ -15,9 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.lang.reflect.Method;
+import java.text.NumberFormat;
 import java.util.concurrent.ExecutionException;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
@@ -28,6 +31,11 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private NavigationView mNavigationView;
+    private TextView navUsername;
+    private View headerView;
+    public TextView fundsLabel;
+    public NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    private SearchView searchView;
 
 
     @Override
@@ -40,11 +48,18 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        // hide search button before login
+        MenuItem search = menu.findItem(R.id.search);
+        search.setVisible(false);
         if (UserAccount.userIsLogin()) {
+            // show search button and hide login button
             MenuItem login = menu.findItem(R.id.logIn);
             login.setVisible(false);
+            // set up search functions
+            search = menu.findItem(R.id.search);
+            search.setVisible(true);
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            SearchView searchView = (SearchView) menu.findItem(R.id.search)
+            searchView = (SearchView) menu.findItem(R.id.search)
                     .getActionView();
             if (null != searchView) {
                 searchView.setSearchableInfo(searchManager
@@ -61,6 +76,7 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
                 public boolean onQueryTextSubmit(String query) {
                     System.out.println("you submit search: " + query);
                     Intent intent = new Intent(searchView.getContext(), StockActivity.class);
+                    query = query.toUpperCase();
                     intent.putExtra("symbol", query);
                     searchView.getContext().startActivity(intent);
                     return true;
@@ -89,6 +105,10 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         switch (id) {
             case R.id.SignOutToo:
                 signOut();
+                startActivity(intent);
+                break;
+            case R.id.homeToo:
+                home();
                 startActivity(intent);
                 break;
             default:
@@ -151,6 +171,12 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
             // this line spend me 2 hours!!! OMG
             mNavigationView.bringToFront();
             mNavigationView.setNavigationItemSelectedListener(this);
+            headerView = mNavigationView.getHeaderView(0);
+            navUsername = (TextView) headerView.findViewById(R.id.user);
+            navUsername.setText(UserAccount.user.getEmail());
+            fundsLabel = (TextView) headerView.findViewById(R.id.fundsLabel);
+            fundsLabel.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
+            mNavigationView.setItemIconTintList(null);
         }
     }
 }

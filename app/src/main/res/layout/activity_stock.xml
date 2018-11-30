@@ -12,7 +12,7 @@
         android:layout_width="203dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/grey"
+        android:background="@color/lightGray"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:itemTextColor="@color/common_google_signin_btn_text_dark_default"
@@ -51,8 +51,8 @@
 
         <TextView
             android:id="@+id/symbol_label"
-            android:layout_width="63dp"
-            android:layout_height="wrap_content"
+            android:layout_width="332dp"
+            android:layout_height="33dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical|center"
             android:text="AAPL"
@@ -71,8 +71,8 @@
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/graph"
-            android:layout_width="match_parent"
-            android:layout_height="249dp"
+            android:layout_width="357dp"
+            android:layout_height="219dp"
             android:layout_marginBottom="30dp"
             android:padding="20dp"
             app:layout_constraintBottom_toTopOf="@+id/scrollView"
@@ -139,71 +139,57 @@
             </LinearLayout>
         </ScrollView>
 
-        <TextView
-            android:id="@+id/fundsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Funds: 3,400"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
         <Button
             android:id="@+id/oneDay"
-            android:layout_width="80dp"
-            android:layout_height="34dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
             android:text="1d"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/oneMonth"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.605" />
+            app:layout_constraintVertical_bias="0.615" />
 
         <Button
             android:id="@+id/oneMonth"
-            android:layout_width="80dp"
-            android:layout_height="34dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
             android:text="1m"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/oneYear"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneDay"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.605" />
+            app:layout_constraintVertical_bias="0.615" />
 
         <Button
             android:id="@+id/oneYear"
-            android:layout_width="80dp"
-            android:layout_height="34dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
             android:text="1y"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/fiveYear"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneMonth"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.605" />
+            app:layout_constraintVertical_bias="0.615" />
 
         <Button
             android:id="@+id/fiveYear"
-            android:layout_width="80dp"
-            android:layout_height="34dp"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
             android:text="5y"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/oneYear"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.605" />
+            app:layout_constraintVertical_bias="0.615" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v4.widget.DrawerLayout>

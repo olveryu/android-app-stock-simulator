@@ -33,7 +33,6 @@ public class UserAccount {
     public static List<OneMonthChart> lastestOneMonthLoaded;
 
     public static String range;
-    public OnTaskCompleted tempList;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -322,7 +321,7 @@ public class UserAccount {
 
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
-    public void getMonthData(String symbol){
+    public void getMonthData(String symbol, OnTaskCompleted listener){
         Service service = ApiUtils.getService(); //Retrofit2 reference
 
         //Call to get a single stock quote
@@ -333,21 +332,14 @@ public class UserAccount {
                 if(response.isSuccessful()){ // If API Call is success
                     List<OneMonthChart> month =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded.oneMonthCharts = month;
-
                     if(month.size() == 0){
-                        tempList.onTaskFailed();
-                        tempList = null;
-
+                        listener.onTaskFailed();
                     }else{
                         System.out.println("WE HAVE DATA");
-                        tempList.onTaskCompleted(); // Alert UI of success
-                        tempList = null;
-
+                        listener.onTaskCompleted(); // Alert UI of success
                     }
                 }else{
-                    tempList.onTaskFailed(); // Alert UI of failure
-                    tempList = null;
-
+                    listener.onTaskFailed(); // Alert UI of failure
                 }
             }
 
@@ -357,9 +349,6 @@ public class UserAccount {
                 t.printStackTrace();
                 return;
             }
-
-
-
         });
     }
 
@@ -368,10 +357,9 @@ public class UserAccount {
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
     public void getSingleStock(String symbol, OnTaskCompleted listener){
         Service service = ApiUtils.getService(); //Retrofit2 reference
-
-        tempList = listener;
+        this.listener = listener;
         //Call to get a single stock quote
-        service.getStock(symbol, "quote,chart", range).enqueue(new Callback< HashMap<String, Stock>>() {
+        service.getStock(symbol, "quote,chart", "1d").enqueue(new Callback< HashMap<String, Stock>>() {
             @Override
             public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
                 System.out.println("API CALL: " + response.raw());
@@ -382,9 +370,7 @@ public class UserAccount {
                     if(stockMap.size() == 0){
                         listener.onTaskFailed();
                     }else{
-
-                        getMonthData(symbol);
-
+                        listener.onTaskCompleted();
                     }
                 }else{
                     listener.onTaskFailed(); // Alert UI of failure

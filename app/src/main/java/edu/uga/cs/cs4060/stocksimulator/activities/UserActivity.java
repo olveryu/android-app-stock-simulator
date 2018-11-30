@@ -22,9 +22,10 @@ import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class UserActivity extends BasicActivity {
 
-    private TextView totalValue, daySummary, totalGainLost, totalCostBasisView, fundsText;
-    private Button refreshButton;
-    private NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    private TextView totalValue;
+    private TextView daySummary;
+    private TextView totalGainLost;
+    private TextView totalCostBasisView;
     private DecimalFormat df = new DecimalFormat("%.##");
     private List<Holding> stocks;
     private RecyclerView rv;
@@ -38,8 +39,27 @@ public class UserActivity extends BasicActivity {
         // get drawer layout
         drawerNavigation();
         initUI();
-        refresh();
         UserAccount.range = "1d";
+        refresh();
+        // refresh every 5 second
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(5000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refresh();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+        thread.start();
     }
 
     //LOADED MUST BE TRUE
@@ -49,32 +69,10 @@ public class UserActivity extends BasicActivity {
         daySummary = (TextView) findViewById(R.id.dailyTextView);
         totalGainLost = (TextView) findViewById(R.id.totalPercentTextView);
         totalCostBasisView = (TextView) findViewById(R.id.totalCostTextView);
-        fundsText = (TextView) findViewById(R.id.fundsText);
-        refreshButton = (Button) findViewById(R.id.refreshButton2);
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserAccount.getInstance().update(new OnTaskCompleted() {
-                    @Override
-                    public void onTaskCompleted() {
-                        refresh();
-                    }
-
-                    @Override
-                    public void onTaskFailed() {
-
-                    }
-                });
-            }
-        });
-
         rv = findViewById(R.id.recView);
         rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(this.getBaseContext());
         rv.setLayoutManager(llm);
-
-
     }
 
     public void refresh() {
@@ -85,7 +83,7 @@ public class UserActivity extends BasicActivity {
                 }
                 totalValue.setText(formatter.format(UserAccount.portflio.getValue()));
                 daySummary.setText(UserAccount.portflio.getDaySummary());
-                fundsText.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
+                fundsLabel.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
                 totalGainLost.setText("Total Return: " + df.format(UserAccount.portflio.getTotalPercent()) + "%");
                 totalCostBasisView.setText("Total Invested: " + UserAccount.portflio.getCostBasis());
 
