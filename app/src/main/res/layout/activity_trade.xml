@@ -20,20 +20,20 @@
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/home_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/grey">
 
         <Button
             android:id="@+id/buyButton"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_marginBottom="140dp"
+            android:background="@color/white"
             android:text="Buy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.182"
+            app:layout_constraintHorizontal_bias="0.216"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
@@ -42,37 +42,39 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_marginBottom="140dp"
+            android:background="@color/white"
             android:text="Sell"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.536"
             app:layout_constraintStart_toEndOf="@+id/buyButton" />
 
         <TextView
             android:id="@+id/fundText"
-            android:layout_width="350dp"
-            android:layout_height="49dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/text"
             android:gravity="center"
             android:text="fundText"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/total"
+            app:layout_constraintBottom_toTopOf="@+id/currentHold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tradeSymbol" />
+            app:layout_constraintTop_toBottomOf="@+id/updateTime" />
 
         <TextView
             android:id="@+id/tradeSymbol"
-            android:layout_width="350dp"
-            android:layout_height="49dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/text"
             android:gravity="center"
             android:text="symbol"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/fundText"
+            app:layout_constraintBottom_toTopOf="@+id/currentPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,13 +82,29 @@
 
         <TextView
             android:id="@+id/total"
-            android:layout_width="350dp"
-            android:layout_height="58dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/text"
             android:gravity="center"
             android:text="totalText"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/currentPrice"
+            app:layout_constraintBottom_toTopOf="@+id/trade"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currentHold" />
+
+        <TextView
+            android:id="@+id/currentHold"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/text"
+            android:gravity="center"
+            android:text="currentHold"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/total"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -94,15 +112,14 @@
 
         <TextView
             android:id="@+id/updateTime"
-            android:layout_width="350dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/text"
             android:gravity="center"
             android:text="time"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/trade"
+            app:layout_constraintBottom_toTopOf="@+id/fundText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,50 +127,49 @@
 
         <TextView
             android:id="@+id/currentPrice"
-            android:layout_width="350dp"
-            android:layout_height="57dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/text"
             android:gravity="center"
             android:text="currentPrice"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/updateTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/total" />
+            app:layout_constraintTop_toBottomOf="@+id/tradeSymbol" />
 
         <TextView
             android:id="@+id/trade"
-            android:layout_width="155dp"
-            android:layout_height="102dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_width="175dp"
+            android:layout_height="58dp"
+            android:background="@drawable/text"
             android:gravity="center"
             android:text="trade"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/stocksToTrade"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.792" />
+            app:layout_constraintVertical_bias="0.503" />
 
         <EditText
             android:id="@+id/stocksToTrade"
             android:layout_width="175dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
+            android:layout_height="58dp"
+            android:background="@drawable/text"
             android:ems="10"
             android:inputType="numberSigned"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/trade"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.769" />
+            app:layout_constraintVertical_bias="0.503" />
 
     </android.support.constraint.ConstraintLayout>
 

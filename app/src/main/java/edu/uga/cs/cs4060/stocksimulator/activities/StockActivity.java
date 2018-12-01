@@ -1,11 +1,11 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -13,7 +13,6 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
@@ -82,10 +81,15 @@ public class StockActivity extends BasicActivity {
         nf.setMinimumFractionDigits(2);
         nf.setMinimumIntegerDigits(2);
         // label renderer
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.VERTICAL);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setTextSize(40f);
+        graph.getGridLabelRenderer().setTextSize(35f);
         graph.getGridLabelRenderer().setNumVerticalLabels(10);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(10000);
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+        graph.getGridLabelRenderer().setGridColor(Color.BLACK);
+
+        //grid label
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -196,6 +200,9 @@ public class StockActivity extends BasicActivity {
         });
     }
 
+    /**
+     * draw graph base on precent change over time
+     */
     public void graph(){
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
         series.setAnimated(true);
@@ -210,6 +217,11 @@ public class StockActivity extends BasicActivity {
                         series.appendData(point, false, Integer.MAX_VALUE, false);
                     }
                 }
+                if(stock.oneDayCharts.get(0).getClose() - stock.oneDayCharts.get(stock.oneDayCharts.size()-1).getClose() >= 0){
+                    series.setColor(Color.argb(255, 69, 244, 66  ));
+                }else{
+                    series.setColor(Color.RED);
+                }
                 break;
             case "1m":
                 for (OneMonthChart m : stock.oneMonthCharts) {
@@ -219,6 +231,11 @@ public class StockActivity extends BasicActivity {
                         DataPoint point = new DataPoint(x, m.getClose());
                         series.appendData(point, false, Integer.MAX_VALUE, false);
                     }
+                }
+                if(stock.oneMonthCharts.get(0).getClose() - stock.oneMonthCharts.get(stock.oneMonthCharts.size()-1).getClose() >= 0){
+                    series.setColor(Color.argb(255, 69, 244, 66  ));
+                }else{
+                    series.setColor(Color.RED);
                 }
                 break;
             case "1y":
@@ -230,6 +247,11 @@ public class StockActivity extends BasicActivity {
                         series.appendData(point, false, Integer.MAX_VALUE, false);
                     }
                 }
+                if(stock.oneYearCharts.get(0).getClose() - stock.oneYearCharts.get(stock.oneYearCharts.size()-1).getClose() >= 0){
+                    series.setColor(Color.argb(255, 69, 244, 66  ));
+                }else{
+                    series.setColor(Color.RED);
+                }
                 break;
             case "5y":
                 for (FiveYearChart m : stock.fiveYearCharts) {
@@ -240,8 +262,14 @@ public class StockActivity extends BasicActivity {
                         series.appendData(point, false, Integer.MAX_VALUE, false);
                     }
                 }
+                if(stock.fiveYearCharts.get(0).getClose() - stock.fiveYearCharts.get(stock.fiveYearCharts.size()-1).getClose() >=+ 0){
+                    series.setColor(Color.argb(255, 69, 244, 66  ));
+                }else{
+                    series.setColor(Color.RED);
+                }
                 break;
         }
+
         // show the graph
         graph.addSeries(series);
     }

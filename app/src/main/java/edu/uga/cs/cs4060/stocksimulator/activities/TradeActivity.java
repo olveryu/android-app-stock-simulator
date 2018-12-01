@@ -2,12 +2,10 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +21,7 @@ import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class TradeActivity extends BasicActivity {
+    public static currentPriceTask priceTask;
     private Button buyStock;
     private Button sellStock;
     private Intent intent;
@@ -33,12 +32,30 @@ public class TradeActivity extends BasicActivity {
     private TextView fund;
     private TextView currentPrice;
     private TextView updateTime;
+    private TextView currentHold;
     private EditText stockToBuy;
-    private currentPriceTask mTask;
     private Stock stock;
     private double price;
     private int stockNumber;
+    public static TimerTask priceTimerTask;
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopTradeActivityTask();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTradeActivityTask();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopTradeActivityTask();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +79,10 @@ public class TradeActivity extends BasicActivity {
         sellStock = findViewById(R.id.sellButton);
         stockToBuy = findViewById(R.id.stocksToTrade);
         updateTime = findViewById(R.id.updateTime);
+        currentHold = findViewById(R.id.currentHold);
 
         // init UI
-        symbol.setText("symbol: " + symbolString);
-        fund.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
-        trade.setText("Numbers to trade");
-        currentPrice.setText("price: loading");
-        total.setText("total use: 0.00");
-        stockToBuy.setText("0");
-        updateTime.setText("update time : loading");
+        UIupdate();
         price = 0;
         stockNumber = 0;
 
@@ -89,7 +101,7 @@ public class TradeActivity extends BasicActivity {
                     stockNumber = Integer.parseInt(stockToBuy.getText().toString());
                 }
                 double result = price * stockNumber;
-                total.setText("total use: " + result);
+                total.setText("total : " + formatter.format(result));
             }
 
             @Override
@@ -149,16 +161,16 @@ public class TradeActivity extends BasicActivity {
 
     public void update(int seconds){
         final Handler handler = new Handler();
-        Timer timer = new Timer();
+        Timer PriceTimer = new Timer();
 
-        TimerTask task = new TimerTask() {
+        priceTimerTask = new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
                         try {
-                            mTask = new currentPriceTask();
-                            mTask.execute((Void) null);
+                            priceTask = new currentPriceTask();
+                            priceTask.execute((Void) null);
                         } catch (Exception e) {
                             // error, do something
                         }
@@ -166,7 +178,7 @@ public class TradeActivity extends BasicActivity {
                 });
             }
         };
-        timer.schedule(task, 0, seconds*1000);  // interval of one minute
+        PriceTimer.schedule(priceTimerTask, 0, seconds*1000);  // interval of one minute
 
     }
 
@@ -176,9 +188,14 @@ public class TradeActivity extends BasicActivity {
         symbol.setText("symbol: " + symbolString);
         trade.setText("Numbers to trade");
         currentPrice.setText("price: loading");
-        total.setText("total use: 0.00");
+        total.setText("total : 0.00");
         stockToBuy.setText("0");
         updateTime.setText("update time : loading");
+        if(UserAccount.portflio.getHolding(symbolString) == null){
+            currentHold.setText("share: 0");
+        }else{
+            currentHold.setText("share: " + UserAccount.portflio.getHolding(symbolString).shares);
+        }
     }
 
     public class currentPriceTask extends AsyncTask<Void, Void, Void>{
@@ -188,10 +205,14 @@ public class TradeActivity extends BasicActivity {
             UserAccount.getInstance().getSingleStock(symbolString, new OnTaskCompleted() {
                 @Override
                 public void onTaskCompleted() {
-                    stock = UserAccount.latestStockLoaded;
-                    price = stock.oneDayCharts.get(stock.oneDayCharts.size()-1).getAverage();
-                    currentPrice.setText("current price: " + price);
-                    updateTime.setText("update time : " + stock.quote.getLatestTime());
+                    try {
+                        stock = UserAccount.latestStockLoaded;
+                        price = stock.oneDayCharts.get(stock.oneDayCharts.size() - 1).getAverage();
+                        currentPrice.setText("current price: " + price);
+                        updateTime.setText("update time : " + stock.quote.getLatestTime());
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                 }
                 @Override
                 public void onTaskFailed() {

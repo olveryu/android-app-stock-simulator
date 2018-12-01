@@ -1,4 +1,5 @@
 package edu.uga.cs.cs4060.stocksimulator.Retrofit;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -6,8 +7,10 @@ import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.User.symbol;
-import retrofit2.http.*;
 import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Service {
 

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 
 @IgnoreExtraProperties
 public class Holding {

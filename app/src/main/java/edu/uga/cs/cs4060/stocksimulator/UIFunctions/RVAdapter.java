@@ -51,12 +51,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
         stockViewHolder.symbol.setText((stocks.get(i).symbol));
         stockViewHolder.livePrice.setText( df.format(stocks.get(i).dayPercentChange));
         //change color based on red or green now
-        if(stocks.get(i).dayPercentChange >= 0){
-            stockViewHolder.livePrice.setBackgroundColor(Color.argb(255, 69, 244, 66  ));
-        }else{
-            stockViewHolder.livePrice.setBackgroundColor(Color.RED);
-
-        }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
         int x = 0;
@@ -67,6 +61,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
                 DataPoint point = new DataPoint(x, m.getAverage());
                 series.appendData(point, false, 2147000000, false);
             }
+        }
+
+        if(stocks.get(i).dayPercentChange <= 0){
+            stockViewHolder.livePrice.setBackgroundColor(Color.argb(255, 69, 244, 66  ));
+            series.setColor(Color.argb(255, 69, 244, 66  ));
+        }else{
+            stockViewHolder.livePrice.setBackgroundColor(Color.RED);
+            series.setColor(Color.RED);
         }
 
         // also change color based on red or green for the graph

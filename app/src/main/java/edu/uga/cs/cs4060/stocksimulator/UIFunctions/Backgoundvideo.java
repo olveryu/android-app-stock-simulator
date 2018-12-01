@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.widget.VideoView;
 
-import edu.uga.cs.cs4060.stocksimulator.R;
-
 public class Backgoundvideo {
     VideoView mVideoView;
 

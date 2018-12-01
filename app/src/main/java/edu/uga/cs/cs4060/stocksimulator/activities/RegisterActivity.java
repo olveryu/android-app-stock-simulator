@@ -3,13 +3,11 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,15 +20,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.*;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.*;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.*;
 
-import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
 import edu.uga.cs.cs4060.stocksimulator.R;
+import edu.uga.cs.cs4060.stocksimulator.User.Portflio;
 
 
 /**

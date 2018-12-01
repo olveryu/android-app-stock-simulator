@@ -3,13 +3,8 @@ package edu.uga.cs.cs4060.stocksimulator.activities;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.health.SystemHealthManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,21 +13,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.CursorAdapter;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
+
+import static edu.uga.cs.cs4060.stocksimulator.activities.TradeActivity.priceTimerTask;
+import static edu.uga.cs.cs4060.stocksimulator.activities.UserActivity.timerTask;
 
 public class BasicActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Intent intent;
@@ -50,9 +41,6 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
-
-
-
 
 
     @Override
@@ -120,15 +108,14 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         switch (id) {
             case R.id.SignOutToo:
                 signOut();
-                startActivity(intent);
                 break;
             case R.id.homeToo:
                 home();
-                startActivity(intent);
                 break;
             default:
                 return false;
         }
+        startActivity(intent);
         return true;
     }
 
@@ -193,5 +180,18 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
             fundsLabel.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
             mNavigationView.setItemIconTintList(null);
         }
+    }
+
+    public void stopUserActivityTask(){
+        if(timerTask != null){
+            timerTask.cancel();
+        }
+    }
+
+    public void stopTradeActivityTask(){
+        if(priceTimerTask != null){
+            priceTimerTask.cancel();
+        }
+
     }
 }

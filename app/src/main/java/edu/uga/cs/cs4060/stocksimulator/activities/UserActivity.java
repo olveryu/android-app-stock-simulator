@@ -1,19 +1,14 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,6 +30,7 @@ public class UserActivity extends BasicActivity {
     private RecyclerView rv;
     private LinearLayoutManager llm;
     private RVAdapter adapter;
+    public static TimerTask timerTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +40,35 @@ public class UserActivity extends BasicActivity {
         drawerNavigation();
         initUI();
         UserAccount.range = "1d";
-        refresh();
 
 
         //refresh every 1 minute second
       update(2);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopUserActivityTask();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopUserActivityTask();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopUserActivityTask();
+    }
 
     public void update(int seconds){
         final Handler handler = new Handler();
         Timer timer = new Timer();
 
-        TimerTask task = new TimerTask() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
@@ -70,7 +82,7 @@ public class UserActivity extends BasicActivity {
                 });
             }
         };
-        timer.schedule(task, 0, seconds*1000);  // interval of one minute
+        timer.schedule(timerTask, 0, seconds*1000);  // interval of one minute
 
     }
     //LOADED MUST BE TRUE

@@ -1,6 +1,5 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,16 +10,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
-import edu.uga.cs.cs4060.stocksimulator.UIFunctions.ShowPrograssingBar;
-import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
-import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
 import edu.uga.cs.cs4060.stocksimulator.R;
+import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 public class HomePageActivity extends BasicActivity {
