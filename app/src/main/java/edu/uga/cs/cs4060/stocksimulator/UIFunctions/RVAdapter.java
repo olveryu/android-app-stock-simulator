@@ -63,7 +63,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
             }
         }
 
-        if(stocks.get(i).dayPercentChange <= 0){
+        if(stocks.get(i).dayPercentChange >= 0){
             stockViewHolder.livePrice.setBackgroundColor(Color.argb(255, 69, 244, 66  ));
             series.setColor(Color.argb(255, 69, 244, 66  ));
         }else{

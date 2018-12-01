@@ -227,6 +227,10 @@ public class UserAccount {
                         listener.onTaskFailed(); //Update UI the trasnaction failed
                         System.out.println("NOT ENOUGH SHARES TO SELL");
                         return;
+                    }else if(portflio.holdings.get(symbol).shares < shares){
+                        listener.onTaskFailed(); //Update UI the trasnaction failed
+                        System.out.println("NOT ENOUGH SHARES TO SELL");
+                        return;
                     }
 
 
@@ -247,6 +251,7 @@ public class UserAccount {
                     if(portflio.holdings.get(symbol).shares == shares ){
                         //take cash, delete
                         portflio.holdings.remove(symbol);
+                        System.out.println("DELETING HOLDINGS");
 
                     }else {
 

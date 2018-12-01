@@ -99,7 +99,7 @@ public class UserActivity extends BasicActivity {
     }
 
     public void refresh() {
-        UserAccount.getInstance().load(new OnTaskCompleted() {
+        UserAccount.getInstance().update(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {
                 if (UserAccount.portflio.getDayAmountChange() < 0.00) {
