@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
-                    android:text="Percent Today: %1.02"
+                    android:text="Percent Today: %0.0"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
-                    android:text="Live Price: 23.50"
+                    android:text="Live Price: $0.00"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
-                    android:text="52-week high/low: 55, 21"
+                    android:text="52-week high/low: 0,0"
                     android:textColor="@color/white" />
 
                 <TextView
