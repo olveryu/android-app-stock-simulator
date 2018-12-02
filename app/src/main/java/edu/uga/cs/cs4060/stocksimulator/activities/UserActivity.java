@@ -96,12 +96,15 @@ public class UserActivity extends BasicActivity {
         rv.setHasFixedSize(true);
         llm = new LinearLayoutManager(this.getBaseContext());
         rv.setLayoutManager(llm);
+        refresh();
+
     }
 
     public void refresh() {
         UserAccount.getInstance().update(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {
+                System.out.println("REFRESH!");
                 if (UserAccount.portflio.getDayAmountChange() < 0.00) {
                     daySummary.setTextColor(Color.RED);
                 } else {

@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class UserAccount {
     public static Stock latestStockLoaded;
     public static List<symbol> symbols;
     public static String range;
+    public static List<Highscore> highscoresList;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -42,6 +44,7 @@ public class UserAccount {
         data = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         user =  auth.getCurrentUser();
+        highscoresList = new ArrayList<>();
         portflio = Portflio.getInstance(); //Create new portflio
         range = "1d";
     }
@@ -323,6 +326,7 @@ public class UserAccount {
             //Used in the API, example: www.api.iextrading.com/1.0/stock/batch?symbols=AAPL,VGT&types=quotes
             String tickers = getAllSymbols();
             String types = "quote,chart";
+            System.out.println("Retrving live prices");
 
             //Call to API, returns hashmap of <String, Stock>
             service.getStocks(tickers, types, range).enqueue(new Callback<HashMap<String, Stock>>() {
@@ -345,12 +349,14 @@ public class UserAccount {
                 @Override
                 public void onFailure(Call<HashMap<String, Stock>> call, Throwable t) {
                     System.out.println("FALURE!!!!");
-
+                    listener.onTaskFailed();
                     t.printStackTrace();
                     return;
                 }// End of onFailure
 
             });
+        }else{
+            listener.onTaskCompleted();
         }
     }// End of live prices retrive!
 
@@ -488,6 +494,62 @@ public class UserAccount {
     }
 
 
+
+    public void loadHighscores(OnTaskCompleted list){
+        //Get database
+        highscoresList.clear();
+        //Get location of user in database
+        data.getReference().child("/users/" ).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //Grab the portflio from database
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Portflio port = postSnapshot.getValue(Portflio.class);
+                    String email = port.name;
+                    Double value = port.cashToTrade + port.getValue();
+                    Highscore score = new Highscore(email, value);
+                    highscoresList.add(score);
+
+
+                }
+                list.onTaskCompleted();
+//                    portflio = dataSnapshot.getValue(Portflio.class);
+//                if(portflio.holdings == null || portflio.holdings.size() == 0){
+//                    portflio.hasPortfolio = false;
+//                    System.out.println("NO HOLDINGS FOUND, dont load live prices or it crashse");
+//                    portflio.holdings.clear();
+//                    listener.onTaskCompleted();
+//                }else{
+//                    portflio.hasPortfolio = true;
+//                    retriveLivePrices(); // Now update the account with live data
+//
+//                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+    } // end of loadPortfolio
 
     //Load the inital firebase portflio for stock trading
     private void loadPortfolio(){
