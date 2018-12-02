@@ -50,16 +50,12 @@ public class UserAccount {
     }
 
     public static void signOut(){
+        auth = null;
         data = null;
         user = null;
         account = null;
         latestStockLoaded = null;
         portflio = null;
-        highscoresList = null;
-        range = null;
-        symbols = null;
-        auth.signOut();
-        data = null;
     }
 
     public static boolean userIsLogin(){
