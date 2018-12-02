@@ -498,33 +498,23 @@ public class UserAccount {
     public void loadHighscores(OnTaskCompleted list){
         //Get database
         highscoresList.clear();
-        //Get location of user in database
-        data.getReference().child("/users/" ).addChildEventListener(new ChildEventListener() {
+        //Get location of user in databas
+        data.getReference().child("/users/" ).orderByChild("value").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //Grab the portflio from database
-
+                System.out.println("GETTING HI SCORES DATA");
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Portflio port = postSnapshot.getValue(Portflio.class);
                     String email = port.name;
-                    Double value = port.cashToTrade + port.getValue();
+                    Double value = port.cashToTrade ;
                     Highscore score = new Highscore(email, value);
                     highscoresList.add(score);
-
+                    System.out.println("Cash: " + score.value + " name: " + score.email);
 
                 }
                 list.onTaskCompleted();
-//                    portflio = dataSnapshot.getValue(Portflio.class);
-//                if(portflio.holdings == null || portflio.holdings.size() == 0){
-//                    portflio.hasPortfolio = false;
-//                    System.out.println("NO HOLDINGS FOUND, dont load live prices or it crashse");
-//                    portflio.holdings.clear();
-//                    listener.onTaskCompleted();
-//                }else{
-//                    portflio.hasPortfolio = true;
-//                    retriveLivePrices(); // Now update the account with live data
 //
-//                }
             }
 
             @Override
