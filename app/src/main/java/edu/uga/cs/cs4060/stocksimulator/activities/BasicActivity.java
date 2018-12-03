@@ -1,8 +1,10 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
-
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,15 +15,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
+import java.util.Arrays;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
+import static edu.uga.cs.cs4060.stocksimulator.activities.LoginActivity.adapter;
+import static edu.uga.cs.cs4060.stocksimulator.activities.LoginActivity.cursor;
 import static edu.uga.cs.cs4060.stocksimulator.activities.TradeActivity.priceTimerTask;
 import static edu.uga.cs.cs4060.stocksimulator.activities.UserActivity.timerTask;
 
@@ -33,8 +41,9 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
     private TextView navUsername;
     private View headerView;
     private SearchView searchView;
+    private AutoCompleteTextView searchAutoCompleteTextView;
     public TextView fundsLabel;
-    public NumberFormat formatter = NumberFormat.getCurrencyInstance();
+    public  NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,41 +56,14 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         // hide search button before login
-        MenuItem search = menu.findItem(R.id.search);
+        MenuItem searchMenuItem = menu.findItem(R.id.search);
         MenuItem login = menu.findItem(R.id.logIn);
-        search.setVisible(false);
+        searchMenuItem.setVisible(false);
         if (UserAccount.userIsLogin()) {
             // show search button and hide login button
             login.setVisible(false);
-            search.setVisible(true);
-
-            //set up search functions
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
-            searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-            searchView.setQueryHint("Search for stock");
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setIconifiedByDefault(true);
-
-
-            // set on query text listener
-
-            SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-
-                public boolean onQueryTextChange(String newText) {
-                    return false;
-                }
-
-                public boolean onQueryTextSubmit(String query) {
-                    System.out.println("you submit search: " + query);
-                    Intent intent = new Intent(searchView.getContext(), StockActivity.class);
-                    query = query.toUpperCase();
-                    intent.putExtra("symbol", query);
-                    searchView.getContext().startActivity(intent);
-                    return true;
-                }
-            };
-            searchView.setOnQueryTextListener(queryTextListener);
+            searchMenuItem.setVisible(true);
+            setUpSearchView(menu,searchMenuItem);
         }
         if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
             try {
@@ -98,8 +80,54 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
-    public void setupSearch(){
+    /**
+     * set up search view
+     * @param menu
+     */
+    private void setUpSearchView(Menu menu, MenuItem searchMenuItem) {
 
+        //set up search functions
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setQueryHint("Search for stock");
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        //set up auto complete
+        int autoCompleteTextViewID = getResources().getIdentifier("android:id/search_src_text", null, null);// only this one work from the internet, OMG
+        searchAutoCompleteTextView = (AutoCompleteTextView) searchView.findViewById(autoCompleteTextViewID);
+        searchAutoCompleteTextView.setThreshold(1);
+        searchAutoCompleteTextView.setAdapter(adapter);
+        searchAutoCompleteTextView.setDropDownBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.white)));
+        searchAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id)
+            {
+                searchView.setQuery(parent.getItemAtPosition(position).toString(),false);
+            }
+
+        });
+        // set on query text listener
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                query = query.toUpperCase();
+                if(Arrays.asList(cursor).contains(query)){
+                    System.out.println("you submit search: " + query);
+                    Intent intent = new Intent(searchView.getContext(), StockActivity.class);
+                    intent.putExtra("symbol", query);
+                    searchView.getContext().startActivity(intent);
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
     }
 
     @Override

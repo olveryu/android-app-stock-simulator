@@ -6,6 +6,7 @@ import java.util.List;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Symbol;
 import edu.uga.cs.cs4060.stocksimulator.User.symbol;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -31,7 +32,7 @@ public interface Service {
     Call<HashMap<String, Stock>> getStocks(@Query("symbols") String symbols, @Query("types") String types,  @Query("range") String range );
 
     @GET("ref-data/symbols")
-    Call<List<symbol>> getSymbols();
+    Call<List<Symbol>> getSymbols();
 
 
 

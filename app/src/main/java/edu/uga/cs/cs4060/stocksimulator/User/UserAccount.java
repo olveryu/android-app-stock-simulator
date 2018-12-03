@@ -21,6 +21,7 @@ import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Symbol;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +34,7 @@ public class UserAccount {
     public static FirebaseUser user;
     public static UserAccount account;
     public static Stock latestStockLoaded;
-    public static List<symbol> symbols;
+    public static List<Symbol> symbols;
     public static String range;
     public static List<Highscore> highscoresList;
 
@@ -70,9 +71,9 @@ public class UserAccount {
     public void loadCSV(OnTaskCompleted listener) {
         this.listener = listener;
         Service service = ApiUtils.getService();
-        service.getSymbols().enqueue(new Callback<List<symbol>>() {
+        service.getSymbols().enqueue(new Callback<List<Symbol>>() {
             @Override
-            public void onResponse(Call<List<symbol>> call, Response<List<symbol>> response) {
+            public void onResponse(Call<List<Symbol>> call, Response<List<Symbol>> response) {
                 System.out.println("API CALL FOR symbol: " + response.raw());
                 if(response.isSuccessful()){ // If API Call is success
                     System.out.println("csv load sucessful");
@@ -84,7 +85,7 @@ public class UserAccount {
             }
 
             @Override
-            public void onFailure(Call<List<symbol>> call, Throwable t) {
+            public void onFailure(Call<List<Symbol>> call, Throwable t) {
                 listener.onTaskFailed(); // Alert UI of failure
             }
         });

@@ -1,11 +1,14 @@
 package edu.uga.cs.cs4060.stocksimulator.activities;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +51,8 @@ public class LoginActivity extends BasicActivity {
     private ShowPrograssingBar showPrograssingBar;
     private Activity currentActivity;
     private UserAccount account;
+    public static String[] cursor;
+    public static ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,7 +203,21 @@ public class LoginActivity extends BasicActivity {
                             UserAccount.getInstance().loadCSV(new OnTaskCompleted() {
                                 @Override
                                 public void onTaskCompleted() {
+                                    cursor = new String[UserAccount.symbols.size()];
 
+                                    // get your search terms from the server here, ex:
+                                    System.out.println("symbol size:" + UserAccount.symbols.size());
+
+                                    for (int index = 0; index < UserAccount.symbols.size(); index++) {
+                                        String term = UserAccount.symbols.get(index).getSymbol();
+                                        cursor[index] = term;
+                                    }
+                                    adapter = new ArrayAdapter<String>(currentActivity,
+                                            android.R.layout.simple_dropdown_item_1line, cursor);
+                                    System.out.println("autocompelete!!!");
+                                    Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
+                                    home = new Intent(getApplicationContext(), UserActivity.class);
+                                    startActivity(home);
                                 }
 
                                 @Override
@@ -205,9 +225,6 @@ public class LoginActivity extends BasicActivity {
 
                                 }
                             });
-                            Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
-                            home = new Intent(getApplicationContext(), UserActivity.class);
-                            startActivity(home);
 
                         }
 

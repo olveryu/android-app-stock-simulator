@@ -10,6 +10,7 @@ import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Symbol;
 
 
 @IgnoreExtraProperties
@@ -25,5 +26,8 @@ public class Stock {
     public List<OneYearChart> oneYearCharts;
     public List<FiveYearChart> fiveYearCharts;
 
+    @SerializedName("symbol")
+    @Expose
+    public List<Symbol> symbols;
 }
 

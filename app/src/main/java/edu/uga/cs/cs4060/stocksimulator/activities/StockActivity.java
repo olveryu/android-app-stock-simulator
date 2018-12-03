@@ -14,6 +14,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.NumberFormat;
+import java.util.concurrent.ExecutionException;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
@@ -204,74 +205,87 @@ public class StockActivity extends BasicActivity {
      * draw graph base on precent change over time
      */
     public void graph(){
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
-        series.setAnimated(true);
-        int x = 0;
-        switch (UserAccount.range){
-            case "1d":
-                for (OneDayChart m : stock.oneDayCharts) {
-                    x++;
-                    if (m.getAverage() > 0) {
-                        // add new data point
-                        DataPoint point = new DataPoint(x, m.getAverage());
-                        series.appendData(point, false, Integer.MAX_VALUE, false);
+        try {
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
+            series.setAnimated(true);
+            int x = 0;
+            switch (UserAccount.range) {
+                case "1d":
+                    for (OneDayChart m : stock.oneDayCharts) {
+                        x++;
+                        if (m.getAverage() > 0) {
+                            // add new data point
+                            DataPoint point = new DataPoint(x, m.getAverage());
+                            series.appendData(point, false, Integer.MAX_VALUE, false);
+                        }
                     }
-                }
-                if(stock.oneDayCharts.get(0).getClose() - stock.oneDayCharts.get(stock.oneDayCharts.size()-1).getClose() >= 0){
-                    series.setColor(Color.argb(255, 69, 244, 66  ));
-                }else{
-                    series.setColor(Color.RED);
-                }
-                break;
-            case "1m":
-                for (OneMonthChart m : stock.oneMonthCharts) {
-                    x++;
-                    if (m.getClose() > 0) {
-                        // add new data point
-                        DataPoint point = new DataPoint(x, m.getClose());
-                        series.appendData(point, false, Integer.MAX_VALUE, false);
+                    if (stock.oneDayCharts.get(0).getClose() - stock.oneDayCharts.get(stock.oneDayCharts.size() - 1).getClose() >= 0) {
+                        series.setColor(Color.argb(255, 69, 244, 66));
+                    } else {
+                        series.setColor(Color.RED);
                     }
-                }
-                if(stock.oneMonthCharts.get(0).getClose() - stock.oneMonthCharts.get(stock.oneMonthCharts.size()-1).getClose() >= 0){
-                    series.setColor(Color.argb(255, 69, 244, 66  ));
-                }else{
-                    series.setColor(Color.RED);
-                }
-                break;
-            case "1y":
-                for (OneYearChart m : stock.oneYearCharts) {
-                    x++;
-                    if (m.getClose() > 0) {
-                        // add new data point
-                        DataPoint point = new DataPoint(x, m.getClose());
-                        series.appendData(point, false, Integer.MAX_VALUE, false);
+                    break;
+                case "1m":
+                    if (stock.oneMonthCharts == null) {
+                        break;
                     }
-                }
-                if(stock.oneYearCharts.get(0).getClose() - stock.oneYearCharts.get(stock.oneYearCharts.size()-1).getClose() >= 0){
-                    series.setColor(Color.argb(255, 69, 244, 66  ));
-                }else{
-                    series.setColor(Color.RED);
-                }
-                break;
-            case "5y":
-                for (FiveYearChart m : stock.fiveYearCharts) {
-                    x++;
-                    if (m.getClose() > 0) {
-                        // add new data point
-                        DataPoint point = new DataPoint(x, m.getClose());
-                        series.appendData(point, false, Integer.MAX_VALUE, false);
+                    for (OneMonthChart m : stock.oneMonthCharts) {
+                        x++;
+                        if (m.getClose() > 0) {
+                            // add new data point
+                            DataPoint point = new DataPoint(x, m.getClose());
+                            series.appendData(point, false, Integer.MAX_VALUE, false);
+                        }
                     }
-                }
-                if(stock.fiveYearCharts.get(0).getClose() - stock.fiveYearCharts.get(stock.fiveYearCharts.size()-1).getClose() >=+ 0){
-                    series.setColor(Color.argb(255, 69, 244, 66  ));
-                }else{
-                    series.setColor(Color.RED);
-                }
-                break;
-        }
+                    if (stock.oneMonthCharts.get(0).getClose() - stock.oneMonthCharts.get(stock.oneMonthCharts.size() - 1).getClose() >= 0) {
+                        series.setColor(Color.argb(255, 69, 244, 66));
+                    } else {
+                        series.setColor(Color.RED);
+                    }
+                    break;
+                case "1y":
+                    if (stock.oneYearCharts == null) {
+                        break;
+                    }
+                    for (OneYearChart m : stock.oneYearCharts) {
+                        x++;
+                        if (m.getClose() > 0) {
+                            // add new data point
+                            DataPoint point = new DataPoint(x, m.getClose());
+                            series.appendData(point, false, Integer.MAX_VALUE, false);
+                        }
+                    }
+                    if (stock.oneYearCharts.get(0).getClose() - stock.oneYearCharts.get(stock.oneYearCharts.size() - 1).getClose() >= 0) {
+                        series.setColor(Color.argb(255, 69, 244, 66));
+                    } else {
+                        series.setColor(Color.RED);
+                    }
+                    break;
+                case "5y":
+                    if (stock.fiveYearCharts == null) {
+                        break;
+                    }
+                    for (FiveYearChart m : stock.fiveYearCharts) {
+                        x++;
+                        if (m.getClose() > 0) {
+                            // add new data point
+                            DataPoint point = new DataPoint(x, m.getClose());
+                            series.appendData(point, false, Integer.MAX_VALUE, false);
+                        }
+                    }
+                    if (stock.fiveYearCharts.get(0).getClose() - stock.fiveYearCharts.get(stock.fiveYearCharts.size() - 1).getClose() >= +0) {
+                        series.setColor(Color.argb(255, 69, 244, 66));
+                    } else {
+                        series.setColor(Color.RED);
+                    }
+                    break;
 
-        // show the graph
-        graph.addSeries(series);
+            }
+            // show the graph
+            graph.addSeries(series);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void Information(){
