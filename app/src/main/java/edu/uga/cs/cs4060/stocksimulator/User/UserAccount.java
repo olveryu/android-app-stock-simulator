@@ -521,11 +521,12 @@ public class UserAccount {
         //Get database
         highscoresList.clear();
         //Get location of user in database
+        System.out.println("LOADING HIGH SCORES");
         data.getReference().child("/users/" ).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //Grab the portflio from database
-
+        System.out.println("Grabbing snapshot");
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Portflio port = postSnapshot.getValue(Portflio.class);
                     String email = port.name;
@@ -538,17 +539,7 @@ public class UserAccount {
                 }
                 Collections.sort(highscoresList);
                 list.onTaskCompleted();
-//                    portflio = dataSnapshot.getValue(Portflio.class);
-//                if(portflio.holdings == null || portflio.holdings.size() == 0){
-//                    portflio.hasPortfolio = false;
-//                    System.out.println("NO HOLDINGS FOUND, dont load live prices or it crashse");
-//                    portflio.holdings.clear();
-//                    listener.onTaskCompleted();
-//                }else{
-//                    portflio.hasPortfolio = true;
-//                    retriveLivePrices(); // Now update the account with live data
-//
-//                }
+
             }
 
             @Override

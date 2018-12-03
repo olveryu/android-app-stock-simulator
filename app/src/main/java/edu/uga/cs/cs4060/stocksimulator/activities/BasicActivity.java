@@ -20,12 +20,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.util.Arrays;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
+import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
 
 import static edu.uga.cs.cs4060.stocksimulator.activities.LoginActivity.adapter;
@@ -136,17 +138,32 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         switch (id) {
             case R.id.SignOutToo:
                 signOut();
+                startActivity(intent);
+
                 break;
             case R.id.homeToo:
                 home();
+                startActivity(intent);
+
                 break;
             case R.id.leaderBoard:
-                leaderBoard();
+                UserAccount.getInstance().loadHighscores(new OnTaskCompleted() {
+                    @Override
+                    public void onTaskCompleted() {
+                        leaderBoard();
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onTaskFailed() {
+
+                    }
+                });
                 break;
             default:
                 return false;
         }
-        startActivity(intent);
         return true;
     }
 
