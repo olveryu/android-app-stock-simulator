@@ -52,13 +52,13 @@ public class UserAccount {
     public static void signOut(){
         data = null;
         user = null;
-        account = null;
         latestStockLoaded = null;
         portflio = null;
         highscoresList = null;
         range = null;
         symbols = null;
-        auth.signOut();
+        account = null;
+        auth = null;
     }
 
     public static boolean userIsLogin(){

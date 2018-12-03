@@ -186,7 +186,7 @@ public class LoginActivity extends BasicActivity {
             boolean loggedIn = false;
             // Simulate network access.
             account = UserAccount.getInstance();
-            UserAccount.auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            account.auth.signInWithEmailAndPassword(mEmail, mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     //WE LOGGED IN!
