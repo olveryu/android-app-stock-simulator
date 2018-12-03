@@ -124,6 +124,8 @@ public class TradeActivity extends BasicActivity {
 
                     @Override
                     public void onTaskFailed() {
+                        Toast.makeText(getApplicationContext(), "Not enough shares to sell", Toast.LENGTH_SHORT).show();
+
                         System.out.println("FAiled to sell");
                     }
                 });
@@ -148,7 +150,9 @@ public class TradeActivity extends BasicActivity {
 
                     @Override
                     public void onTaskFailed() {
-                        System.out.println("Failed to purcahse: Not enough funds " + symbolString);
+                        Toast.makeText(getApplicationContext(), "Not enough shares to buy", Toast.LENGTH_SHORT).show();
+
+                        System.out.println("Failed to purchase: Not enough funds " + symbolString);
                     }
                 });
 

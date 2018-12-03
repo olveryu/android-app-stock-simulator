@@ -13,6 +13,7 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.concurrent.ExecutionException;
 
@@ -291,17 +292,21 @@ public class StockActivity extends BasicActivity {
     public void Information(){
         //Add the busniess info f the stock
         Portflio userPort = UserAccount.portflio;
+        DecimalFormat df = new DecimalFormat("%.##");
+
 
         // set information text
         percentToday.setText("Percent Today: " + stock.quote.getChangePercent());
         livePrice.setText("Live Price: " + stock.quote.getLatestPrice());
         highLow.setText("52 Week High/Low: " + stock.quote.getWeek52High() + "  |   " + stock.quote.getWeek52Low());
         if (userPort.getHolding(symbolString) != null) {
+            System.out.println("USER OWNS< add inco");
             sharesOwned.setText("Shares Owned: " + userPort.getHolding(symbolString).shares);
             costBasis.setText("Invested: " + userPort.getTotalInvested(symbolString));
-            returnText.setText("Return %: " + userPort.getHolding(symbolString).percentChange);
+            returnText.setText("Return %: " + df.format(userPort.getHolding(symbolString).percentChange));
             sharesOwned.setVisibility(View.VISIBLE);
             costBasis.setVisibility(View.VISIBLE);
+            System.out.println("MAKE VISIBLE");
             returnText.setVisibility(View.VISIBLE);
         }
     }

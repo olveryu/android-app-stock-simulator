@@ -142,17 +142,13 @@ public class Portflio {
         DecimalFormat df = new DecimalFormat("%.###");
 
         String summary = "Today: ";
-        if(getDayAmountChange() > 0){
-            summary += "+";
-        }else{
-            summary +="-";
-        }
+
         summary += formatter.format(getDayAmountChange()) ;
 
         if(getDayPercentChange() > 0.00){
-            summary += " (+" + df.format(getDayPercentChange()) + "%)" ;
+            summary += " ( "+ df.format(getDayPercentChange()) + "%)" ;
         }else{
-            summary += " (-" + df.format(getDayPercentChange()) + "%)";
+            summary += " ( " + df.format(getDayPercentChange()) + "%)";
         }
         return summary;
     }

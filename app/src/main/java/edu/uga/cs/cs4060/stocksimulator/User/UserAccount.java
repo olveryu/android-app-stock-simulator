@@ -11,6 +11,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -518,6 +520,7 @@ public class UserAccount {
 
 
                 }
+                Collections.sort(highscoresList);
                 list.onTaskCompleted();
 //                    portflio = dataSnapshot.getValue(Portflio.class);
 //                if(portflio.holdings == null || portflio.holdings.size() == 0){

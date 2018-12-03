@@ -138,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
                     android:text="Return: %0.0"
+                    android:textColor="@color/white"
                     android:visibility="invisible" />
             </LinearLayout>
         </ScrollView>
