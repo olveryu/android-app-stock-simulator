@@ -39,6 +39,7 @@ public class UserAccount {
     public static List<Symbol> symbols;
     public static String range;
     public static List<Highscore> highscoresList;
+    public static boolean loaded = false;
 
     public OnTaskCompleted listener; //Used to alert UI of completed tasks
 
@@ -338,6 +339,8 @@ public class UserAccount {
             service.getStocks(tickers, types, range).enqueue(new Callback<HashMap<String, Stock>>() {
                 @Override
                 public void onResponse(Call<HashMap<String, Stock>> call, Response<HashMap<String, Stock>> response) {
+                    System.out.println("Data call live prices: "  + response.body().size());
+
                     if (response.isSuccessful()) { // If api call is a success, load the data
                         HashMap<String, Stock> map = response.body(); // Map of the symbols and stocks
                         System.out.println("RAW DATA: \n " + response.raw());
@@ -347,8 +350,12 @@ public class UserAccount {
 
                             portflio.updateStock(key, map.get(key)); //updates the prices and percetange
                         }
-                        listener.onTaskCompleted();
-                    //    updateDatabase(); //Now update the firebase database to store the data
+                        if(loaded == false){
+                            loaded = true;
+                            updateDatabase();
+                        }else{
+                            listener.onTaskCompleted();
+                        }
                     }
                 } // End of onResponse
 
@@ -377,6 +384,8 @@ public class UserAccount {
             @Override
             public void onResponse(Call<List<OneMonthChart>> call, Response<List<OneMonthChart>> response) {
                 System.out.println("API CALL FOR : " + response.raw());
+                System.out.println("Data call 1 month: "  + response.body().size());
+
                 if(response.isSuccessful()){ // If API Call is success
                     List<OneMonthChart> data =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded.oneMonthCharts = data;
@@ -410,6 +419,8 @@ public class UserAccount {
             @Override
             public void onResponse(Call<List<OneYearChart>> call, Response<List<OneYearChart>> response) {
                 System.out.println("API CALL FOR : " + response.raw());
+                System.out.println("Data call size 1 y: "  + response.body().size());
+
                 if(response.isSuccessful()){ // If API Call is success
                     List<OneYearChart> data =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded.oneYearCharts = data;
@@ -443,6 +454,8 @@ public class UserAccount {
             @Override
             public void onResponse(Call<List<FiveYearChart>> call, Response<List<FiveYearChart>> response) {
                 System.out.println("API CALL FOR : " + response.raw());
+                System.out.println("Data call size 5 month: "  + response.body().size());
+
                 if(response.isSuccessful()){ // If API Call is success
                     List<FiveYearChart> data =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded.fiveYearCharts = data;
@@ -468,6 +481,7 @@ public class UserAccount {
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
     public void getSingleStock(String symbol, OnTaskCompleted listener){
+
         Service service = ApiUtils.getService(); //Retrofit2 reference
         this.listener = listener;
         //Call to get a single stock quote
@@ -475,6 +489,8 @@ public class UserAccount {
             @Override
             public void onResponse(Call< HashMap<String, Stock>> call, Response< HashMap<String, Stock>> response) {
                 System.out.println("API CALL: " + response.raw());
+                System.out.println("Data call size: "  + response.body().size());
+
                 if(response.isSuccessful()){ // If API Call is success
                     HashMap<String, Stock> stockMap =  response.body(); // Load data into a Stock Quote
                     latestStockLoaded = stockMap.get(symbol); // Load into static variable. //TODO Must find better way to pass back this variable

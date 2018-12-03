@@ -187,6 +187,13 @@ public class Portflio {
         return dayPercent;
     }
 
+    @Exclude
+    public double calculateValueReturn(String holding){
+        System.out.println(holdings.get(holding).value + " VLAUE OF " + holding);
+        System.out.println(holdings.get(holding).costBasis * holdings.get(holding).shares + " cb * sh OF " + holding);
+
+        return holdings.get(holding).value - (holdings.get(holding).costBasis * holdings.get(holding).shares );
+    }
 
     @Exclude
     public double getDayAmountChange(){

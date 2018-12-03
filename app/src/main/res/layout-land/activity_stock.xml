@@ -27,8 +27,9 @@
 
         <Button
             android:id="@+id/tradeButton"
-            android:layout_width="207dp"
+            android:layout_width="192dp"
             android:layout_height="46dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
             android:text="Trade"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -78,16 +79,17 @@
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="wrap_content"
-            android:layout_height="198dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="205dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/tradeButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/symbol_label"
-            app:layout_constraintTop_toBottomOf="@+id/symbol_label">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.952">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,6 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
+                    android:padding="5dp"
                     android:text="Percent Today: %0"
                     android:textColor="@color/white" />
 
@@ -107,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
+                    android:padding="5dp"
                     android:text="Live Price: $0.00"
                     android:textColor="@color/white" />
 
@@ -115,6 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
+                    android:padding="5dp"
                     android:text="52-week high/low: 0, "
                     android:textColor="@color/white" />
 
@@ -123,6 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
+                    android:padding="5dp"
                     android:text="Shared Owned: 0"
                     android:textColor="@color/white"
                     android:visibility="invisible" />
@@ -132,6 +138,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
+                    android:padding="5dp"
                     android:text="Cost: 0"
                     android:textColor="@color/white"
                     android:visibility="invisible" />
@@ -141,7 +148,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/text"
+                    android:padding="5dp"
                     android:text="Return: %0.0"
+                    android:textColor="@color/white"
                     android:visibility="invisible" />
             </LinearLayout>
         </ScrollView>

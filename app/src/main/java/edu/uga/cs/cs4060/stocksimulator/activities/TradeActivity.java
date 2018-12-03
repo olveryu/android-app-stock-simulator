@@ -128,6 +128,7 @@ public class TradeActivity extends BasicActivity {
 
                         System.out.println("FAiled to sell");
                     }
+
                 });
             }
         });

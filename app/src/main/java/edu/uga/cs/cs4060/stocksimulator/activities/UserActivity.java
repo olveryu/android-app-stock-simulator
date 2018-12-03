@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +27,8 @@ public class UserActivity extends BasicActivity {
     private TextView totalGainLost;
     private TextView totalCostBasisView;
     private DecimalFormat df = new DecimalFormat("%.##");
+     private NumberFormat formatter = NumberFormat.getCurrencyInstance();
+
     private List<Holding> stocks;
     private RecyclerView rv;
     private LinearLayoutManager llm;
@@ -43,7 +46,7 @@ public class UserActivity extends BasicActivity {
 
 
         //refresh every 1 minute second
-      update(2);
+      update(30);
     }
 
     @Override
@@ -112,7 +115,7 @@ public class UserActivity extends BasicActivity {
                 }
                 totalValue.setText(formatter.format(UserAccount.portflio.getValue()));
                 daySummary.setText(UserAccount.portflio.getDaySummary());
-                totalGainLost.setText("Total Return: " + df.format(UserAccount.portflio.getTotalPercent()) + "%");
+                totalGainLost.setText("Total Return: " + formatter.format(UserAccount.portflio.getValue() - UserAccount.portflio.getCostBasisDouble() ) + " ( " +df.format(UserAccount.portflio.getTotalPercent()) + "% )");
                 totalCostBasisView.setText("Total Invested: " + UserAccount.portflio.getCostBasis());
 
                 stocks = UserAccount.portflio.getArrayListHolding();

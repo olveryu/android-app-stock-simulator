@@ -27,13 +27,13 @@
 
         <Button
             android:id="@+id/tradeButton"
-            android:layout_width="93dp"
+            android:layout_width="384dp"
             android:layout_height="46dp"
             android:background="@drawable/common_google_signin_btn_icon_dark_normal_background"
             android:text="Trade"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />

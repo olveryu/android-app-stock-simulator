@@ -45,7 +45,7 @@ public class ScoreActivity extends BasicActivity {
 
                 // assign values
                 for(int i = 0; i < length; i++){
-                    idArray[i] = String.valueOf(i);
+                    idArray[i] = String.valueOf(i + 1);
                     emailArray[i] = UserAccount.highscoresList.get(i).email;
                     valueArray[i] = formatter.format(UserAccount.highscoresList.get(i).value);
                 }

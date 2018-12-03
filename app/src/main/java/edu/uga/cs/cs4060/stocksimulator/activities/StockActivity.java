@@ -210,8 +210,11 @@ public class StockActivity extends BasicActivity {
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
             series.setAnimated(true);
             int x = 0;
+            clearColors();
             switch (UserAccount.range) {
+
                 case "1d":
+                    oneDay.setBackgroundColor(Color.GREEN);
                     for (OneDayChart m : stock.oneDayCharts) {
                         x++;
                         if (m.getAverage() > 0) {
@@ -227,6 +230,8 @@ public class StockActivity extends BasicActivity {
                     }
                     break;
                 case "1m":
+                    oneMonth.setBackgroundColor(Color.GREEN);
+
                     if (stock.oneMonthCharts == null) {
                         break;
                     }
@@ -245,6 +250,8 @@ public class StockActivity extends BasicActivity {
                     }
                     break;
                 case "1y":
+                    oneYear.setBackgroundColor(Color.GREEN);
+
                     if (stock.oneYearCharts == null) {
                         break;
                     }
@@ -263,6 +270,8 @@ public class StockActivity extends BasicActivity {
                     }
                     break;
                 case "5y":
+                    fiveYear.setBackgroundColor(Color.GREEN);
+
                     if (stock.fiveYearCharts == null) {
                         break;
                     }
@@ -289,6 +298,15 @@ public class StockActivity extends BasicActivity {
         }
     }
 
+    private void clearColors(){
+        oneDay.setBackgroundColor(Color.WHITE);
+        oneMonth.setBackgroundColor(Color.WHITE);
+        oneYear.setBackgroundColor(Color.WHITE);
+        fiveYear.setBackgroundColor(Color.WHITE);
+
+    }
+
+
     public void Information(){
         //Add the busniess info f the stock
         Portflio userPort = UserAccount.portflio;
@@ -296,20 +314,22 @@ public class StockActivity extends BasicActivity {
 
 
         // set information text
-        percentToday.setText("Percent Today: " + stock.quote.getChangePercent());
+        percentToday.setText("Percent Today: " + df.format(stock.quote.getChangePercent()));
         livePrice.setText("Live Price: " + stock.quote.getLatestPrice());
         highLow.setText("52 Week High/Low: " + stock.quote.getWeek52High() + "  |   " + stock.quote.getWeek52Low());
         if (userPort.getHolding(symbolString) != null) {
             System.out.println("USER OWNS< add inco");
             sharesOwned.setText("Shares Owned: " + userPort.getHolding(symbolString).shares);
             costBasis.setText("Invested: " + userPort.getTotalInvested(symbolString));
-            returnText.setText("Return %: " + df.format(userPort.getHolding(symbolString).percentChange));
+            returnText.setText("Return : " + formatter.format(userPort.calculateValueReturn(symbolString)) + " ( "+ df.format(userPort.getHolding(symbolString).percentChange)+ " )");
             sharesOwned.setVisibility(View.VISIBLE);
             costBasis.setVisibility(View.VISIBLE);
             System.out.println("MAKE VISIBLE");
             returnText.setVisibility(View.VISIBLE);
         }
     }
+
+
 
     private class ButtonClickListener implements View.OnClickListener {
         @Override

@@ -54,9 +54,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.StockViewHolder> i
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
         int x = 0;
+        System.out.println("Binding rv view: " + stocks.get(i).oneDayCharts.size());
         for(OneDayChart m : stocks.get(i).oneDayCharts){
             x++;
-            if(m.getAverage() > 0){
+            if(m.getAverage() != null && m.getAverage() > 0){
                 // add new data point
                 DataPoint point = new DataPoint(x, m.getAverage());
                 series.appendData(point, false, 2147000000, false);
