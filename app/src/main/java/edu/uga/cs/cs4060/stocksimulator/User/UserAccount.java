@@ -59,7 +59,6 @@ public class UserAccount {
         range = null;
         symbols = null;
         auth.signOut();
-        data = null;
     }
 
     public static boolean userIsLogin(){
@@ -511,6 +510,7 @@ public class UserAccount {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Portflio port = postSnapshot.getValue(Portflio.class);
                     String email = port.name;
+                    email = email.substring(0,email.indexOf("@"));
                     Double value = port.cashToTrade + port.getValue();
                     Highscore score = new Highscore(email, value);
                     highscoresList.add(score);
@@ -608,5 +608,11 @@ public class UserAccount {
       //  loadPortfolio();
         retriveLivePrices();
         System.out.println("In update useraccount");
+    }
+
+    public String getUserName(){
+        String str = user.getEmail();
+        str = str.substring(0,str.indexOf("@"));
+        return str;
     }
 }

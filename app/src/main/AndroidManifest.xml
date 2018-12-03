@@ -45,6 +45,9 @@
         <activity
             android:name=".activities.TradeActivity"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.ScoreActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

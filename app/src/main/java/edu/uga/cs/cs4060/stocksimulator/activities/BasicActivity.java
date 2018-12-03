@@ -181,7 +181,7 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
             mNavigationView.setNavigationItemSelectedListener(this);
             headerView = mNavigationView.getHeaderView(0);
             navUsername = (TextView) headerView.findViewById(R.id.user);
-            navUsername.setText(UserAccount.user.getEmail());
+            navUsername.setText(UserAccount.getInstance().getUserName());
             fundsLabel = (TextView) headerView.findViewById(R.id.fundsLabel);
             fundsLabel.setText("Funds: " + formatter.format(UserAccount.portflio.cashToTrade));
             mNavigationView.setItemIconTintList(null);
