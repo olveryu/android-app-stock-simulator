@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.MatrixCursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -212,8 +214,18 @@ public class LoginActivity extends BasicActivity {
                                         String term = UserAccount.symbols.get(index).getSymbol();
                                         cursor[index] = term;
                                     }
+                                    // set adapter text color
                                     adapter = new ArrayAdapter<String>(currentActivity,
-                                            android.R.layout.simple_dropdown_item_1line, cursor);
+                                            android.R.layout.simple_list_item_1, cursor) {
+                                        @Override
+                                        public View getView(int position, View convertView, ViewGroup parent) {
+                                            View view = super.getView(position, convertView, parent);
+                                            TextView text = (TextView) view.findViewById(android.R.id.text1);
+                                            text.setTextColor(Color.WHITE);
+                                            return view;
+                                        }
+                                    };
+                                    // intent to user activity
                                     System.out.println("autocompelete!!!");
                                     Toast.makeText(getApplicationContext(), "portfolio load successful", Toast.LENGTH_SHORT).show();
                                     home = new Intent(getApplicationContext(), UserActivity.class);

@@ -97,7 +97,7 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         searchAutoCompleteTextView = (AutoCompleteTextView) searchView.findViewById(autoCompleteTextViewID);
         searchAutoCompleteTextView.setThreshold(1);
         searchAutoCompleteTextView.setAdapter(adapter);
-        searchAutoCompleteTextView.setDropDownBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.white)));
+
         searchAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
