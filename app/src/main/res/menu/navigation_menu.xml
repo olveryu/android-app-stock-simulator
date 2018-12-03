@@ -9,4 +9,8 @@
         android:id="@+id/SignOutToo"
         android:icon="@drawable/googleg_standard_color_18"
         android:title="SignOut" />
+    <item
+        android:id="@+id/leaderBoard"
+        android:icon="@android:drawable/presence_audio_away"
+        android:title="LeaderBoard" />
 </menu>

@@ -12,7 +12,7 @@ import java.util.Map;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
 
 @IgnoreExtraProperties
-public class Highscore implements Comparable{
+public class Highscore {
 
     public String email;
     public Double value;
@@ -20,19 +20,6 @@ public class Highscore implements Comparable{
         this.email = name;
         this.value = cash;
     };
-
-    @Override
-    public int compareTo(Object o) {
-        Highscore compare = (Highscore)o;
-
-        if(value > compare.value){
-            return 1;
-        }else if(value < compare.value){
-            return -1;
-        }else{
-            return 0;
-        }
-    }
 
 
 }

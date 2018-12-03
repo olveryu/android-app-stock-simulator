@@ -9,15 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import edu.uga.cs.cs4060.stocksimulator.R;
 import edu.uga.cs.cs4060.stocksimulator.UIFunctions.RVAdapter;
-import edu.uga.cs.cs4060.stocksimulator.User.Highscore;
 import edu.uga.cs.cs4060.stocksimulator.User.Holding;
 import edu.uga.cs.cs4060.stocksimulator.User.OnTaskCompleted;
 import edu.uga.cs.cs4060.stocksimulator.User.UserAccount;
@@ -104,20 +101,6 @@ public class UserActivity extends BasicActivity {
     }
 
     public void refresh() {
-
-        UserAccount.getInstance().loadHighscores(new OnTaskCompleted() {
-            @Override
-            public void onTaskCompleted() {
-               Arrays.sort(new List[]{UserAccount.highscoresList});
-             //  Sorted array
-            }
-
-            @Override
-            public void onTaskFailed() {
-
-            }
-        });
-
         UserAccount.getInstance().update(new OnTaskCompleted() {
             @Override
             public void onTaskCompleted() {

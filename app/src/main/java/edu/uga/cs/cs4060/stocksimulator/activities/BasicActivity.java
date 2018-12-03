@@ -112,6 +112,9 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
             case R.id.homeToo:
                 home();
                 break;
+            case R.id.leaderBoard:
+                leaderBoard();
+                break;
             default:
                 return false;
         }
@@ -158,6 +161,9 @@ public class BasicActivity extends AppCompatActivity implements NavigationView.O
         } else {
             intent = new Intent(this, UserActivity.class);
         }
+    }
+    public void leaderBoard(){
+        intent = new Intent(this, ScoreActivity.class);
     }
 
     // initialize drawer navigation
