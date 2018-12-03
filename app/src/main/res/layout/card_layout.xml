@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
+
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="2dp"
+        card_view:cardPreventCornerOverlap="true"
+        card_view:cardUseCompatPadding="true"
+        card_view:contentPadding="5dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            card_view:layout_constraintEnd_toEndOf="@+id/latestLivePrice"
+            card_view:layout_constraintStart_toEndOf="@+id/latestLivePrice">
+
+
+            <TextView
+                android:id="@+id/symbol_label"
+                android:layout_width="73dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="4dp"
+                android:text="AAPL"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toStartOf="@+id/graph"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="25dp"
+                tools:layout_conversion_absoluteWidth="44dp" />
+
+            <TextView
+                android:id="@+id/latestLivePrice"
+                android:layout_width="70dp"
+                android:layout_height="34dp"
+                android:gravity="center"
+                android:text="+1.01%"
+                android:textColor="@color/white"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintStart_toEndOf="@+id/graph"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="19dp"
+                tools:layout_conversion_absoluteWidth="172dp" />
+
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graph"
+                android:layout_width="103dp"
+                android:layout_height="34dp"
+                android:background="@color/white"
+                android:padding="15dp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toStartOf="@+id/latestLivePrice"
+                card_view:layout_constraintHorizontal_bias="0.5"
+                card_view:layout_constraintStart_toEndOf="@+id/symbol_label"
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="75dp"
+                tools:layout_conversion_absoluteWidth="166dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

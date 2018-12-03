@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "982897657475",
+    "firebase_url": "https://final-stock-sim.firebaseio.com",
+    "project_id": "final-stock-sim",
+    "storage_bucket": "final-stock-sim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982897657475:android:491428bdf6cfaf66",
+        "android_client_info": {
+          "package_name": "edu.uga.cs.cs4060.stocksimulator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982897657475-d76sbnpa5t3vnt4583pag584lpkurbuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjpaNZuEFUjfe527rclGTp9PrsmlHpCmI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
