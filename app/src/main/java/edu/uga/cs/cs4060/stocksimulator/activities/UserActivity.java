@@ -46,8 +46,9 @@ public class UserActivity extends BasicActivity {
 
 
         //refresh every 1 minute second
-      update(30);
+      update(5);
     }
+
 
     @Override
     protected void onPause() {

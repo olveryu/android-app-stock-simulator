@@ -20,6 +20,7 @@ import edu.uga.cs.cs4060.stocksimulator.Retrofit.ApiUtils;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Service;
 import edu.uga.cs.cs4060.stocksimulator.Retrofit.Stock;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Quote;
@@ -331,10 +332,12 @@ public class UserAccount {
             Service service = ApiUtils.getService();
 
             //Used in the API, example: www.api.iextrading.com/1.0/stock/batch?symbols=AAPL,VGT&types=quotes
-            String tickers = getAllSymbols();
             if(portflio.holdings.size() == 0){
                 listener.onTaskCompleted();
             }
+
+            String tickers = getAllSymbols();
+
             String types = "quote,chart";
             System.out.println("Retrving live prices");
 
@@ -375,6 +378,43 @@ public class UserAccount {
             listener.onTaskCompleted();
         }
     }// End of live prices retrive!
+
+
+    //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
+    public void getDayData(String symbol, OnTaskCompleted listener){
+        this.listener = listener;
+        Service service = ApiUtils.getService(); //Retrofit2 reference
+
+        //Call to get a single stock quote
+        service.getDay(symbol).enqueue(new Callback<List<OneDayChart>>() {
+            @Override
+            public void onResponse(Call<List<OneDayChart>> call, Response<List<OneDayChart>> response) {
+                System.out.println("API CALL FOR : " + response.raw());
+                System.out.println("Data call 1 day: "  + response.body().size());
+
+                if(response.isSuccessful()){ // If API Call is success
+                    List<OneDayChart> data =  response.body(); // Load data into a Stock Quote
+                    System.out.println(data.size() + " SIZE OD DAY CHART");
+                    latestStockLoaded.oneDayCharts = data;
+                    if(data.size() == 0){
+                        listener.onTaskFailed();
+                    }else{
+                        System.out.println("WE HAVE DATA");
+                        listener.onTaskCompleted(); // Alert UI of success
+                    }
+                }else{
+                    listener.onTaskFailed(); // Alert UI of failure
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<OneDayChart>> call, Throwable t) {
+                listener.onTaskFailed();
+                System.out.println(t.getMessage());
+                return;
+            }
+        });
+    }
 
 
     //Loads a single stock in the UserAccount static variable, since its async, return onTaskComplete
@@ -536,7 +576,12 @@ public class UserAccount {
                     email = email.substring(0,email.indexOf("@"));
                     Double value = port.cashToTrade + port.getValue();
                     Highscore score = new Highscore(email, value);
-                    highscoresList.add(score);
+                    try {
+                        highscoresList.add(score);
+                    }catch(Exception e){
+                        System.out.println("ERROR" + e.getMessage() + " " );
+                         e.printStackTrace();
+                    }
 
 
                 }

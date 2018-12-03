@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.FiveYearChart;
+import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneDayChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneMonthChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.OneYearChart;
 import edu.uga.cs.cs4060.stocksimulator.StocksInfomations.Symbol;
@@ -18,6 +19,10 @@ public interface Service {
     @GET("stock/market/batch?")
     Call<HashMap<String, Stock>> getStock(@Query("symbols") String symbols, @Query("types") String types,  @Query("range") String range );
     //http://api.iextrading.com/1.0/stock/market/batch?symbols=aapl&types=quote&range=1d
+
+
+    @GET("stock/{symbol}/chart/1d")
+    Call<List<OneDayChart>> getDay(@Path("symbol") String symbols );
 
     @GET("stock/{symbol}/chart/1m")
     Call<List<OneMonthChart>> getMonth(@Path("symbol") String symbols );

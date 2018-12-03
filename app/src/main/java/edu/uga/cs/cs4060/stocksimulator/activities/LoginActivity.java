@@ -242,6 +242,7 @@ public class LoginActivity extends BasicActivity {
 
                         @Override
                         public void onTaskFailed() {
+
                             Toast.makeText(getApplicationContext(), "portfolio load fail", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -250,6 +251,8 @@ public class LoginActivity extends BasicActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     //WE FAILED
+                    mAuthTask = null;
+                    showPrograssingBar.showProgress(currentActivity, mProgressView, mLoginFormView, false);
                     UserAccount.signOut();
                     Toast.makeText(getApplicationContext(), "Invalid login credentials", Toast.LENGTH_SHORT).show();
                 }

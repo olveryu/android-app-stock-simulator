@@ -35,8 +35,8 @@ public class TradeActivity extends BasicActivity {
     private TextView currentHold;
     private EditText stockToBuy;
     private Stock stock;
-    private double price;
-    private int stockNumber;
+    private float price;
+    private float stockNumber;
     public static TimerTask priceTimerTask;
 
     @Override
@@ -212,7 +212,7 @@ public class TradeActivity extends BasicActivity {
                 public void onTaskCompleted() {
                     try {
                         stock = UserAccount.latestStockLoaded;
-                        price = stock.quote.getLatestPrice();
+                        price = (float)(stock.quote.getLatestPrice().doubleValue());
                         currentPrice.setText("current price: " + price);
                         updateTime.setText("update time : " + stock.quote.getLatestTime());
                     }catch (Exception e){
