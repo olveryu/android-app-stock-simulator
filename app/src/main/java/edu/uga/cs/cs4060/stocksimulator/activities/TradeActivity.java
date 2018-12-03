@@ -212,7 +212,7 @@ public class TradeActivity extends BasicActivity {
                 public void onTaskCompleted() {
                     try {
                         stock = UserAccount.latestStockLoaded;
-                        price = stock.oneDayCharts.get(stock.oneDayCharts.size() - 1).getAverage();
+                        price = stock.quote.getLatestPrice();
                         currentPrice.setText("current price: " + price);
                         updateTime.setText("update time : " + stock.quote.getLatestTime());
                     }catch (Exception e){

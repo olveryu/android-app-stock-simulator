@@ -332,6 +332,9 @@ public class UserAccount {
 
             //Used in the API, example: www.api.iextrading.com/1.0/stock/batch?symbols=AAPL,VGT&types=quotes
             String tickers = getAllSymbols();
+            if(portflio.holdings.size() == 0){
+                listener.onTaskCompleted();
+            }
             String types = "quote,chart";
             System.out.println("Retrving live prices");
 
