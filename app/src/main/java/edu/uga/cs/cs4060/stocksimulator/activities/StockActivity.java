@@ -320,7 +320,7 @@ public class StockActivity extends BasicActivity {
         if (userPort.getHolding(symbolString) != null) {
             System.out.println("USER OWNS< add inco");
             sharesOwned.setText("Shares Owned: " + userPort.getHolding(symbolString).shares);
-            costBasis.setText("Invested: " + userPort.getTotalInvested(symbolString));
+            costBasis.setText("Invested: " + formatter.format(userPort.getTotalInvested(symbolString)));
             returnText.setText("Return : " + formatter.format(userPort.calculateValueReturn(symbolString)) + " ( "+ df.format(userPort.getHolding(symbolString).percentChange)+ " )");
             sharesOwned.setVisibility(View.VISIBLE);
             costBasis.setVisibility(View.VISIBLE);
